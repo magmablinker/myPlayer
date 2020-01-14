@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.stage.Stage;
 import model.DirectoryLoader;
 import ressource.Data;
@@ -65,9 +66,11 @@ public class Main extends Application {
 		GridPane grid = new GridPane();
 
 		TreeView<String> playlistView = new TreeView<String>();
-
+		playlistView.getStyleClass().add("margin-8");
+		
 		TreeView<String> directoryView = new TreeView<String>();
-
+		directoryView.getStyleClass().add("margin-8");
+		
 		// Directory Context Menu
 		MenuItem mAdd = new MenuItem("Add Directory");
 		mAdd.setOnAction(event -> Data.DIRECTORIES.add("yeee"));
