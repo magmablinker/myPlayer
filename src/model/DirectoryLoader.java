@@ -1,17 +1,21 @@
 package model;
 
 import java.io.File;
+import java.util.Arrays;
 
 import javafx.scene.control.TreeItem;
+import ressource.Data;
+import ressource.Permissions;
 
 public class DirectoryLoader implements IDataHandler {
 
 	@Override
 	public void load(TreeItem<String> root) {
-		String[] directories = { "D:\\sample", "Z:\\musik" };
 		
-		for (String dir : directories) {
-			File directory = new File(dir);
+		Data.DIRECTORIES.add("C:\\Users\\laurent\\Desktop\\music\\Techno");
+		
+		for (int i = 0; i < Data.DIRECTORIES.size(); i++) {
+			File directory = new File(Data.DIRECTORIES.get(i));
 			
 			if(directory.isDirectory()) {
 				TreeItem<String> node = new TreeItem<String>(directory.getName());
@@ -23,12 +27,13 @@ public class DirectoryLoader implements IDataHandler {
 					createTreeView(node, file);
 				}
 				
-			} else {
+			} else if(directory.exists()) {
 				root.getChildren().add(new TreeItem<String>(directory.getName()));
-			}
-				
+			} else {
+				root.getChildren().add(new TreeItem<String>("Directory '" + directory.getName() + "' not found"));
+			}	
 		}
-	
+
 	}
 	
 	private void createTreeView(TreeItem<String> root, File file) {
@@ -40,10 +45,9 @@ public class DirectoryLoader implements IDataHandler {
 			for (File f : file.listFiles()) {
 				createTreeView(node, f);	
 			}
-		} else {
+		} else if(Arrays.asList(Permissions.FILETYPES_ALLOWED).contains(file.getName().substring(file.getName().lastIndexOf(".") + 1, file.getName().length()))) {
 			root.getChildren().add(new TreeItem<String>(file.getName()));
 		}
-		
 	}
 
 	@Override

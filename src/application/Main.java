@@ -2,10 +2,14 @@ package application;
 	
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.stage.Stage;
 import model.DirectoryLoader;
+import ressource.Data;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -19,11 +23,10 @@ public class Main extends Application {
 	@Override
 	public void start(Stage stage) {
 		try {
-			BorderPane root = new BorderPane();
+			GridPane root = new GridPane();
 			Scene scene = new Scene(root,800,600);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			root.setTop(generateMenuBar());
-			root.setCenter(generateContent());
+			root.add(generateContent(), 0, 0);
 			stage.setTitle("MyPlayer");
 			stage.setScene(scene);
 			stage.show();
@@ -52,6 +55,7 @@ public class Main extends Application {
 	private Node generateContent() {
 		BorderPane main = new BorderPane();
 	
+		main.setTop(generateMenuBar());
 		main.setLeft(generateTreeViews());
 		
 		return main;
@@ -61,8 +65,25 @@ public class Main extends Application {
 		GridPane grid = new GridPane();
 		
 		TreeView<String> playlistView = new TreeView<String>();
+		
 		TreeView<String> directoryView = new TreeView<String>();
-
+		
+		// Directory Context Menu
+		MenuItem mAdd = new MenuItem("Add Directory");
+		mAdd.setOnAction(event -> Data.DIRECTORIES.add("yeee"));
+		
+		MenuItem mReload = new MenuItem("Reload Directories");
+		mReload.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
+				
+			}
+		});
+		
+		MenuItem mRemove = new MenuItem("Remove Directory");
+		
+		directoryView.setContextMenu(new ContextMenu(mAdd, mReload, mRemove));
+		
 		TreeItem<String> playlistViewRoot = new TreeItem<String>("Playlists");
 		
 		TreeItem<String> directoryViewRoot = new TreeItem<String>("Directories");
