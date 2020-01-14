@@ -76,7 +76,9 @@ public class Main extends Application {
 		mReload.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				
+				directoryView.getRoot().getChildren().clear();
+				DirectoryLoader dl = new DirectoryLoader();
+				dl.load(directoryView.getRoot());
 			}
 		});
 		
