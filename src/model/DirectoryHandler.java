@@ -1,45 +1,48 @@
 package model;
 
+import static java.nio.file.StandardWatchEventKinds.ENTRY_CREATE;
+import static java.nio.file.StandardWatchEventKinds.ENTRY_DELETE;
+import static java.nio.file.StandardWatchEventKinds.ENTRY_MODIFY;
+
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
 import java.nio.file.Path;
-import java.nio.file.WatchEvent;
 import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
-import static java.nio.file.StandardWatchEventKinds.*;
 import java.util.Arrays;
 
+import controller.DirectoryWatchService;
 import javafx.scene.control.TreeItem;
 import ressource.Data;
 import ressource.Permissions;
 
 public class DirectoryHandler implements IDataHandler {
 	
-	private WatchService watcher;
-
+	private DirectoryWatchService directoryWatchService;
+	private WatchService watchService;
+	
+	public DirectoryHandler(DirectoryWatchService watchService) {
+		super();
+		this.directoryWatchService = watchService;
+		this.watchService = this.directoryWatchService.getWatcher();
+	}
+	
 	@Override
 	public void load(TreeItem<String> root) {
 		
-		Data.DIRECTORIES.add("C:\\Users\\laurent\\Desktop\\music\\Techno");
-		
-		try {
-			this.watcher = FileSystems.getDefault().newWatchService();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		Data.DIRECTORIES.add("D:\\Projekte\\test");
 		
 		for (int i = 0; i < Data.DIRECTORIES.size(); i++) {
 			File directory = new File(Data.DIRECTORIES.get(i));
 			
 			if(directory.isDirectory()) {
 				TreeItem<String> node = new TreeItem<String>(directory.getName());
+				System.out.println("Adding node " + directory.getName());
 				root.getChildren().add(node);
 				
 				File[] fileList = directory.listFiles();
 				
 				for (File file : fileList) {
+					System.out.println("Adding " + file.getName());
 					createTreeView(node, file);
 				}
 				
@@ -50,48 +53,19 @@ public class DirectoryHandler implements IDataHandler {
 			}	
 		}
 		
-		this.startWatchService();
-
 	}
 	
-	private void startWatchService() {
-		WatchKey key;
-		
-		// https://docs.oracle.com/javase/tutorial/essential/io/notification.html
-		for(;;) {
-			try {
-				key = watcher.take();
-			} catch (InterruptedException e) {
-				return;
-			}
-			
-			for(WatchEvent<?> event : key.pollEvents()) {
-				WatchEvent.Kind<?> kind = event.kind();
-				
-				if(kind == OVERFLOW) {
-					continue;
-				}
-				
-				WatchEvent<Path> ev = (WatchEvent<Path>) event;
-				Path fileName = ev.context();
-				
-				try {
-					Path child = dir.resolve(fileName);
-				} catch(Exception e) {
-					
-				}
-				
-			}
-		}
-	}
-
 	private void createTreeView(TreeItem<String> root, File file) {
 		
 		if(file.isDirectory()) {
 			Path dir = file.toPath();
 			
 			try {
-				WatchKey key = dir.register(watcher, ENTRY_CREATE, ENTRY_DELETE, ENTRY_MODIFY);
+				WatchKey key = dir.register(watchService, 
+										ENTRY_CREATE, 
+										ENTRY_DELETE, 
+										ENTRY_MODIFY);
+				this.directoryWatchService.put(key, dir);
 			} catch (Exception e) {
 				
 			}

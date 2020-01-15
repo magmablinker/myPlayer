@@ -27,7 +27,7 @@ public class Main extends Application {
 			BorderPane root = new MusicBorderPain();
 			Scene scene = new Scene(root, 800, 600);
 			scene.getStylesheets().add(getClass().getResource("css/application.css").toExternalForm());
-			stage.setTitle("MyPlayer");
+			stage.setTitle("Soumd Symstem");
 			stage.setScene(scene);
 			stage.show();
 		} catch (Exception e) {

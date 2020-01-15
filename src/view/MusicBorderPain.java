@@ -1,5 +1,11 @@
 package view;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import controller.DirectoryWatchService;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -15,7 +21,9 @@ import model.DirectoryHandler;
 import ressource.Data;
 
 public class MusicBorderPain extends BorderPane {
-
+	
+	private DirectoryWatchService directoryWatchService = new DirectoryWatchService();
+	
 	public MusicBorderPain() {
 		super();
 		
@@ -23,6 +31,25 @@ public class MusicBorderPain extends BorderPane {
 		this.setTop(menuBar);
 		
 		this.setLeft(createTreeView());
+		// TODO interrupt watchservice on exit
+		System.out.println("Starting watchservice");
+		
+		Task<Void> watchService = new Task<Void>() {
+
+			@Override
+			protected Void call() throws Exception {
+				directoryWatchService.run();
+				return null;
+			}
+			
+		};
+		
+		ExecutorService exService = Executors.newSingleThreadExecutor();
+		exService.submit(watchService);
+		
+		//Thread watchServiceThread = new Thread(watchService);
+		//watchServiceThread.setDaemon(true);
+		//watchServiceThread.run();
 	}
 
 	private Node createTreeView() {
@@ -42,9 +69,9 @@ public class MusicBorderPain extends BorderPane {
 		mReload.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				directoryView.getRoot().getChildren().clear();
-				DirectoryHandler dl = new DirectoryHandler();
-				dl.load(directoryView.getRoot());
+				//directoryView.getRoot().getChildren().clear();
+				//DirectoryHandler dl = new DirectoryHandler();
+				//dl.load(directoryView.getRoot());
 			}
 		});
 
@@ -56,7 +83,7 @@ public class MusicBorderPain extends BorderPane {
 
 		TreeItem<String> directoryViewRoot = new TreeItem<String>("Directories");
 
-		DirectoryHandler dl = new DirectoryHandler();
+		DirectoryHandler dl = new DirectoryHandler(this.directoryWatchService);
 		dl.load(directoryViewRoot);
 
 		playlistView.setRoot(playlistViewRoot);
@@ -79,5 +106,5 @@ public class MusicBorderPain extends BorderPane {
 
 		return grid;
 	}
-	
+
 }
