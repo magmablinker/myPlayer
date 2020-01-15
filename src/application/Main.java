@@ -6,7 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.stage.Stage;
-import model.DirectoryLoader;
+import model.DirectoryHandler;
 import ressource.Data;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -80,7 +80,7 @@ public class Main extends Application {
 			@Override
 			public void handle(ActionEvent e) {
 				directoryView.getRoot().getChildren().clear();
-				DirectoryLoader dl = new DirectoryLoader();
+				DirectoryHandler dl = new DirectoryHandler();
 				dl.load(directoryView.getRoot());
 			}
 		});
@@ -93,7 +93,7 @@ public class Main extends Application {
 
 		TreeItem<String> directoryViewRoot = new TreeItem<String>("Directories");
 
-		DirectoryLoader dl = new DirectoryLoader();
+		DirectoryHandler dl = new DirectoryHandler();
 		dl.load(directoryViewRoot);
 
 		playlistView.setRoot(playlistViewRoot);

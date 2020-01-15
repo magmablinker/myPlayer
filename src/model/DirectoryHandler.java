@@ -7,7 +7,7 @@ import javafx.scene.control.TreeItem;
 import ressource.Data;
 import ressource.Permissions;
 
-public class DirectoryLoader implements IDataHandler {
+public class DirectoryHandler implements IDataHandler {
 
 	@Override
 	public void load(TreeItem<String> root) {
