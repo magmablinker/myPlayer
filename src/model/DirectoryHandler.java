@@ -14,6 +14,7 @@ import controller.DirectoryWatchService;
 import javafx.scene.control.TreeItem;
 import ressource.Data;
 import ressource.Permissions;
+import util.FileUtil;
 
 public class DirectoryHandler implements IDataHandler {
 	
@@ -34,15 +35,22 @@ public class DirectoryHandler implements IDataHandler {
 		for (int i = 0; i < Data.DIRECTORIES.size(); i++) {
 			File directory = new File(Data.DIRECTORIES.get(i));
 			
-			if(directory.isDirectory()) {
+			if(directory.isDirectory() && !FileUtil.isEmptyDirectory(directory.toPath())) {
+				System.out.println(!FileUtil.isEmptyDirectory(directory.toPath()));
 				TreeItem<String> node = new TreeItem<String>(directory.getName());
 				System.out.println("Adding node " + directory.getName());
 				root.getChildren().add(node);
 				
 				File[] fileList = directory.listFiles();
 				
+				System.out.println(directory.getName());
+				
+				// TODO fix weird bug with empty directory appearing as parent???
 				for (File file : fileList) {
-					System.out.println("Adding " + file.getName());
+					System.out.println(i);
+				}
+				
+				for (File file : fileList) {
 					createTreeView(node, file);
 				}
 				
@@ -74,6 +82,7 @@ public class DirectoryHandler implements IDataHandler {
 			root.getChildren().add(node);
 			
 			for (File f : file.listFiles()) {
+				System.out.println("Adding file " + f.toString() + " to node " + node.toString());
 				createTreeView(node, f);	
 			}
 		} else if(Arrays.asList(Permissions.FILETYPES_ALLOWED).contains(file.getName().substring(file.getName().lastIndexOf(".") + 1, file.getName().length()))) {
