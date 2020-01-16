@@ -13,6 +13,9 @@ import java.nio.file.WatchEvent;
 import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.UUID;
 
 import javafx.scene.control.TreeItem;
@@ -98,7 +101,7 @@ public class DirectoryWatchService implements Runnable {
 		switch (kind.toString()) {
 			case "ENTRY_DELETE":
 				if(file.isDirectory()) {
-					key.cancel();
+					key.reset();
 				} else {
 					if(nodeChanged != null) {
 						int i = 0;
@@ -112,10 +115,12 @@ public class DirectoryWatchService implements Runnable {
 					}
 				}	
 				
+				this.fileGotDeletedAction(file);
 				break;
 			case "ENTRY_CREATE":
 				if(nodeChanged != null) {
 					// TODO: fix bug when 2 directorys are the same name
+					// TODO: should be done needs testing
 					TreeItem<String> node = Util.generateTreeNode(file);
 					
 					if(file.isDirectory()) {
@@ -129,6 +134,10 @@ public class DirectoryWatchService implements Runnable {
 			default:
 				break;
 		}
+	}
+
+	private void fileGotDeletedAction(File file) {
+		this.treeItemMap.remove(file.getAbsolutePath());
 	}
 
 	public void registerWatchService(Path path, TreeItem<String> node) {
