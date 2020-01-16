@@ -1,4 +1,8 @@
 package controller;
+
+import static java.nio.file.StandardWatchEventKinds.ENTRY_CREATE;
+import static java.nio.file.StandardWatchEventKinds.ENTRY_DELETE;
+import static java.nio.file.StandardWatchEventKinds.ENTRY_MODIFY;
 import static java.nio.file.StandardWatchEventKinds.OVERFLOW;
 
 import java.io.File;
@@ -6,7 +10,6 @@ import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.nio.file.WatchEvent;
-import java.nio.file.WatchEvent.Kind;
 import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
 import java.util.HashMap;
@@ -14,117 +17,134 @@ import java.util.HashMap;
 import javafx.scene.control.TreeItem;
 
 public class DirectoryWatchService implements Runnable {
-	
+
 	private boolean isRunning = true;
 	private WatchService watchService;
 	HashMap<WatchKey, Path> directoryMap = new HashMap<WatchKey, Path>();
-	HashMap<String, TreeItem<String>> treeItemMap = new HashMap<String, TreeItem<String>>(); 
-	
+	HashMap<String, TreeItem<String>> treeItemMap = new HashMap<String, TreeItem<String>>();
+
 	public DirectoryWatchService() {
 		super();
-		
+
 		try {
 			this.watchService = FileSystems.getDefault().newWatchService();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 	@Override
 	public void run() {
-		while(this.isRunning) {	
+		while (this.isRunning) {
 			WatchKey key;
-						
+
 			try {
 				key = this.watchService.take();
 			} catch (Exception e) {
 				return;
 			}
-			
+
 			Path dir = this.directoryMap.get(key);
-			
-			for(WatchEvent<?> event : key.pollEvents()) {
+
+			for (WatchEvent<?> event : key.pollEvents()) {
 				WatchEvent.Kind<?> kind = event.kind();
-				
-				if(kind == OVERFLOW) {
+
+				if (kind == OVERFLOW) {
 					continue;
 				}
-				
+
 				WatchEvent<Path> ev = (WatchEvent<Path>) event;
 				Path fileName = ev.context();
-				
+
 				try {
 					Path child = dir.resolve(fileName);
 					this.resolveTreeViewAction(child, kind);
-				} catch(Exception e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 					continue;
 				}
-				
+
 			}
-			
+
 			boolean isValid = key.reset();
-			
-			if(!isValid) {
+
+			if (!isValid) {
 				this.setRunning(false);
 			}
 		}
-		
+
 	}
 
 	private void resolveTreeViewAction(Path child, WatchEvent.Kind<?> kind) {
 		// Check if file got deleted, edited or created
 		File file = child.toFile();
 		String parentDir = file.getParent();
-		parentDir = parentDir.substring(parentDir.lastIndexOf(File.separator) + 1, parentDir.length());
-		TreeItem<String> nodeChanged = this.treeItemMap.get(parentDir);
+		TreeItem<String> nodeChanged = this.treeItemMap.get(parentDir.substring(parentDir.lastIndexOf(File.separator) + 1, parentDir.length()));
+		
+		System.out.println("isDirectory: " + file.isDirectory());
+		System.out.println("kind: " + kind.toString());
 		
 		switch (kind.toString()) {
-		case "ENTRY_DELETE":
-			if(nodeChanged != null) {
-				int i = 0;
-				for(TreeItem<String> node: nodeChanged.getChildren()) {
-					if(node.getValue().equals(file.getName())) {
-						nodeChanged.getChildren().remove(i);
-						break;
+			case "ENTRY_DELETE":
+				if(file.isDirectory()) {
+					System.out.println(file.getName());
+				} else {
+					if(nodeChanged != null) {
+						int i = 0;
+						for(TreeItem<String> node: nodeChanged.getChildren()) {
+							if(node.getValue().equals(file.getName())) {
+								nodeChanged.getChildren().remove(i);
+								break;
+							}
+							i++;
+						}					
 					}
-					i++;
+				}	
+				
+				break;
+			case "ENTRY_CREATE":
+				if(nodeChanged != null) {
+					TreeItem<String> node = new TreeItem<String>(file.getName());
+					
+					if(file.isDirectory()) {
+						this.registerWatchService(child, node);
+					}
+					
+					nodeChanged.getChildren().add(node);	
 				}
-			}
-			
-			break;
-		case "ENTRY_MODIFY":
-			// TODO refresh on treeview
-			// Find way to merge delete and create events => no need for this
-			// Maybe remove this case since file changes don't matter to this software
-			System.out.println("File " + child.toString() + " just got changed");
-			break;
-		case "ENTRY_CREATE":
-			if(nodeChanged != null) {
-				nodeChanged.getChildren().add(new TreeItem<String>(file.getName()));	
-			}
-			
-			break;
-		default:
-			break;
+				
+				break;
+			default:
+				break;
+		}
+	}
+
+	public void registerWatchService(Path path, TreeItem<String> node) {
+		try {
+			System.out.println("Registering watchservice for " + path.toString());
+			WatchKey key = path.register(this.watchService, ENTRY_CREATE, ENTRY_DELETE);
+			this.putDirectoryMap(key, path);
+			this.putTreeViewMap(path.toFile().getName(), node);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
 	public void putDirectoryMap(WatchKey key, Path value) {
 		this.directoryMap.put(key, value);
 	}
-	
+
 	public void putTreeViewMap(String key, TreeItem<String> value) {
 		this.treeItemMap.put(key, value);
 	}
-	
+
 	public WatchService getWatcher() {
 		return this.watchService;
 	}
-	
+
 	public void setRunning(boolean bool) {
 		this.isRunning = bool;
 	}
-	
+
 }
