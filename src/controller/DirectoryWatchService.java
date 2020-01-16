@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.nio.file.WatchEvent;
+import java.nio.file.WatchEvent.Kind;
 import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
 import java.util.HashMap;
@@ -55,44 +56,7 @@ public class DirectoryWatchService implements Runnable {
 				
 				try {
 					Path child = dir.resolve(fileName);
-					
-					// Check if file got deleted, edited or created
-					File file = child.toFile();
-					String parentDir = file.getParent();
-					parentDir = parentDir.substring(parentDir.lastIndexOf(File.separator) + 1, parentDir.length());
-					TreeItem<String> nodeChanged = this.treeItemMap.get(parentDir);
-					
-					switch (kind.toString()) {
-					case "ENTRY_DELETE":
-						// TODO remove from treeview
-						System.out.println("File " + child.toString() + " just got deleted");						
-						
-						if(nodeChanged != null) {
-							int i = 0;
-							for(TreeItem<String> node: nodeChanged.getChildren()) {
-								if(node.getValue().equals(file.getName())) {
-									nodeChanged.getChildren().remove(i);
-									break;
-								}
-								i++;
-							}
-						}
-						
-						break;
-					case "ENTRY_MODIFY":
-						// TODO refresh on treeview
-						// Find way to merge delete and create events => no need for this
-						System.out.println("File " + child.toString() + " just got changed");
-						break;
-					case "ENTRY_CREATE":
-						if(nodeChanged != null) {
-							nodeChanged.getChildren().add(new TreeItem<String>(file.getName()));	
-						}
-						
-						break;
-					default:
-						break;
-					}
+					this.resolveTreeViewAction(child, kind);
 				} catch(Exception e) {
 					e.printStackTrace();
 					continue;
@@ -107,6 +71,44 @@ public class DirectoryWatchService implements Runnable {
 			}
 		}
 		
+	}
+
+	private void resolveTreeViewAction(Path child, WatchEvent.Kind<?> kind) {
+		// Check if file got deleted, edited or created
+		File file = child.toFile();
+		String parentDir = file.getParent();
+		parentDir = parentDir.substring(parentDir.lastIndexOf(File.separator) + 1, parentDir.length());
+		TreeItem<String> nodeChanged = this.treeItemMap.get(parentDir);
+		
+		switch (kind.toString()) {
+		case "ENTRY_DELETE":
+			if(nodeChanged != null) {
+				int i = 0;
+				for(TreeItem<String> node: nodeChanged.getChildren()) {
+					if(node.getValue().equals(file.getName())) {
+						nodeChanged.getChildren().remove(i);
+						break;
+					}
+					i++;
+				}
+			}
+			
+			break;
+		case "ENTRY_MODIFY":
+			// TODO refresh on treeview
+			// Find way to merge delete and create events => no need for this
+			// Maybe remove this case since file changes don't matter to this software
+			System.out.println("File " + child.toString() + " just got changed");
+			break;
+		case "ENTRY_CREATE":
+			if(nodeChanged != null) {
+				nodeChanged.getChildren().add(new TreeItem<String>(file.getName()));	
+			}
+			
+			break;
+		default:
+			break;
+		}
 	}
 
 	public void putDirectoryMap(WatchKey key, Path value) {
