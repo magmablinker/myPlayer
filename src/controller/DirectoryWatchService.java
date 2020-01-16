@@ -15,6 +15,7 @@ import java.nio.file.WatchService;
 import java.util.HashMap;
 
 import javafx.scene.control.TreeItem;
+import ressource.Data;
 
 public class DirectoryWatchService implements Runnable {
 
@@ -59,7 +60,7 @@ public class DirectoryWatchService implements Runnable {
 
 				try {
 					Path child = dir.resolve(fileName);
-					this.resolveTreeViewAction(child, kind);
+					this.resolveTreeViewAction(child, kind, key);
 				} catch (Exception e) {
 					e.printStackTrace();
 					continue;
@@ -70,24 +71,29 @@ public class DirectoryWatchService implements Runnable {
 			boolean isValid = key.reset();
 
 			if (!isValid) {
-				this.setRunning(false);
+				System.out.println("!!!! Key is invalid !!!!");
+				System.out.println(key.toString());
+				//this.registerWatchService(dir, this.treeItemMap.get(dir.toFile().getName()));
+				//this.setRunning(false);
 			}
 		}
 
 	}
 
-	private void resolveTreeViewAction(Path child, WatchEvent.Kind<?> kind) {
+	private void resolveTreeViewAction(Path child, WatchEvent.Kind<?> kind, WatchKey key) {
 		// Check if file got deleted, edited or created
 		File file = child.toFile();
 		String parentDir = file.getParent();
 		TreeItem<String> nodeChanged = this.treeItemMap.get(parentDir.substring(parentDir.lastIndexOf(File.separator) + 1, parentDir.length()));
 		
+		System.out.println("name: " + file.getName());
 		System.out.println("isDirectory: " + file.isDirectory());
 		System.out.println("kind: " + kind.toString());
 		
 		switch (kind.toString()) {
 			case "ENTRY_DELETE":
 				if(file.isDirectory()) {
+					key.cancel();
 					System.out.println(file.getName());
 				} else {
 					if(nodeChanged != null) {

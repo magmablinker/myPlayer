@@ -31,6 +31,8 @@ public class DirectoryHandler implements IDataHandler {
 				TreeItem<String> node = new TreeItem<String>(directory.getName());
 				root.getChildren().add(node);
 				
+				this.directoryWatchService.registerWatchService(directory.toPath(), node);
+				
 				File[] fileList = directory.listFiles();
 				
 				// TODO fix weird bug with empty directory appearing as parent???
@@ -39,7 +41,6 @@ public class DirectoryHandler implements IDataHandler {
 					createTreeView(node, file);
 				}
 				
-				this.directoryWatchService.registerWatchService(directory.toPath(), node);
 			} else {
 				root.getChildren().add(new TreeItem<String>("Directory '" + directory.getName() + "' not found"));
 			}	
