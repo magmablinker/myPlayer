@@ -23,6 +23,7 @@ import ressource.Data;
 public class MusicBorderPain extends BorderPane {
 	
 	private DirectoryWatchService directoryWatchService = new DirectoryWatchService();
+	private ExecutorService exService;
 	
 	public MusicBorderPain() {
 		super();
@@ -44,12 +45,8 @@ public class MusicBorderPain extends BorderPane {
 			
 		};
 		
-		ExecutorService exService = Executors.newSingleThreadExecutor();
-		exService.submit(watchService);
-		
-		//Thread watchServiceThread = new Thread(watchService);
-		//watchServiceThread.setDaemon(true);
-		//watchServiceThread.run();
+		this.exService = Executors.newSingleThreadExecutor();
+		this.exService.submit(watchService);
 	}
 
 	private Node createTreeView() {
@@ -105,6 +102,10 @@ public class MusicBorderPain extends BorderPane {
 		grid.add(directoryView, 1, 2);
 
 		return grid;
+	}
+	
+	public ExecutorService getExecutorService() {
+		return this.exService;
 	}
 
 }

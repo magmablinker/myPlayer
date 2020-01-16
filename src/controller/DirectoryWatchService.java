@@ -11,7 +11,6 @@ import java.util.HashMap;
 
 public class DirectoryWatchService implements Runnable {
 	
-	private Thread thread;
 	private boolean isRunning = true;
 	private WatchService watchService;
 	HashMap<WatchKey, Path> directoryMap = new HashMap<WatchKey, Path>();
@@ -27,18 +26,11 @@ public class DirectoryWatchService implements Runnable {
 		
 	}
 	
-	public void start() {
-		if(this.thread == null) {
-			this.thread = new Thread(this, "DirectoryWatchService");
-			this.thread.run();
-		}
-	}
-	
 	@Override
 	public void run() {
 		while(this.isRunning) {	
 			WatchKey key;
-			
+						
 			try {
 				key = this.watchService.take();
 			} catch (Exception e) {
@@ -46,8 +38,6 @@ public class DirectoryWatchService implements Runnable {
 			}
 			
 			Path dir = this.directoryMap.get(key);
-
-			System.out.println(dir.toString());
 			
 			for(WatchEvent<?> event : key.pollEvents()) {
 				WatchEvent.Kind<?> kind = event.kind();
@@ -61,13 +51,33 @@ public class DirectoryWatchService implements Runnable {
 				
 				try {
 					Path child = dir.resolve(fileName);
-					System.out.println("File " + child.toString() + " just changed");
+					
+					switch (kind.toString()) {
+					case "ENTRY_DELETE":
+						System.out.println("File " + child.toString() + " just got deleted");
+						break;
+					case "ENTRY_MODIFY":
+						System.out.println("File " + child.toString() + " just got changed");
+						break;
+					case "ENTRY_CREATE":
+						System.out.println("File " + child.toString() + " just got created");
+						break;
+					default:
+						break;
+					}
 				} catch(Exception e) {
-					e.printStackTrace();
+					continue;
 				}
 				
 			}
+			
+			boolean isValid = key.reset();
+			
+			if(!isValid) {
+				this.setRunning(false);
+			}
 		}
+		
 	}
 
 	public void put(WatchKey key, Path value) {
