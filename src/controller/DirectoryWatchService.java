@@ -15,6 +15,8 @@ import java.nio.file.WatchService;
 import java.util.HashMap;
 
 import javafx.scene.control.TreeItem;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import ressource.Data;
 
 public class DirectoryWatchService implements Runnable {
@@ -114,6 +116,8 @@ public class DirectoryWatchService implements Runnable {
 					TreeItem<String> node = new TreeItem<String>(file.getName());
 					
 					if(file.isDirectory()) {
+						//ImageView imageView = new ImageView(Data.FOLDER_ICON);
+						node.setGraphic(Data.FOLDER_ICON);
 						this.registerWatchService(child, node);
 					}
 					

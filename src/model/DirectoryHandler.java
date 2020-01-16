@@ -29,6 +29,9 @@ public class DirectoryHandler implements IDataHandler {
 			
 			if(directory.isDirectory()) {
 				TreeItem<String> node = new TreeItem<String>(directory.getName());
+				Data.FOLDER_ICON.setFitHeight(16);
+				Data.FOLDER_ICON.setFitWidth(16);
+				node.setGraphic(Data.FOLDER_ICON);
 				root.getChildren().add(node);
 				
 				this.directoryWatchService.registerWatchService(directory.toPath(), node);
@@ -67,6 +70,7 @@ public class DirectoryHandler implements IDataHandler {
 			*/
 			
 			TreeItem<String> node = new TreeItem<String>(file.getName());
+			node.setGraphic(Data.FOLDER_ICON);
 			root.getChildren().add(node);
 			
 			this.directoryWatchService.registerWatchService(dir, node);
