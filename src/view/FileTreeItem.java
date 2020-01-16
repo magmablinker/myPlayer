@@ -14,7 +14,6 @@ public class FileTreeItem extends TreeItem<String> {
 	}
 	
 	public String getPath() {
-		System.out.println(this.path);
 		return this.path;
 	}
 	

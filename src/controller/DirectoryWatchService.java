@@ -27,7 +27,6 @@ public class DirectoryWatchService implements Runnable {
 	private WatchService watchService;
 	HashMap<WatchKey, Path> directoryMap = new HashMap<WatchKey, Path>();
 	HashMap<String, TreeItem<String>> treeItemMap = new HashMap<String, TreeItem<String>>();
-	HashMap<String, String> identifierMap = new HashMap<String, String>(); // String, UUID
 
 	public DirectoryWatchService() {
 		super();
@@ -87,9 +86,10 @@ public class DirectoryWatchService implements Runnable {
 
 	private void resolveTreeViewAction(Path child, WatchEvent.Kind<?> kind, WatchKey key) {
 		// Check if file got deleted, edited or created
-		File file = child.toFile();
+		File file = child.toFile().getAbsoluteFile();
 		String parentDir = file.getParent();
-		TreeItem<String> nodeChanged = this.treeItemMap.get(parentDir.substring(parentDir.lastIndexOf(File.separator) + 1, parentDir.length()));
+		System.out.println(parentDir);
+		TreeItem<String> nodeChanged = this.treeItemMap.get(parentDir);
 		
 		System.out.println("name: " + file.getName());
 		System.out.println("isDirectory: " + file.isDirectory());
@@ -116,6 +116,7 @@ public class DirectoryWatchService implements Runnable {
 				break;
 			case "ENTRY_CREATE":
 				if(nodeChanged != null) {
+					// TODO: fix bug when 2 directorys are the same name
 					TreeItem<String> node = Util.generateTreeNode(file);
 					
 					if(file.isDirectory()) {
@@ -135,10 +136,8 @@ public class DirectoryWatchService implements Runnable {
 		try {
 			System.out.println("Registering watchservice for " + path.toString());
 			WatchKey key = path.register(this.watchService, ENTRY_CREATE, ENTRY_DELETE);
-			UUID uuid = UUID.randomUUID();
 			this.putDirectoryMap(key, path);
-			this.putTreeViewMap(uuid.toString(), node);
-			this.putIdentifierMap(path.toFile().getName(), uuid.toString());
+			this.putTreeViewMap(path.toFile().getAbsolutePath(), node);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -151,10 +150,6 @@ public class DirectoryWatchService implements Runnable {
 	private void putTreeViewMap(String key, TreeItem<String> value) {
 		this.treeItemMap.put(key, value);
 	}
-	
-	private void putIdentifierMap(String key, String value) {
-		this.identifierMap.put(key, value);
-	}
 
 	public WatchService getWatcher() {
 		return this.watchService;
@@ -162,10 +157,6 @@ public class DirectoryWatchService implements Runnable {
 
 	public void setRunning(boolean bool) {
 		this.isRunning = bool;
-	}
-
-	public String getFile(String value) {
-		return this.treeItemMap.get(this.identifierMap.get(value)).getValue();
 	}
 
 }
