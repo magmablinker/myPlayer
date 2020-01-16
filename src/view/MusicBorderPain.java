@@ -32,7 +32,7 @@ public class MusicBorderPain extends BorderPane {
 		this.setTop(menuBar);
 		
 		this.setLeft(createTreeView());
-		// TODO interrupt watchservice on exit
+
 		System.out.println("Starting watchservice");
 		
 		Task<Void> watchService = new Task<Void>() {

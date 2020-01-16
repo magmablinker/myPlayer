@@ -18,6 +18,7 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import ressource.Data;
+import util.Util;
 
 public class DirectoryWatchService implements Runnable {
 
@@ -113,11 +114,9 @@ public class DirectoryWatchService implements Runnable {
 				break;
 			case "ENTRY_CREATE":
 				if(nodeChanged != null) {
-					TreeItem<String> node = new TreeItem<String>(file.getName());
+					TreeItem<String> node = Util.generateTreeNode(file.getName(), file.isDirectory());
 					
 					if(file.isDirectory()) {
-						//ImageView imageView = new ImageView(Data.FOLDER_ICON);
-						node.setGraphic(Data.FOLDER_ICON);
 						this.registerWatchService(child, node);
 					}
 					

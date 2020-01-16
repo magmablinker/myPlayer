@@ -8,6 +8,7 @@ import controller.DirectoryWatchService;
 import javafx.scene.control.TreeItem;
 import ressource.Data;
 import ressource.Permissions;
+import util.Util;
 
 public class DirectoryHandler implements IDataHandler {
 	
@@ -21,17 +22,15 @@ public class DirectoryHandler implements IDataHandler {
 	@Override
 	public void load(TreeItem<String> root) {
 		
-		//Data.DIRECTORIES.add("D:\\Projekte\\test");
-		Data.DIRECTORIES.add("C:\\Users\\laurent\\Desktop\\music");
+		Data.DIRECTORIES.add("D:\\Projekte\\test");
+		//Data.DIRECTORIES.add("C:\\Users\\laurent\\Desktop\\music");
 		
 		for (int i = 0; i < Data.DIRECTORIES.size(); i++) {
 			File directory = new File(Data.DIRECTORIES.get(i));
 			
 			if(directory.isDirectory()) {
-				TreeItem<String> node = new TreeItem<String>(directory.getName());
-				Data.FOLDER_ICON.setFitHeight(16);
-				Data.FOLDER_ICON.setFitWidth(16);
-				node.setGraphic(Data.FOLDER_ICON);
+				TreeItem<String> node = Util.generateTreeNode(directory.getName(), true);
+
 				root.getChildren().add(node);
 				
 				this.directoryWatchService.registerWatchService(directory.toPath(), node);
@@ -56,21 +55,7 @@ public class DirectoryHandler implements IDataHandler {
 		if(file.isDirectory()) {
 			Path dir = file.toPath();
 			
-			/*
-			try {
-				System.out.println("Registering directory " + file.getName());
-				WatchKey key = dir.register(watchService, 
-										ENTRY_CREATE, 
-										ENTRY_DELETE, 
-										ENTRY_MODIFY);
-				this.directoryWatchService.putDirectoryMap(key, dir);
-			} catch (Exception e) {
-				
-			}
-			*/
-			
-			TreeItem<String> node = new TreeItem<String>(file.getName());
-			node.setGraphic(Data.FOLDER_ICON);
+			TreeItem<String> node = Util.generateTreeNode(file.getName(), true);
 			root.getChildren().add(node);
 			
 			this.directoryWatchService.registerWatchService(dir, node);
@@ -79,7 +64,7 @@ public class DirectoryHandler implements IDataHandler {
 				createTreeView(node, f);	
 			}
 		} else if(Arrays.asList(Permissions.FILETYPES_ALLOWED).contains(file.getName().substring(file.getName().lastIndexOf(".") + 1, file.getName().length()))) {
-			root.getChildren().add(new TreeItem<String>(file.getName()));
+			root.getChildren().add(Util.generateTreeNode(file.getName(), false));
 		}
 	}
 
