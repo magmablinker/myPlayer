@@ -61,8 +61,9 @@ public class MusicBorderPain extends BorderPane {
 
 		TreeItem<String> playlistViewRoot = new TreeItem<String>("Playlists");
 
+		// Make unselectable
 		TreeItem<String> directoryViewRoot = new TreeItem<String>("Directories");
-
+		
 		DirectoryHandler dl = new DirectoryHandler(this.directoryWatchService);
 		dl.load(directoryViewRoot);
 
@@ -92,7 +93,7 @@ public class MusicBorderPain extends BorderPane {
 		mRevealInExplorer.setOnAction(event -> {
 			int selectedIndex = directoryView.getSelectionModel().getSelectedIndex();
 
-			if (selectedIndex > -1) {
+			if (selectedIndex > 0) {
 				FileTreeItem selectedItem = (FileTreeItem) directoryView.getSelectionModel().getSelectedItem();
 
 				// TODO: find a way to get files by unique identifier
