@@ -15,7 +15,7 @@ public class Main extends Application {
 			stage.setScene(scene);
 			stage.show();
 			
-			stage.setOnHiding( event -> {
+			stage.setOnHiding(event -> {
 				System.out.println("Stopping watchservice");
 				root.getExecutorService().shutdownNow();
 			});

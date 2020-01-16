@@ -67,13 +67,16 @@ public class DirectoryHandler implements IDataHandler {
 										ENTRY_CREATE, 
 										ENTRY_DELETE, 
 										ENTRY_MODIFY);
-				this.directoryWatchService.put(key, dir);
+				this.directoryWatchService.putDirectoryMap(key, dir);
 			} catch (Exception e) {
 				
 			}
 			
 			TreeItem<String> node = new TreeItem<String>(file.getName());
 			root.getChildren().add(node);
+			
+			System.out.println("Adding file " + file.getName());
+			this.directoryWatchService.putTreeViewMap(file.getName(), node);
 			
 			for (File f : file.listFiles()) {
 				createTreeView(node, f);	
