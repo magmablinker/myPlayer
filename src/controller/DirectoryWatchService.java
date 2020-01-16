@@ -81,6 +81,7 @@ public class DirectoryWatchService implements Runnable {
 						break;
 					case "ENTRY_MODIFY":
 						// TODO refresh on treeview
+						// Find way to merge delete and create events => no need for this
 						System.out.println("File " + child.toString() + " just got changed");
 						break;
 					case "ENTRY_CREATE":
