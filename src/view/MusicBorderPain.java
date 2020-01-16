@@ -1,8 +1,5 @@
 package view;
 
-import java.awt.Desktop;
-import java.io.File;
-import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -10,16 +7,13 @@ import controller.DirectoryWatchService;
 import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
-import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeItem.TreeModificationEvent;
 import javafx.scene.control.TreeView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import model.DirectoryHandler;
-import ressource.Data;
 
 public class MusicBorderPain extends BorderPane {
 
@@ -61,7 +55,6 @@ public class MusicBorderPain extends BorderPane {
 
 		TreeItem<String> playlistViewRoot = new TreeItem<String>("Playlists");
 
-		// Make unselectable
 		TreeItem<String> directoryViewRoot = new TreeItem<String>("Directories");
 		
 		DirectoryHandler dl = new DirectoryHandler(this.directoryWatchService);
@@ -83,32 +76,7 @@ public class MusicBorderPain extends BorderPane {
 
 				});
 
-		// Directory Context Menu
-		MenuItem mAdd = new MenuItem("Add Directory");
-		mAdd.setOnAction(event -> Data.DIRECTORIES.add("yeee"));
-
-		MenuItem mRemove = new MenuItem("Remove Directory");
-
-		MenuItem mRevealInExplorer = new MenuItem("Reveal Directory In Explorer");
-		mRevealInExplorer.setOnAction(event -> {
-			int selectedIndex = directoryView.getSelectionModel().getSelectedIndex();
-
-			if (selectedIndex > 0) {
-				FileTreeItem selectedItem = (FileTreeItem) directoryView.getSelectionModel().getSelectedItem();
-
-				// TODO: find a way to get files by unique identifier
-				try {
-					String path = selectedItem.getPath();
-					if(path != null)
-						Desktop.getDesktop().open(new File(path));
-				} catch (Exception e1) {
-
-				}
-			}
-
-		});
-
-		directoryView.setContextMenu(new ContextMenu(mAdd, mRemove, mRevealInExplorer));
+		directoryView.setContextMenu(new DirectoryContextMenu());
 
 		grid.add(playlistView, 1, 1);
 		grid.add(directoryView, 1, 2);
