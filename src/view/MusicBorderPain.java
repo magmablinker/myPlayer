@@ -1,40 +1,41 @@
 package view;
 
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import controller.DirectoryWatchService;
-import javafx.application.Platform;
 import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
 import javafx.scene.control.TreeItem.TreeModificationEvent;
+import javafx.scene.control.TreeView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import model.DirectoryHandler;
 import ressource.Data;
 
 public class MusicBorderPain extends BorderPane {
-	
+
 	private DirectoryWatchService directoryWatchService = new DirectoryWatchService();
 	private ExecutorService exService;
-	
+
 	public MusicBorderPain() {
 		super();
-		
+
 		MenuBar menuBar = new MusicMenuBar();
 		this.setTop(menuBar);
-		
+
 		this.setLeft(createTreeView());
 
 		System.out.println("Starting watchservice");
-		
+
 		Task<Void> watchService = new Task<Void>() {
 
 			@Override
@@ -42,9 +43,9 @@ public class MusicBorderPain extends BorderPane {
 				directoryWatchService.run();
 				return null;
 			}
-			
+
 		};
-		
+
 		this.exService = Executors.newSingleThreadExecutor();
 		this.exService.submit(watchService);
 	}
@@ -54,27 +55,9 @@ public class MusicBorderPain extends BorderPane {
 
 		TreeView<String> playlistView = new TreeView<String>();
 		playlistView.getStyleClass().add("margin-8");
-		
+
 		TreeView<String> directoryView = new TreeView<String>();
 		directoryView.getStyleClass().add("margin-8");
-		
-		// Directory Context Menu
-		MenuItem mAdd = new MenuItem("Add Directory");
-		mAdd.setOnAction(event -> Data.DIRECTORIES.add("yeee"));
-
-		MenuItem mReload = new MenuItem("Reload Directories");
-		mReload.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				//directoryView.getRoot().getChildren().clear();
-				//DirectoryHandler dl = new DirectoryHandler();
-				//dl.load(directoryView.getRoot());
-			}
-		});
-
-		MenuItem mRemove = new MenuItem("Remove Directory");
-
-		directoryView.setContextMenu(new ContextMenu(mAdd, mReload, mRemove));
 
 		TreeItem<String> playlistViewRoot = new TreeItem<String>("Playlists");
 
@@ -88,22 +71,50 @@ public class MusicBorderPain extends BorderPane {
 		directoryView.setRoot(directoryViewRoot);
 		directoryViewRoot.setExpanded(true);
 		// Make root always expanded => bad hack
-		directoryViewRoot.addEventHandler(TreeItem.branchCollapsedEvent(), new EventHandler<TreeModificationEvent<String>>() {
+		directoryViewRoot.addEventHandler(TreeItem.branchCollapsedEvent(),
+				new EventHandler<TreeModificationEvent<String>>() {
 
-			@Override
-			public void handle(TreeModificationEvent<String> e) {
-				if(e.getTreeItem().getValue().equals("Directories"))
-					e.getTreeItem().setExpanded(true);
+					@Override
+					public void handle(TreeModificationEvent<String> e) {
+						if (e.getTreeItem().getValue().equals("Directories"))
+							e.getTreeItem().setExpanded(true);
+					}
+
+				});
+
+		// Directory Context Menu
+		MenuItem mAdd = new MenuItem("Add Directory");
+		mAdd.setOnAction(event -> Data.DIRECTORIES.add("yeee"));
+
+		MenuItem mRemove = new MenuItem("Remove Directory");
+
+		MenuItem mRevealInExplorer = new MenuItem("Reveal Directory In Explorer");
+		mRevealInExplorer.setOnAction(event -> {
+			int selectedIndex = directoryView.getSelectionModel().getSelectedIndex();
+
+			if (selectedIndex > -1) {
+				FileTreeItem selectedItem = (FileTreeItem) directoryView.getSelectionModel().getSelectedItem();
+
+				// TODO: find a way to get files by unique identifier
+				try {
+					String path = selectedItem.getPath();
+					if(path != null)
+						Desktop.getDesktop().open(new File(path));
+				} catch (Exception e1) {
+
+				}
 			}
-			
+
 		});
+
+		directoryView.setContextMenu(new ContextMenu(mAdd, mRemove, mRevealInExplorer));
 
 		grid.add(playlistView, 1, 1);
 		grid.add(directoryView, 1, 2);
 
 		return grid;
 	}
-	
+
 	public ExecutorService getExecutorService() {
 		return this.exService;
 	}

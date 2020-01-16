@@ -1,17 +1,20 @@
 package util;
 
+import java.io.File;
+
 import javafx.scene.control.TreeItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import ressource.Data;
+import view.FileTreeItem;
 
 public class Util {
 
-	public static TreeItem<String> generateTreeNode(String value, boolean isDirectory) {
-		TreeItem<String> treeItem = new TreeItem<String>(value);
+	public static TreeItem<String> generateTreeNode(File file) {
+		FileTreeItem treeItem = new FileTreeItem(file);
 		String iconFilePath;
 
-		if (isDirectory) {
+		if (file.isDirectory()) {
 			iconFilePath = "../ressource/img/directory.png";
 		} else {
 			iconFilePath = "../ressource/img/file.png";

@@ -29,7 +29,7 @@ public class DirectoryHandler implements IDataHandler {
 			File directory = new File(Data.DIRECTORIES.get(i));
 			
 			if(directory.isDirectory()) {
-				TreeItem<String> node = Util.generateTreeNode(directory.getName(), true);
+				TreeItem<String> node = Util.generateTreeNode(directory);
 
 				root.getChildren().add(node);
 				
@@ -38,7 +38,7 @@ public class DirectoryHandler implements IDataHandler {
 				File[] fileList = directory.listFiles();
 				
 				// TODO fix weird bug with empty directory appearing as parent???
-				// WASNT REPRODUCABLE???
+				// Problem: 2 directories have the same name
 				for (File file : fileList) {
 					createTreeView(node, file);
 				}
@@ -55,7 +55,7 @@ public class DirectoryHandler implements IDataHandler {
 		if(file.isDirectory()) {
 			Path dir = file.toPath();
 			
-			TreeItem<String> node = Util.generateTreeNode(file.getName(), true);
+			TreeItem<String> node = Util.generateTreeNode(file);
 			root.getChildren().add(node);
 			
 			this.directoryWatchService.registerWatchService(dir, node);
@@ -64,7 +64,7 @@ public class DirectoryHandler implements IDataHandler {
 				createTreeView(node, f);	
 			}
 		} else if(Arrays.asList(Permissions.FILETYPES_ALLOWED).contains(file.getName().substring(file.getName().lastIndexOf(".") + 1, file.getName().length()))) {
-			root.getChildren().add(Util.generateTreeNode(file.getName(), false));
+			root.getChildren().add(Util.generateTreeNode(file));
 		}
 	}
 

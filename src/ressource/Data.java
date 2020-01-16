@@ -1,9 +1,7 @@
 package ressource;
 
 import java.util.ArrayList;
-
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import java.util.HashMap;
 
 public class Data {
 	
