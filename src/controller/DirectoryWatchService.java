@@ -99,7 +99,6 @@ public class DirectoryWatchService implements Runnable {
 			case "ENTRY_DELETE":
 				if(file.isDirectory()) {
 					key.cancel();
-					System.out.println(file.getName());
 				} else {
 					if(nodeChanged != null) {
 						int i = 0;
@@ -134,7 +133,7 @@ public class DirectoryWatchService implements Runnable {
 
 	public void registerWatchService(Path path, TreeItem<String> node) {
 		try {
-			System.out.println("Registering watchservice for " + path.toString());
+			// System.out.println("Registering watchservice for " + path.toString());
 			WatchKey key = path.register(this.watchService, ENTRY_CREATE, ENTRY_DELETE);
 			this.putDirectoryMap(key, path);
 			this.putTreeViewMap(path.toFile().getAbsolutePath(), node);
