@@ -46,8 +46,9 @@ public class MusicPanel extends BorderPane {
 		BorderPane pane = new BorderPane();
 		ImageView cover = new ImageView(new Image(getClass().getResourceAsStream("../ressource/img/defaultcover.jpg")));
 		
-		cover.setFitWidth(256);
-		cover.setFitHeight(256);
+		cover.fitHeightProperty().bind(References.stage.heightProperty().divide(2));
+		cover.fitWidthProperty().bind(References.stage.widthProperty().divide(2));
+		cover.setPreserveRatio(true);
 		
 		References.coverImage = cover;
 		

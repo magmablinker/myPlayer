@@ -36,6 +36,7 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 				Media audioFile = new Media(file.toURI().toString());
 				References.songPlayingTitleLabel.setText(selectedItem.getValue());
 				References.songPlayingArtistLabel.setText("Unknown Artist");
+				References.coverImage.setImage(new Image(getClass().getResourceAsStream("../ressource/img/defaultcover.jpg")));
 				
 				// TODO: Better implementation for metadata change listener
 				// reason: metadata gets loaded asynchronous

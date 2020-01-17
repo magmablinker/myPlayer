@@ -7,9 +7,12 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TreeView;
 import javafx.scene.image.ImageView;
 import javafx.scene.media.MediaPlayer;
+import javafx.stage.Stage;
 import view.MusicPanel;
 
 public class References {
+	
+	public static Stage stage = null;
 
 	public static TreeView<String> directoryView = null;
 
