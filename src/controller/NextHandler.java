@@ -21,7 +21,6 @@ public class NextHandler implements EventHandler<ActionEvent> {
 				if (!References.checkBoxShuffle.isSelected()) {
 					References.directoryView.getSelectionModel().select(item);
 				} else {
-					System.out.println("Shuffle");
 					Util.selectRandomTreeItem((FileTreeItem) item);
 				}
 			} else {

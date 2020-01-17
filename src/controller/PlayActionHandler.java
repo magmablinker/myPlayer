@@ -34,7 +34,7 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 			File file = new File(selectedItem.getPath());
 
 			if(file.isDirectory() && selectedItem.getChildren().size() > 0) {
-				file = new File(((FileTreeItem) selectedItem.getChildren().get(1)).getPath());
+				file = new File(((FileTreeItem) selectedItem.getChildren().get(0)).getPath());
 			}
 			
 			if (!file.isDirectory()) {

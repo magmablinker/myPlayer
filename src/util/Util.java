@@ -46,16 +46,16 @@ public class Util {
 	public static TreeItem<String> selectRandomTreeItem(FileTreeItem item) {
 		// bad approach
 		// TODO: create arraylist with all tracks in them and just shuffle them
-		// when the shuffle checkbox gets selected
+		// when the shuffle checkbox gets selected do this asap
 		TreeItem<String> parent = item.getParent();
 		FileTreeItem oldItem = item;
 		item.setPlayed(true);
 
 		int size = parent.getChildren().size();
 
-		int randomIndex;
+		int randomIndex = 0;
 		while (item.isPlayed()) {
-			randomIndex = (int) (Math.random() * size) + 1;
+			randomIndex = (int) (Math.random() * size);
 			item = (FileTreeItem) parent.getChildren().get(randomIndex);
 		}
 		
