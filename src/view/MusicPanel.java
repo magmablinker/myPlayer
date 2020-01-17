@@ -9,6 +9,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
@@ -118,13 +119,14 @@ public class MusicPanel extends BorderPane {
 		bNext.setOnAction(new NextHandler());
 		
 		VBox volumeControlPane = new VBox();
+		volumeControlPane.setAlignment(Pos.CENTER_LEFT);
 		
 		Label volumeSliderLabel = new Label("Volume");
 		Slider volumeSlider = new Slider();
 		References.volumeSlider = volumeSlider;
 		
 		volumeSlider.valueProperty().addListener(new VolumeChangeListener());
-		volumeSlider.setValue(100);
+		volumeSlider.setValue(50);
 		
 		volumeControlPane.getChildren().addAll(volumeSliderLabel, volumeSlider);
 		
