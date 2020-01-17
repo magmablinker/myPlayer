@@ -1,0 +1,28 @@
+package ressource;
+
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
+import javafx.scene.control.TreeView;
+import javafx.scene.image.ImageView;
+import javafx.scene.media.MediaPlayer;
+import view.MusicPanel;
+
+public class References {
+
+	public static TreeView<String> directoryView = null;
+
+	public static MusicPanel musicPanel = null;
+	
+	public static Slider volumeSlider = null;
+	
+	public static Label songPlayingLabel = null;
+	
+	public static ImageView coverImage = null;
+	
+	public static MediaPlayer mediaPlayer = null;
+	
+	public static CheckBox checkBoxShuffle = null;
+	public static CheckBox checkBoxRepeat = null;
+	
+}

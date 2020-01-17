@@ -1,5 +1,7 @@
 package view;
 
+import controller.PlayActionHandler;
+import controller.VolumeChangeListener;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -11,12 +13,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import ressource.References;
 
 public class MusicPanel extends BorderPane {
-
-	private Slider volumeSlider;
-	private Label songPlaying;
-	private ImageView cover;
 	
 	public MusicPanel() {
 		super();
@@ -27,17 +26,20 @@ public class MusicPanel extends BorderPane {
 	}
 
 	private Node createTop() {
-		songPlaying = new Label("No song playing");
+		Label songPlaying = new Label("No song playing");
 		songPlaying.getStyleClass().add("margin-8-no-border");
+		References.songPlayingLabel = songPlaying;
 		return songPlaying;
 	}
 
 	private Node createCenter() {
 		BorderPane pane = new BorderPane();
-		cover = new ImageView(new Image(getClass().getResourceAsStream("../ressource/img/defaultcover.jpg")));
+		ImageView cover = new ImageView(new Image(getClass().getResourceAsStream("../ressource/img/defaultcover.jpg")));
 		
 		cover.setFitWidth(256);
 		cover.setFitHeight(256);
+		
+		References.coverImage = cover;
 		
 		pane.setCenter(cover);
 		
@@ -53,6 +55,9 @@ public class MusicPanel extends BorderPane {
 		CheckBox cbRepeat = new CheckBox("Repeat");
 		cbRepeat.getStyleClass().add("margin-8-no-border");
 		
+		References.checkBoxShuffle = cbShuffle;
+		References.checkBoxRepeat = cbRepeat;
+		
 		Button bPlay = new Button("Play");
 		bPlay.getStyleClass().add("margin-8");
 		bPlay.setOnAction(new PlayActionHandler());
@@ -63,7 +68,11 @@ public class MusicPanel extends BorderPane {
 		VBox volumeControlPane = new VBox();
 		
 		Label volumeSliderLabel = new Label("Volume");
-		volumeSlider = new Slider();
+		Slider volumeSlider = new Slider();
+		References.volumeSlider = volumeSlider;
+		
+		volumeSlider.valueProperty().addListener(new VolumeChangeListener());
+		volumeSlider.setValue(100);
 		
 		volumeControlPane.getChildren().addAll(volumeSliderLabel, volumeSlider);
 		
@@ -78,12 +87,5 @@ public class MusicPanel extends BorderPane {
 		return grid;
 	}
 	
-	public Label getSongPlayingLabel() {
-		return this.songPlaying;
-	}
-	
-	public ImageView getCover() {
-		return this.cover;
-	}
-	
+
 }

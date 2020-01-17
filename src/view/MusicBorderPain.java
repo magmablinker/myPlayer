@@ -14,13 +14,14 @@ import javafx.scene.control.TreeView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import model.DirectoryHandler;
+import ressource.References;
 
 public class MusicBorderPain extends BorderPane {
 
 	private DirectoryWatchService directoryWatchService = new DirectoryWatchService();
 	private TreeView<String> directoryView;
 	private ExecutorService exServiceDirectoryWatchService;
-	private ExecutorService exMediaPlayerService;
+	//private ExecutorService exMediaPlayerService;
 
 	public MusicBorderPain() {
 		super();
@@ -55,6 +56,8 @@ public class MusicBorderPain extends BorderPane {
 
 		directoryView = new TreeView<String>();
 		directoryView.getStyleClass().add("margin-8");
+		
+		References.directoryView = directoryView;
 
 		TreeItem<String> playlistViewRoot = new TreeItem<String>("Playlists");
 
