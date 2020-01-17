@@ -63,8 +63,6 @@ public class Util {
 		
 		item.setPrevious(oldItem);
 		
-		System.out.println("RANDOM ITEM ISSSSSSSSSSSSSSSSSSSSSSSSS " + item.getValue());
-
 		return item;
 	}
 

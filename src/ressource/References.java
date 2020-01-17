@@ -8,6 +8,7 @@ import javafx.scene.control.TreeView;
 import javafx.scene.image.ImageView;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
+import view.FileTreeItem;
 import view.MusicPanel;
 
 public class References {
@@ -19,6 +20,8 @@ public class References {
 	public static MusicPanel musicPanel = null;
 	
 	public static Slider volumeSlider = null;
+	
+	public static FileTreeItem currentlyPlayingItem = null;
 	
 	public static Label songPlayingTitleLabel = null;
 	public static Label songPlayingArtistLabel = null;
