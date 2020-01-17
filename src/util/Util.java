@@ -4,6 +4,7 @@ import java.io.File;
 import java.text.DecimalFormat;
 import java.util.Date;
 
+import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -48,7 +49,7 @@ public class Util {
 		// TODO: create arraylist with all tracks in them and just shuffle them
 		// when the shuffle checkbox gets selected do this asap
 		TreeItem<String> parent = item.getParent();
-		FileTreeItem oldItem = item;
+		ObservableList<TreeItem<String>> items = parent.getChildren();
 		item.setPlayed(true);
 
 		int size = parent.getChildren().size();
@@ -56,12 +57,12 @@ public class Util {
 		int randomIndex = 0;
 		while (item.isPlayed()) {
 			randomIndex = (int) (Math.random() * size);
-			item = (FileTreeItem) parent.getChildren().get(randomIndex);
+			item = (FileTreeItem) items.get(randomIndex);
 		}
 		
 		References.directoryView.getSelectionModel().select(item);
 		
-		item.setPrevious(oldItem);
+		item.setPrevious(References.currentlyPlayingItem);
 		
 		return item;
 	}
