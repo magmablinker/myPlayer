@@ -27,10 +27,19 @@ public class MusicPanel extends BorderPane {
 	}
 
 	private Node createTop() {
+		GridPane topPane = new GridPane();
+		topPane.getStyleClass().add("margin-8-no-border");
+		
 		Label songPlaying = new Label("No song playing");
-		songPlaying.getStyleClass().add("margin-8-no-border");
-		References.songPlayingLabel = songPlaying;
-		return songPlaying;
+		References.songPlayingTitleLabel = songPlaying;
+		
+		Label songPlayingArtist = new Label("No artist");
+		References.songPlayingArtistLabel = songPlayingArtist;
+		
+		topPane.add(songPlaying, 1, 1);
+		topPane.add(songPlayingArtist, 1, 2);
+		
+		return topPane;
 	}
 
 	private Node createCenter() {

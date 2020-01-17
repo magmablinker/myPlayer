@@ -17,7 +17,8 @@ public class References {
 	
 	public static Slider volumeSlider = null;
 	
-	public static Label songPlayingLabel = null;
+	public static Label songPlayingTitleLabel = null;
+	public static Label songPlayingArtistLabel = null;
 	
 	public static ImageView coverImage = null;
 	

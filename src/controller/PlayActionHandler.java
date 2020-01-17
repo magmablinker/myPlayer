@@ -34,16 +34,17 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 					References.mediaPlayer.stop();
 				
 				Media audioFile = new Media(file.toURI().toString());
-				References.songPlayingLabel.setText(selectedItem.getValue());
+				References.songPlayingTitleLabel.setText(selectedItem.getValue());
+				References.songPlayingArtistLabel.setText("Unknown Artist");
 				
 				// TODO: Better implementation for metadata change listener
 				// reason: metadata gets loaded asynchronous
 			    audioFile.getMetadata().addListener((Change<? extends String, ? extends Object> c) -> {
 			        if (c.wasAdded()) {
 			            if ("artist".equals(c.getKey())) {
-			                String artist = c.getValueAdded().toString();
+			            	References.songPlayingArtistLabel.setText(c.getValueAdded().toString());
 			            } else if ("title".equals(c.getKey())) {
-			            	References.songPlayingLabel.setText((String) c.getValueAdded().toString());
+			            	References.songPlayingTitleLabel.setText((String) c.getValueAdded().toString());
 			                String title = c.getValueAdded().toString();
 			            } else if ("album".equals(c.getKey())) {
 			                String album = c.getValueAdded().toString();
@@ -78,6 +79,10 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 				});
 				
 				References.mediaPlayer = player;	
+			} else {
+				References.mediaProgressBar.setProgress(0);
+				References.labelTimeIndicator.setText("00:00");
+				References.songPlayingTitleLabel.setText("No song playing");
 			}
 		}
 		

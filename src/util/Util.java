@@ -32,11 +32,6 @@ public class Util {
 		return treeItem;
 	}
 
-	public static double roundTo2Decimals(double val) {
-		DecimalFormat df2 = new DecimalFormat("###.##");
-		return Double.valueOf(df2.format(val));
-	}
-
 	public static String formatDecimalToMinutes(double val) {
 		int hours = (int) val / 3600;
 		int remainder = (int) val - hours * 3600;
@@ -44,7 +39,7 @@ public class Util {
 		remainder = remainder - mins * 60;
 		int secs = remainder;
 
-		return mins + ":" + secs;
+		return (hours > 0) ? String.format("%d:%d:%02d", hours, mins, secs) : String.format("%d:%02d", mins, secs);
 	}
 
 }
