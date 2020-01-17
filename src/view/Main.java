@@ -12,15 +12,15 @@ public class Main extends Application {
 		try {
 			References.stage = stage;
 			MusicBorderPain root = new MusicBorderPain();
-			Scene scene = new Scene(root, 800, 600);
+			Scene scene = new Scene(root, 750, 550);
 			scene.getStylesheets().add(getClass().getResource("css/application.css").toExternalForm());
 			stage.setTitle("Soumd Symstem");
 			stage.setScene(scene);
 			stage.getIcons().add(new Image(Main.class.getResourceAsStream("../ressource/img/chems.png")));
 			stage.show();
 			
-			stage.setMinWidth(750);
-			stage.setMinHeight(650);
+			stage.setMinWidth(650);
+			stage.setMinHeight(550);
 			
 			stage.setOnHiding(event -> {
 				System.out.println("Stopping watchservice");

@@ -50,7 +50,7 @@ public class MusicPanel extends BorderPane {
 		Label labelTimeIndicator = new Label("00:00 / 00:00");
 		
 		ProgressBar progressBar = new ProgressBar();
-		progressBar.setPrefWidth(430);
+		progressBar.setPrefWidth(410);
 		progressBar.setProgress(0);
 		
 		References.labelTimeIndicator = labelTimeIndicator;
@@ -72,6 +72,8 @@ public class MusicPanel extends BorderPane {
 	private Node createBottom() {
 		GridPane grid = new GridPane();
 		
+		GridPane checkBoxPane = new GridPane();
+		
 		CheckBox cbShuffle = new CheckBox("Shuffle");
 		cbShuffle.getStyleClass().add("margin-8-no-border");
 		
@@ -81,11 +83,14 @@ public class MusicPanel extends BorderPane {
 		References.checkBoxShuffle = cbShuffle;
 		References.checkBoxRepeat = cbRepeat;
 		
+		checkBoxPane.add(cbShuffle, 1, 1);
+		checkBoxPane.add(cbRepeat, 1, 2);
+		
 		// Buttons
 		Button bPrev = new Button();
 		ImageView imageViewPrev = new ImageView(new Image(MusicPanel.class.getResourceAsStream("../ressource/img/previous.png")));
-		imageViewPrev.setFitHeight(32);
-		imageViewPrev.setFitWidth(32);
+		imageViewPrev.setFitHeight(50);
+		imageViewPrev.setFitWidth(50);
 		imageViewPrev.setPreserveRatio(true);
 		bPrev.setGraphic(imageViewPrev);
 		bPrev.getStyleClass().addAll("margin-8", "button-icon");
@@ -93,26 +98,18 @@ public class MusicPanel extends BorderPane {
 		
 		Button bPlay = new Button();
 		ImageView imageViewPlay = new ImageView(new Image(MusicPanel.class.getResourceAsStream("../ressource/img/play.png")));
-		imageViewPlay.setFitHeight(32);
-		imageViewPlay.setFitWidth(32);
+		imageViewPlay.setFitHeight(50);
+		imageViewPlay.setFitWidth(50);
 		imageViewPlay.setPreserveRatio(true);
 		bPlay.setGraphic(imageViewPlay);
 		bPlay.getStyleClass().addAll("margin-8", "button-icon");
 		bPlay.setOnAction(new PlayActionHandler());
-		
-		Button bPause = new Button();
-		ImageView imageViewPause = new ImageView(new Image(MusicPanel.class.getResourceAsStream("../ressource/img/pause.png")));
-		imageViewPause.setFitHeight(32);
-		imageViewPause.setFitWidth(32);
-		imageViewPause.setPreserveRatio(true);
-		bPause.setGraphic(imageViewPause);
-		bPause.getStyleClass().addAll("margin-8", "button-icon");
-		bPause.setOnAction(new PauseActionHandler());
+		References.bPlay = bPlay;
 		
 		Button bNext = new Button();
 		ImageView imageViewNext = new ImageView(new Image(MusicPanel.class.getResourceAsStream("../ressource/img/next.png")));
-		imageViewNext.setFitHeight(32);
-		imageViewNext.setFitWidth(32);
+		imageViewNext.setFitHeight(50);
+		imageViewNext.setFitWidth(50);
 		imageViewNext.setPreserveRatio(true);
 		bNext.setGraphic(imageViewNext);
 		bNext.getStyleClass().addAll("margin-8", "button-icon");
@@ -126,17 +123,15 @@ public class MusicPanel extends BorderPane {
 		References.volumeSlider = volumeSlider;
 		
 		volumeSlider.valueProperty().addListener(new VolumeChangeListener());
-		volumeSlider.setValue(50);
+		volumeSlider.setValue(30);
 		
 		volumeControlPane.getChildren().addAll(volumeSliderLabel, volumeSlider);
 		
-		grid.add(cbShuffle, 1, 1);
-		grid.add(cbRepeat, 2, 1);
-		grid.add(bPrev, 1, 2);
-		grid.add(bPause, 2, 2);
-		grid.add(bPlay, 3, 2);
-		grid.add(bNext, 4, 2);
-		grid.add(volumeControlPane, 5, 2);
+		grid.add(checkBoxPane, 1, 1);
+		grid.add(bPrev, 2, 1);
+		grid.add(bPlay, 3, 1);
+		grid.add(bNext, 4, 1);
+		grid.add(volumeControlPane, 5, 1);
 		
 		grid.setAlignment(Pos.CENTER);
 		

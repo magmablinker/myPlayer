@@ -1,5 +1,6 @@
 package ressource;
 
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
@@ -22,6 +23,8 @@ public class References {
 	public static Slider volumeSlider = null;
 	
 	public static FileTreeItem currentlyPlayingItem = null;
+	
+	public static Button bPlay = null;
 	
 	public static Label songPlayingTitleLabel = null;
 	public static Label songPlayingArtistLabel = null;

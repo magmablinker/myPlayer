@@ -9,6 +9,7 @@ import javafx.event.EventHandler;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
@@ -38,6 +39,14 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 			}
 			
 			if (!file.isDirectory()) {
+				// Change play button
+				ImageView imageView = new ImageView(new Image(PlayActionHandler.class.getResourceAsStream("../ressource/img/pause.png")));
+				imageView.setFitHeight(50);
+				imageView.setFitWidth(50);
+				
+				References.bPlay.setGraphic(imageView);
+				References.bPlay.setOnAction(new PauseActionHandler());
+				
 				// Stop the current playing media
 				if (References.mediaPlayer != null) {
 					if(References.mediaPlayer.getStatus().equals(MediaPlayer.Status.PAUSED)) {
