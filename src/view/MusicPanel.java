@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -41,7 +42,24 @@ public class MusicPanel extends BorderPane {
 		
 		References.coverImage = cover;
 		
+		GridPane bottomPane = new GridPane();
+		
+		Label labelTimeIndicator = new Label("00:00 / 00:00");
+		
+		ProgressBar progressBar = new ProgressBar();
+		progressBar.setPrefWidth(430);
+		progressBar.setProgress(0);
+		
+		References.labelTimeIndicator = labelTimeIndicator;
+		References.mediaProgressBar = progressBar;
+		
+		bottomPane.add(labelTimeIndicator, 1, 1);
+		bottomPane.add(progressBar, 1, 2);
+		bottomPane.getStyleClass().add("margin-8-no-border");
+		bottomPane.setAlignment(Pos.CENTER);
+		
 		pane.setCenter(cover);
+		pane.setBottom(bottomPane);
 		
 		return pane;
 	}

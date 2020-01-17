@@ -8,7 +8,8 @@ public class VolumeChangeListener implements ChangeListener<Number> {
 
 	@Override
 	public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-		References.mediaPlayer.setVolume((double) newValue / 100);
+		if(References.mediaPlayer != null)
+			References.mediaPlayer.setVolume((double) newValue / 100);
 	}
 
 }

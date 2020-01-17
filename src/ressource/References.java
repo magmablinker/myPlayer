@@ -2,6 +2,7 @@ package ressource;
 
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TreeView;
 import javafx.scene.image.ImageView;
@@ -24,5 +25,8 @@ public class References {
 	
 	public static CheckBox checkBoxShuffle = null;
 	public static CheckBox checkBoxRepeat = null;
+	
+	public static Label labelTimeIndicator = null;
+	public static ProgressBar mediaProgressBar = null;
 	
 }

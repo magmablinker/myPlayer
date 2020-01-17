@@ -2,6 +2,7 @@ package controller;
 
 import java.io.File;
 
+import javafx.beans.value.ObservableValue;
 import javafx.collections.MapChangeListener.Change;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -11,6 +12,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 import ressource.References;
+import util.Util;
 import view.FileTreeItem;
 
 public class PlayActionHandler implements EventHandler<ActionEvent> {
@@ -24,7 +26,6 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 		if(selectedIndex > 0) {
 			FileTreeItem selectedItem = (FileTreeItem) view.getSelectionModel().getSelectedItem();
 			
-			System.out.println(selectedItem.getPath());
 			File file = new File(selectedItem.getPath());
 			
 			if(!file.isDirectory()) {
@@ -54,16 +55,25 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 			    });
 				
 			    MediaPlayer player = new MediaPlayer(audioFile);
+			    
+			    player.currentTimeProperty().addListener((ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) -> {
+			    	References.labelTimeIndicator.setText(Util.formatDecimalToMinutes(player.getCurrentTime().toSeconds()) + " / " + Util.formatDecimalToMinutes(player.getTotalDuration().toSeconds()));
+			    	References.mediaProgressBar.setProgress(player.getCurrentTime().toSeconds() / player.getTotalDuration().toSeconds());
+			    });
+
 				player.setVolume(References.volumeSlider.getValue() / 100);
 				player.play();
 				
 				player.setOnEndOfMedia(() -> {
+					System.out.println("END REACHED");
 					if(References.checkBoxRepeat.isSelected()) {
 						player.seek(Duration.ZERO);
 					} else if(References.checkBoxShuffle.isSelected()) {
 						
 					} else {
 						// Just play next track
+						view.getSelectionModel().select(selectedItem.nextSibling());
+						this.handle(e);
 					}
 				});
 				
