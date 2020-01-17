@@ -69,8 +69,9 @@ public class DirectoryWatchService implements Runnable {
 			}
 
 			// Should get checked but I don't care
-			key.reset();
-			
+			if(!key.reset()) {
+				this.directoryMap.remove(key);
+			}
 		}
 
 	}
@@ -81,45 +82,46 @@ public class DirectoryWatchService implements Runnable {
 		String parentDir = file.getParent();
 		System.out.println(parentDir);
 		TreeItem<String> nodeChanged = this.treeItemMap.get(parentDir);
-		
+
+		// TODO: find cause for weird bug where "Neuer Ordner" gets added twice
+		System.out.println("\n*************************");
 		System.out.println("name: " + file.getName());
+		System.out.println("path: " + file.getAbsolutePath());
 		System.out.println("isDirectory: " + file.isDirectory());
 		System.out.println("kind: " + kind.toString());
-		
+		System.out.println("*************************");
+
 		switch (kind.toString()) {
-			case "ENTRY_DELETE":
-				if(file.isDirectory()) {
-					key.reset();
-				} else {
-					if(nodeChanged != null) {
-						int i = 0;
-						for(TreeItem<String> node: nodeChanged.getChildren()) {
-							FileTreeItem n = (FileTreeItem) node;
-							if(n.getPath().equals(file.getAbsolutePath())) {
-								nodeChanged.getChildren().remove(i);
-								break;
-							}
-							i++;
-						}					
+		case "ENTRY_DELETE":
+			if (nodeChanged != null) {
+				int i = 0;
+				for (TreeItem<String> node : nodeChanged.getChildren()) {
+					FileTreeItem n = (FileTreeItem) node;
+					if (n.getPath().equals(file.getAbsolutePath())) {
+						System.out.println("===\nWIN\n===\n" + file.getAbsolutePath());
+						nodeChanged.getChildren().remove(i);
+						break;
 					}
-				}	
-				
-				this.fileGotDeletedAction(file);
-				break;
-			case "ENTRY_CREATE":
-				if(nodeChanged != null) {
-					TreeItem<String> node = Util.generateTreeNode(file);
-					
-					if(file.isDirectory()) {
-						this.registerWatchService(child, node);
-					}
-					
-					nodeChanged.getChildren().add(node);	
+					i++;
 				}
-				
-				break;
-			default:
-				break;
+			}
+
+			this.fileGotDeletedAction(file);
+			break;
+		case "ENTRY_CREATE":
+			if (nodeChanged != null) {
+				TreeItem<String> node = Util.generateTreeNode(file);
+
+				if (file.isDirectory()) {
+					this.registerWatchService(child, node);
+				}
+
+				nodeChanged.getChildren().add(node);
+			}
+
+			break;
+		default:
+			break;
 		}
 	}
 

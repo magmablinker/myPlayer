@@ -33,6 +33,10 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 
 			File file = new File(selectedItem.getPath());
 
+			if(file.isDirectory() && selectedItem.getChildren().size() > 0) {
+				file = new File(((FileTreeItem) selectedItem.getChildren().get(1)).getPath());
+			}
+			
 			if (!file.isDirectory()) {
 				// Stop the current playing media
 				if (References.mediaPlayer != null) {
@@ -87,10 +91,8 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 						player.seek(Duration.ZERO);
 					} else {
 						if (References.checkBoxShuffle.isSelected()) {
-							System.out.println("Playing Shuffle");
 							selectedItem.setPlayed(true);
 							view.getSelectionModel().select(getRandomTreeItem(selectedItem));
-
 						} else {
 							// Just play next track
 							view.getSelectionModel().select(selectedItem.nextSibling());

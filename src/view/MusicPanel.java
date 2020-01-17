@@ -34,7 +34,7 @@ public class MusicPanel extends BorderPane {
 		Label songPlaying = new Label("No song playing");
 		References.songPlayingTitleLabel = songPlaying;
 		
-		Label songPlayingArtist = new Label("No artist");
+		Label songPlayingArtist = new Label("");
 		References.songPlayingArtistLabel = songPlayingArtist;
 		
 		topPane.add(songPlaying, 1, 1);
@@ -87,13 +87,40 @@ public class MusicPanel extends BorderPane {
 		References.checkBoxShuffle = cbShuffle;
 		References.checkBoxRepeat = cbRepeat;
 		
-		Button bPlay = new Button("Play");
+		// Buttons
+		Button bPrev = new Button();
+		ImageView imageViewPrev = new ImageView(new Image(MusicPanel.class.getResourceAsStream("../ressource/img/previous.png")));
+		imageViewPrev.setFitHeight(32);
+		imageViewPrev.setFitWidth(32);
+		imageViewPrev.setPreserveRatio(true);
+		bPrev.setGraphic(imageViewPrev);
+		bPrev.getStyleClass().add("margin-8");
+		
+		Button bPlay = new Button();
+		ImageView imageViewPlay = new ImageView(new Image(MusicPanel.class.getResourceAsStream("../ressource/img/play.png")));
+		imageViewPlay.setFitHeight(32);
+		imageViewPlay.setFitWidth(32);
+		imageViewPlay.setPreserveRatio(true);
+		bPlay.setGraphic(imageViewPlay);
 		bPlay.getStyleClass().add("margin-8");
 		bPlay.setOnAction(new PlayActionHandler());
 		
-		Button bPause = new Button("Pause");
+		Button bPause = new Button();
+		ImageView imageViewPause = new ImageView(new Image(MusicPanel.class.getResourceAsStream("../ressource/img/pause.png")));
+		imageViewPause.setFitHeight(32);
+		imageViewPause.setFitWidth(32);
+		imageViewPause.setPreserveRatio(true);
+		bPause.setGraphic(imageViewPause);
 		bPause.getStyleClass().add("margin-8");
 		bPause.setOnAction(new PauseActionHandler());
+		
+		Button bNext = new Button();
+		ImageView imageViewNext = new ImageView(new Image(MusicPanel.class.getResourceAsStream("../ressource/img/next.png")));
+		imageViewNext.setFitHeight(32);
+		imageViewNext.setFitWidth(32);
+		imageViewNext.setPreserveRatio(true);
+		bNext.setGraphic(imageViewNext);
+		bNext.getStyleClass().add("margin-8");
 		
 		VBox volumeControlPane = new VBox();
 		
@@ -108,9 +135,11 @@ public class MusicPanel extends BorderPane {
 		
 		grid.add(cbShuffle, 1, 1);
 		grid.add(cbRepeat, 2, 1);
-		grid.add(bPlay, 1, 2);
+		grid.add(bPrev, 1, 2);
 		grid.add(bPause, 2, 2);
-		grid.add(volumeControlPane, 3, 2);
+		grid.add(bPlay, 3, 2);
+		grid.add(bNext, 4, 2);
+		grid.add(volumeControlPane, 5, 2);
 		
 		grid.setAlignment(Pos.CENTER);
 		

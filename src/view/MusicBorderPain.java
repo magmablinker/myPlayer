@@ -14,6 +14,7 @@ import javafx.scene.control.TreeItem.TreeModificationEvent;
 import javafx.scene.control.TreeView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import model.DirectoryHandler;
 import ressource.References;
 
@@ -51,6 +52,7 @@ public class MusicBorderPain extends BorderPane {
 
 	private Node createTreeView() {
 		GridPane grid = new GridPane();
+		GridPane.setVgrow(grid, Priority.ALWAYS);
 
 		TreeView<String> playlistView = new TreeView<String>();
 		playlistView.getStyleClass().add("margin-8");
