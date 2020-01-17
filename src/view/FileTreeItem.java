@@ -24,4 +24,8 @@ public class FileTreeItem extends TreeItem<String> {
 		return this.isPlayed;
 	}
 	
+	public void setPlayed(boolean bool) {
+		this.isPlayed = bool;
+	}
+	
 }

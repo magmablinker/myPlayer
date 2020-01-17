@@ -3,6 +3,7 @@ package view;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import controller.DirectoryClickHandler;
 import controller.DirectoryWatchService;
 import javafx.concurrent.Task;
 import javafx.event.EventHandler;
@@ -83,6 +84,7 @@ public class MusicBorderPain extends BorderPane {
 				});
 
 		directoryView.setContextMenu(new DirectoryContextMenu());
+		directoryView.setOnMouseClicked(new DirectoryClickHandler());
 
 		grid.add(playlistView, 1, 1);
 		grid.add(directoryView, 1, 2);
