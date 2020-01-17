@@ -35,8 +35,14 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 
 			if (!file.isDirectory()) {
 				// Stop the current playing media
-				if (References.mediaPlayer != null)
-					References.mediaPlayer.stop();
+				if (References.mediaPlayer != null) {
+					if(References.mediaPlayer.getStatus().equals(MediaPlayer.Status.PAUSED)) {
+						References.mediaPlayer.play();
+						return;
+					} else {
+						References.mediaPlayer.stop();	
+					}
+				}
 
 				Media audioFile = new Media(file.toURI().toString());
 				References.songPlayingTitleLabel.setText(selectedItem.getValue());

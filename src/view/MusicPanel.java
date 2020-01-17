@@ -1,5 +1,6 @@
 package view;
 
+import controller.PauseActionHandler;
 import controller.PlayActionHandler;
 import controller.VolumeChangeListener;
 import javafx.geometry.Pos;
@@ -92,6 +93,7 @@ public class MusicPanel extends BorderPane {
 		
 		Button bPause = new Button("Pause");
 		bPause.getStyleClass().add("margin-8");
+		bPause.setOnAction(new PauseActionHandler());
 		
 		VBox volumeControlPane = new VBox();
 		
