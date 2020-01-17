@@ -15,6 +15,7 @@ import java.util.HashMap;
 
 import javafx.scene.control.TreeItem;
 import util.Util;
+import view.FileTreeItem;
 
 public class DirectoryWatchService implements Runnable {
 
@@ -98,7 +99,8 @@ public class DirectoryWatchService implements Runnable {
 					if(nodeChanged != null) {
 						int i = 0;
 						for(TreeItem<String> node: nodeChanged.getChildren()) {
-							if(node.getValue().equals(file.getName())) {
+							FileTreeItem n = (FileTreeItem) node;
+							if(n.getPath().equals(file.getAbsolutePath())) {
 								nodeChanged.getChildren().remove(i);
 								break;
 							}
