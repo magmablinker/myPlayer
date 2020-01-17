@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.TreeView;
+import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -36,6 +37,8 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 			// reason: metadata gets loaded asynchronous
 		    mp3File.getMetadata().addListener((Change<? extends String, ? extends Object> c) -> {
 		        if (c.wasAdded()) {
+		        	System.out.println(c.getKey());
+		        	System.out.println(c.getValueAdded().toString());
 		            if ("artist".equals(c.getKey())) {
 		                String artist = c.getValueAdded().toString();
 		            } else if ("title".equals(c.getKey())) {
@@ -43,6 +46,9 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 		                String title = c.getValueAdded().toString();
 		            } else if ("album".equals(c.getKey())) {
 		                String album = c.getValueAdded().toString();
+		            } else if("image".equals(c.getKey())) {
+		            	System.out.println("GOT IMAGE");
+		            	p.getCover().setImage((Image) c.getValueAdded());
 		            }
 		        }
 		    });

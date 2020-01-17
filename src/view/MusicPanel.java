@@ -6,6 +6,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -14,6 +16,7 @@ public class MusicPanel extends BorderPane {
 
 	private Slider volumeSlider;
 	private Label songPlaying;
+	private ImageView cover;
 	
 	public MusicPanel() {
 		super();
@@ -30,8 +33,15 @@ public class MusicPanel extends BorderPane {
 	}
 
 	private Node createCenter() {
-		// TODO Auto-generated method stub
-		return null;
+		BorderPane pane = new BorderPane();
+		cover = new ImageView(new Image(getClass().getResourceAsStream("../ressource/img/defaultcover.jpg")));
+		
+		cover.setFitWidth(256);
+		cover.setFitHeight(256);
+		
+		pane.setCenter(cover);
+		
+		return pane;
 	}
 
 	private Node createBottom() {
@@ -70,6 +80,10 @@ public class MusicPanel extends BorderPane {
 	
 	public Label getSongPlayingLabel() {
 		return this.songPlaying;
+	}
+	
+	public ImageView getCover() {
+		return this.cover;
 	}
 	
 }
