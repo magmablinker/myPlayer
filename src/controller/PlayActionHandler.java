@@ -6,6 +6,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.MapChangeListener.Change;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
@@ -67,11 +68,11 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 				player.play();
 				
 				player.setOnEndOfMedia(() -> {
-					System.out.println("END REACHED");
 					if(References.checkBoxRepeat.isSelected()) {
 						player.seek(Duration.ZERO);
 					} else if(References.checkBoxShuffle.isSelected()) {
-						
+						System.out.println("Playing Shuffle");
+						view.getSelectionModel().select(getRandomTreeItem(selectedItem));
 					} else {
 						// Just play next track
 						view.getSelectionModel().select(selectedItem.nextSibling());
@@ -87,6 +88,23 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 			}
 		}
 		
+	}
+
+	private TreeItem<String> getRandomTreeItem(FileTreeItem item) {
+		// bad approach
+		// TODO: create arraylist with all tracks in them and just shuffle them
+		// when the shuffle checkbox gets selected
+		TreeItem<String> parent = item.getParent();
+		
+		int size = parent.getChildren().size();
+		
+		int randomIndex;
+		while(item.isPlayed()) {
+			randomIndex = (int) (Math.random() * size) + 1;
+			item = (FileTreeItem) parent.getChildren().get(randomIndex);
+		}
+		
+		return item;
 	}
 
 }
