@@ -8,6 +8,7 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import ressource.Data;
+import ressource.References;
 import view.FileTreeItem;
 
 public class Util {
@@ -40,6 +41,31 @@ public class Util {
 		int secs = remainder;
 
 		return (hours > 0) ? String.format("%d:%d:%02d", hours, mins, secs) : String.format("%d:%02d", mins, secs);
+	}
+	
+	public static TreeItem<String> selectRandomTreeItem(FileTreeItem item) {
+		// bad approach
+		// TODO: create arraylist with all tracks in them and just shuffle them
+		// when the shuffle checkbox gets selected
+		TreeItem<String> parent = item.getParent();
+		FileTreeItem oldItem = item;
+		item.setPlayed(true);
+
+		int size = parent.getChildren().size();
+
+		int randomIndex;
+		while (item.isPlayed()) {
+			randomIndex = (int) (Math.random() * size) + 1;
+			item = (FileTreeItem) parent.getChildren().get(randomIndex);
+		}
+		
+		References.directoryView.getSelectionModel().select(item);
+		
+		item.setPrevious(oldItem);
+		
+		System.out.println("RANDOM ITEM ISSSSSSSSSSSSSSSSSSSSSSSSS " + item.getValue());
+
+		return item;
 	}
 
 }

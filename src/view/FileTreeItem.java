@@ -8,6 +8,7 @@ public class FileTreeItem extends TreeItem<String> {
 
 	private String path;
 	private boolean isPlayed;
+	private FileTreeItem previous = null;
 	
 	public FileTreeItem(File file) {
 		// Ternary operator to remove file extension if file is a file
@@ -26,6 +27,14 @@ public class FileTreeItem extends TreeItem<String> {
 	
 	public void setPlayed(boolean bool) {
 		this.isPlayed = bool;
+	}
+
+	public FileTreeItem getPrevious() {
+		return previous;
+	}
+
+	public void setPrevious(FileTreeItem previous) {
+		this.previous = previous;
 	}
 	
 }

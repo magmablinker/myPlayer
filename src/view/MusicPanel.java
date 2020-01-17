@@ -1,7 +1,9 @@
 package view;
 
+import controller.NextHandler;
 import controller.PauseActionHandler;
 import controller.PlayActionHandler;
+import controller.PreviousHandler;
 import controller.VolumeChangeListener;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -22,25 +24,8 @@ public class MusicPanel extends BorderPane {
 	public MusicPanel() {
 		super();
 		
-		this.setTop(createTop());
 		this.setCenter(createCenter());
 		this.setBottom(createBottom());
-	}
-
-	private Node createTop() {
-		GridPane topPane = new GridPane();
-		topPane.getStyleClass().add("margin-8-no-border");
-		
-		Label songPlaying = new Label("No song playing");
-		References.songPlayingTitleLabel = songPlaying;
-		
-		Label songPlayingArtist = new Label("");
-		References.songPlayingArtistLabel = songPlayingArtist;
-		
-		topPane.add(songPlaying, 1, 1);
-		topPane.add(songPlayingArtist, 1, 2);
-		
-		return topPane;
 	}
 
 	private Node createCenter() {
@@ -55,6 +40,12 @@ public class MusicPanel extends BorderPane {
 		
 		GridPane bottomPane = new GridPane();
 		
+		Label songPlaying = new Label("No song playing");
+		References.songPlayingTitleLabel = songPlaying;
+		
+		Label songPlayingArtist = new Label("");
+		References.songPlayingArtistLabel = songPlayingArtist;		
+		
 		Label labelTimeIndicator = new Label("00:00 / 00:00");
 		
 		ProgressBar progressBar = new ProgressBar();
@@ -64,8 +55,10 @@ public class MusicPanel extends BorderPane {
 		References.labelTimeIndicator = labelTimeIndicator;
 		References.mediaProgressBar = progressBar;
 		
-		bottomPane.add(labelTimeIndicator, 1, 1);
-		bottomPane.add(progressBar, 1, 2);
+		bottomPane.add(songPlaying, 1, 1);
+		bottomPane.add(songPlayingArtist, 1, 2);
+		bottomPane.add(labelTimeIndicator, 1, 3);
+		bottomPane.add(progressBar, 1, 4);
 		bottomPane.getStyleClass().add("margin-8-no-border");
 		bottomPane.setAlignment(Pos.CENTER);
 		
@@ -94,7 +87,8 @@ public class MusicPanel extends BorderPane {
 		imageViewPrev.setFitWidth(32);
 		imageViewPrev.setPreserveRatio(true);
 		bPrev.setGraphic(imageViewPrev);
-		bPrev.getStyleClass().add("margin-8");
+		bPrev.getStyleClass().addAll("margin-8", "button-icon");
+		bPrev.setOnAction(new PreviousHandler());
 		
 		Button bPlay = new Button();
 		ImageView imageViewPlay = new ImageView(new Image(MusicPanel.class.getResourceAsStream("../ressource/img/play.png")));
@@ -102,7 +96,7 @@ public class MusicPanel extends BorderPane {
 		imageViewPlay.setFitWidth(32);
 		imageViewPlay.setPreserveRatio(true);
 		bPlay.setGraphic(imageViewPlay);
-		bPlay.getStyleClass().add("margin-8");
+		bPlay.getStyleClass().addAll("margin-8", "button-icon");
 		bPlay.setOnAction(new PlayActionHandler());
 		
 		Button bPause = new Button();
@@ -111,7 +105,7 @@ public class MusicPanel extends BorderPane {
 		imageViewPause.setFitWidth(32);
 		imageViewPause.setPreserveRatio(true);
 		bPause.setGraphic(imageViewPause);
-		bPause.getStyleClass().add("margin-8");
+		bPause.getStyleClass().addAll("margin-8", "button-icon");
 		bPause.setOnAction(new PauseActionHandler());
 		
 		Button bNext = new Button();
@@ -120,7 +114,8 @@ public class MusicPanel extends BorderPane {
 		imageViewNext.setFitWidth(32);
 		imageViewNext.setPreserveRatio(true);
 		bNext.setGraphic(imageViewNext);
-		bNext.getStyleClass().add("margin-8");
+		bNext.getStyleClass().addAll("margin-8", "button-icon");
+		bNext.setOnAction(new NextHandler());
 		
 		VBox volumeControlPane = new VBox();
 		

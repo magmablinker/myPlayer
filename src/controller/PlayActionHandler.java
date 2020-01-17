@@ -91,8 +91,7 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 						player.seek(Duration.ZERO);
 					} else {
 						if (References.checkBoxShuffle.isSelected()) {
-							selectedItem.setPlayed(true);
-							view.getSelectionModel().select(getRandomTreeItem(selectedItem));
+							Util.selectRandomTreeItem(selectedItem);
 						} else {
 							// Just play next track
 							view.getSelectionModel().select(selectedItem.nextSibling());
@@ -110,23 +109,6 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 			}
 		}
 
-	}
-
-	private TreeItem<String> getRandomTreeItem(FileTreeItem item) {
-		// bad approach
-		// TODO: create arraylist with all tracks in them and just shuffle them
-		// when the shuffle checkbox gets selected
-		TreeItem<String> parent = item.getParent();
-
-		int size = parent.getChildren().size();
-
-		int randomIndex;
-		while (item.isPlayed()) {
-			randomIndex = (int) (Math.random() * size) + 1;
-			item = (FileTreeItem) parent.getChildren().get(randomIndex);
-		}
-
-		return item;
 	}
 
 }
