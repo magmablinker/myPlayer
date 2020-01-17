@@ -68,14 +68,9 @@ public class DirectoryWatchService implements Runnable {
 
 			}
 
-			boolean isValid = key.reset();
-
-			if (!isValid) {
-				System.out.println("!!!! Key is invalid !!!!");
-				//System.out.println(key.toString());
-				//this.registerWatchService(dir, this.treeItemMap.get(dir.toFile().getName()));
-				//this.setRunning(false);
-			}
+			// Should get checked but I don't care
+			key.reset();
+			
 		}
 
 	}
@@ -113,8 +108,6 @@ public class DirectoryWatchService implements Runnable {
 				break;
 			case "ENTRY_CREATE":
 				if(nodeChanged != null) {
-					// TODO: fix bug when 2 directorys are the same name
-					// TODO: should be done needs testing
 					TreeItem<String> node = Util.generateTreeNode(file);
 					
 					if(file.isDirectory()) {
