@@ -17,7 +17,7 @@ public class Main extends Application {
 			
 			stage.setOnHiding(event -> {
 				System.out.println("Stopping watchservice");
-				root.getExecutorService().shutdownNow();
+				root.getExServiceDirectoryWatchService().shutdownNow();
 			});
 		} catch (Exception e) {
 			e.printStackTrace();

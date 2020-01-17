@@ -18,7 +18,9 @@ import model.DirectoryHandler;
 public class MusicBorderPain extends BorderPane {
 
 	private DirectoryWatchService directoryWatchService = new DirectoryWatchService();
-	private ExecutorService exService;
+	private TreeView<String> directoryView;
+	private ExecutorService exServiceDirectoryWatchService;
+	private ExecutorService exMediaPlayerService;
 
 	public MusicBorderPain() {
 		super();
@@ -27,6 +29,7 @@ public class MusicBorderPain extends BorderPane {
 		this.setTop(menuBar);
 
 		this.setLeft(createTreeView());
+		this.setCenter(createCenter());
 
 		System.out.println("Starting watchservice");
 
@@ -40,8 +43,8 @@ public class MusicBorderPain extends BorderPane {
 
 		};
 
-		this.exService = Executors.newSingleThreadExecutor();
-		this.exService.submit(watchService);
+		this.exServiceDirectoryWatchService = Executors.newSingleThreadExecutor();
+		this.exServiceDirectoryWatchService.submit(watchService);
 	}
 
 	private Node createTreeView() {
@@ -50,7 +53,7 @@ public class MusicBorderPain extends BorderPane {
 		TreeView<String> playlistView = new TreeView<String>();
 		playlistView.getStyleClass().add("margin-8");
 
-		TreeView<String> directoryView = new TreeView<String>();
+		directoryView = new TreeView<String>();
 		directoryView.getStyleClass().add("margin-8");
 
 		TreeItem<String> playlistViewRoot = new TreeItem<String>("Playlists");
@@ -83,9 +86,18 @@ public class MusicBorderPain extends BorderPane {
 
 		return grid;
 	}
+	
+	private Node createCenter() {
+		MusicPanel musicPanel = new MusicPanel();
+		return musicPanel;
+	}
 
-	public ExecutorService getExecutorService() {
-		return this.exService;
+	public ExecutorService getExServiceDirectoryWatchService() {
+		return this.exServiceDirectoryWatchService;
+	}
+	
+	public TreeView<String> getDirectoryTreeView() {
+		return this.directoryView;
 	}
 
 }

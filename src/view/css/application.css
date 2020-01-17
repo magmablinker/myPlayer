@@ -5,3 +5,13 @@
 	-fx-background-insets: 8px;
 	-fx-border-color: black;
 }
+
+.margin-8-no-border {
+	-fx-padding: 8px; 
+	-fx-border-insets: 8px; 
+	-fx-background-insets: 8px;
+}
+
+.button {
+    -fx-pref-width: 150px;
+}
