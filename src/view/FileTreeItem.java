@@ -9,7 +9,8 @@ public class FileTreeItem extends TreeItem<String> {
 	private String path;
 	
 	public FileTreeItem(File file) {
-		super(file.getName());
+		// Ternary operator to remove file extension if file is a file
+		super((file.isDirectory()) ? file.getName() : file.getName().substring(0, file.getName().lastIndexOf(".")));
 		this.path = file.getAbsolutePath();
 	}
 	

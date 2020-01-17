@@ -12,6 +12,7 @@ public class Util {
 
 	public static TreeItem<String> generateTreeNode(File file) {
 		FileTreeItem treeItem = new FileTreeItem(file);
+		
 		String iconFilePath;
 
 		if (file.isDirectory()) {
