@@ -59,12 +59,10 @@ public class Util {
 			while (item.isPlayed()) {
 				randomIndex = (int) (Math.random() * size);
 				item = (FileTreeItem) items.get(randomIndex);
-				
-				System.out.println("Setting next for " + References.currentlyPlayingItem.getValue() + " to " + item.getValue());
-				
-				References.currentlyPlayingItem.setNext(item);
-				item.setPrevious(References.currentlyPlayingItem);
 			}	
+			
+			References.currentlyPlayingItem.setNext(item);
+			item.setPrevious(References.currentlyPlayingItem);
 		} else {
 			item = References.currentlyPlayingItem.getNext();
 		}
