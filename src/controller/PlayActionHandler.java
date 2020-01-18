@@ -90,7 +90,7 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 									.setText(Util.formatDecimalToMinutes(player.getCurrentTime().toSeconds()) + " / "
 											+ Util.formatDecimalToMinutes(player.getTotalDuration().toSeconds()));
 							References.mediaProgressBar.setProgress(
-									player.getCurrentTime().toSeconds() / player.getTotalDuration().toSeconds());
+									player.getCurrentTime().toMillis() / player.getTotalDuration().toMillis());
 						});
 
 				player.setVolume(References.volumeSlider.getValue() / 100);

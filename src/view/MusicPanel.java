@@ -4,6 +4,7 @@ import controller.NextHandler;
 import controller.PauseActionHandler;
 import controller.PlayActionHandler;
 import controller.PreviousHandler;
+import controller.ProgressMouseEventHandler;
 import controller.VolumeChangeListener;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -52,6 +53,7 @@ public class MusicPanel extends BorderPane {
 		ProgressBar progressBar = new ProgressBar();
 		progressBar.setPrefWidth(410);
 		progressBar.setProgress(0);
+		progressBar.setOnMouseClicked(new ProgressMouseEventHandler());
 		
 		References.labelTimeIndicator = labelTimeIndicator;
 		References.mediaProgressBar = progressBar;
