@@ -54,15 +54,22 @@ public class Util {
 
 		int size = parent.getChildren().size();
 
-		int randomIndex = 0;
-		while (item.isPlayed()) {
-			randomIndex = (int) (Math.random() * size);
-			item = (FileTreeItem) items.get(randomIndex);
+		if(References.currentlyPlayingItem.getNext() == null) {
+			int randomIndex = 0;
+			while (item.isPlayed()) {
+				randomIndex = (int) (Math.random() * size);
+				item = (FileTreeItem) items.get(randomIndex);
+				
+				System.out.println("Setting next for " + References.currentlyPlayingItem.getValue() + " to " + item.getValue());
+				
+				References.currentlyPlayingItem.setNext(item);
+				item.setPrevious(References.currentlyPlayingItem);
+			}	
+		} else {
+			item = References.currentlyPlayingItem.getNext();
 		}
 		
 		References.directoryView.getSelectionModel().select(item);
-		
-		item.setPrevious(References.currentlyPlayingItem);
 		
 		return item;
 	}

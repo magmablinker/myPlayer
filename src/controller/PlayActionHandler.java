@@ -19,6 +19,10 @@ import view.FileTreeItem;
 
 public class PlayActionHandler implements EventHandler<ActionEvent> {
 
+	// We need this in order to differentiate betweeen
+	// playlist PlayActions and directory PlayActions
+	private TreeView<String> view;
+	
 	@Override
 	public void handle(ActionEvent e) {
 		this.playMethod();

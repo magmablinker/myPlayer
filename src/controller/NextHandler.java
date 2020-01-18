@@ -20,8 +20,10 @@ public class NextHandler implements EventHandler<ActionEvent> {
 				item = References.directoryView.getSelectionModel().getSelectedItem().nextSibling();
 				if (!References.checkBoxShuffle.isSelected()) {
 					References.directoryView.getSelectionModel().select(item);
+				} else if(((FileTreeItem) item).getNext() != null) {
+					References.directoryView.getSelectionModel().select(((FileTreeItem) item).getNext());
 				} else {
-					Util.selectRandomTreeItem((FileTreeItem) item);
+					Util.selectRandomTreeItem((FileTreeItem) item);					
 				}
 			} else {
 				item = References.directoryView.getSelectionModel().getSelectedItem().getChildren().get(1);
