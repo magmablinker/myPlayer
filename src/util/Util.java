@@ -24,11 +24,11 @@ public class Util {
 		String iconFilePath;
 
 		if (file.isDirectory()) {
-			iconFilePath = "../ressource/img/directory.png";
+			iconFilePath = "img/directory.png";
 		} else {
-			iconFilePath = "../ressource/img/file.png";
+			iconFilePath = "img/file.png";
 		}
-
+		
 		ImageView icon = new ImageView(new Image(Data.class.getResourceAsStream(iconFilePath)));
 
 		icon.setFitWidth(22);
@@ -59,7 +59,7 @@ public class Util {
 					selectedItem = selectedItem.getParent();
 				}
 				
-				TreeItem<String> yes = view.getSelectionModel().getSelectedItem();
+				TreeItem<String> selectedItemSong = view.getSelectionModel().getSelectedItem();
 				
 				if(Data.SONG_QUEUE.size() > 0) {
 					Data.SONG_QUEUE.clear();
@@ -68,12 +68,10 @@ public class Util {
 				int index = 0;
 				int finalIndex = 0;
 				
-				System.out.println("GENERATING QUEUE");
-				
 				for (TreeItem<String> child : selectedItem.getChildren()) {				
 					Data.SONG_QUEUE.add((FileTreeItem) child);
 					
-					if(child.equals(yes)) {
+					if(child.equals(selectedItemSong)) {
 						finalIndex = index;
 					} else {
 						index++;
@@ -86,7 +84,7 @@ public class Util {
 					Collections.shuffle(Data.SONG_QUEUE);
 					
 					for (int i = 0; i < Data.SONG_QUEUE.size(); i++) {
-						if(Data.SONG_QUEUE.get(i).equals(yes)) {
+						if(Data.SONG_QUEUE.get(i).equals(selectedItemSong)) {
 							Data.SONG_QUEUE.add(0, Data.SONG_QUEUE.get(i));
 							Data.SONG_QUEUE.remove(i);
 							break;

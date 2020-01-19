@@ -17,6 +17,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import ressource.Data;
 import ressource.References;
 import util.Util;
 
@@ -31,7 +32,7 @@ public class MusicPanel extends BorderPane {
 
 	private Node createCenter() {
 		BorderPane pane = new BorderPane();
-		ImageView cover = new ImageView(new Image(getClass().getResourceAsStream("../ressource/img/defaultcover.jpg")));
+		ImageView cover = new ImageView(new Image(Data.class.getResourceAsStream("img/defaultcover.jpg")));
 		
 		cover.fitHeightProperty().bind(References.stage.heightProperty().divide(2));
 		cover.fitWidthProperty().bind(References.stage.widthProperty().divide(2));
@@ -40,6 +41,9 @@ public class MusicPanel extends BorderPane {
 		References.coverImage = cover;
 		
 		GridPane bottomPane = new GridPane();
+		
+		Label songPlayingAlbum = new Label("");
+		References.songPlayingAlbum = songPlayingAlbum;
 		
 		Label songPlaying = new Label("No song playing");
 		References.songPlayingTitleLabel = songPlaying;
@@ -58,9 +62,10 @@ public class MusicPanel extends BorderPane {
 		References.mediaProgressBar = progressBar;
 		
 		bottomPane.add(songPlaying, 1, 1);
-		bottomPane.add(songPlayingArtist, 1, 2);
-		bottomPane.add(labelTimeIndicator, 1, 3);
-		bottomPane.add(progressBar, 1, 4);
+		bottomPane.add(songPlayingAlbum, 1, 2);
+		bottomPane.add(songPlayingArtist, 1, 3);
+		bottomPane.add(labelTimeIndicator, 1, 4);
+		bottomPane.add(progressBar, 1, 5);
 		bottomPane.getStyleClass().add("margin-8-no-border");
 		bottomPane.setAlignment(Pos.CENTER);
 		

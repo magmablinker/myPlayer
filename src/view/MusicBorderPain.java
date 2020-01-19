@@ -23,7 +23,6 @@ public class MusicBorderPain extends BorderPane {
 	private DirectoryWatchService directoryWatchService = new DirectoryWatchService();
 	private TreeView<String> directoryView;
 	private ExecutorService exServiceDirectoryWatchService;
-	//private ExecutorService exMediaPlayerService;
 
 	public MusicBorderPain() {
 		super();

@@ -1,14 +1,11 @@
 package controller;
 
 import java.io.File;
-import java.util.Collections;
 
 import javafx.beans.value.ObservableValue;
 import javafx.collections.MapChangeListener.Change;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
@@ -20,10 +17,6 @@ import util.Util;
 import view.FileTreeItem;
 
 public class PlayActionHandler implements EventHandler<ActionEvent> {
-
-	// We need this in order to differentiate betweeen
-	// playlist PlayActions and directory PlayActions
-	// private TreeView<String> view;
 
 	@Override
 	public void handle(ActionEvent e) {
@@ -62,25 +55,11 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 				Media audioFile = new Media(file.toURI().toString());
 				References.songPlayingTitleLabel.setText(selectedItem.getValue());
 				References.songPlayingArtistLabel.setText("Unknown Artist");
+				References.songPlayingAlbum.setText("Unknown Album");
 				References.coverImage
 						.setImage(new Image(getClass().getResourceAsStream("../ressource/img/defaultcover.jpg")));
 
-				// TODO: Better implementation for metadata change listener
-				audioFile.getMetadata().addListener((Change<? extends String, ? extends Object> c) -> {
-					if (c.wasAdded()) {
-						if ("artist".equals(c.getKey())) {
-							References.songPlayingArtistLabel.setText(c.getValueAdded().toString());
-						} else if ("title".equals(c.getKey())) {
-							References.songPlayingTitleLabel.setText((String) c.getValueAdded().toString());
-							String title = c.getValueAdded().toString();
-						} else if ("album".equals(c.getKey())) {
-							String album = c.getValueAdded().toString();
-						} else if ("image".equals(c.getKey())) {
-							System.out.println("GOT IMAGE");
-							References.coverImage.setImage((Image) c.getValueAdded());
-						}
-					}
-				});
+				audioFile.getMetadata().addListener(new MetaDataChangeListener());
 
 				MediaPlayer player = new MediaPlayer(audioFile);
 
@@ -100,19 +79,29 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 					if (References.checkBoxRepeat.isSelected()) {
 						player.seek(Duration.ZERO);
 					} else {
-						Data.SONG_QUEUE_POSITION++;
-						this.playMethod();
+						if(Data.SONG_QUEUE_POSITION < (Data.SONG_QUEUE.size() - 1)) {
+							Data.SONG_QUEUE_POSITION++;
+							this.playMethod();
+						} else {
+							this.reset();
+						}
 					}
 				});
 
 				References.mediaPlayer = player;
 			} else {
-				References.mediaProgressBar.setProgress(0);
-				References.labelTimeIndicator.setText("00:00");
-				References.songPlayingTitleLabel.setText("No song playing");
+				this.reset();
 			}
 		}
 
+	}
+	
+	private void reset() {
+		References.mediaProgressBar.setProgress(0);
+		References.labelTimeIndicator.setText("00:00 / 00:00");
+		References.songPlayingTitleLabel.setText("No song playing");
+		References.songPlayingAlbum.setText("");
+		References.songPlayingArtistLabel.setText("");
 	}
 
 }

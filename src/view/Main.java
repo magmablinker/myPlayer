@@ -16,7 +16,7 @@ public class Main extends Application {
 			scene.getStylesheets().add(getClass().getResource("css/application.css").toExternalForm());
 			stage.setTitle("Soumd Symstem");
 			stage.setScene(scene);
-			stage.getIcons().add(new Image(Main.class.getResourceAsStream("../ressource/img/chems.png")));
+			stage.getIcons().add(new Image(Main.class.getResourceAsStream("../ressource/img/cheems.png")));
 			stage.show();
 			
 			stage.setMinWidth(650);

@@ -26,6 +26,7 @@ public class References {
 	
 	public static Button bPlay = null;
 	
+	public static Label songPlayingAlbum;
 	public static Label songPlayingTitleLabel = null;
 	public static Label songPlayingArtistLabel = null;
 	
