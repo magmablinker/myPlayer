@@ -6,6 +6,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TreeItem;
+import ressource.Data;
 import ressource.References;
 import util.Util;
 import view.FileTreeItem;
@@ -15,23 +16,9 @@ public class NextHandler implements EventHandler<ActionEvent> {
 	@Override
 	public void handle(ActionEvent e) {
 		if (References.mediaPlayer != null) {
-			TreeItem<String> item;
-			if (References.directoryView.getSelectionModel().getSelectedItem().getChildren().size() < 1) {
-				item = References.directoryView.getSelectionModel().getSelectedItem().nextSibling();
-				if (!References.checkBoxShuffle.isSelected()) {
-					References.directoryView.getSelectionModel().select(item);
-				} else if(((FileTreeItem) item).getNext() != null) {
-					References.directoryView.getSelectionModel().select(((FileTreeItem) item).getNext());
-				} else {
-					Util.selectRandomTreeItem((FileTreeItem) item);					
-				}
-			} else {
-				item = References.directoryView.getSelectionModel().getSelectedItem().getChildren().get(1);
-				if (!References.checkBoxShuffle.isSelected()) {
-					References.directoryView.getSelectionModel().select(item);
-				} else {
-					Util.selectRandomTreeItem((FileTreeItem) item);
-				}
+			if(Data.SONG_QUEUE_POSITION < (Data.SONG_QUEUE.size() - 1)) {
+				Data.SONG_QUEUE_POSITION++;
+				System.out.println(Data.SONG_QUEUE_POSITION);
 			}
 
 			PlayActionHandler ah = new PlayActionHandler();

@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.File;
+import java.util.Collections;
 
 import javafx.beans.value.ObservableValue;
 import javafx.collections.MapChangeListener.Change;
@@ -13,6 +14,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
+import ressource.Data;
 import ressource.References;
 import util.Util;
 import view.FileTreeItem;
@@ -21,43 +23,39 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 
 	// We need this in order to differentiate betweeen
 	// playlist PlayActions and directory PlayActions
-	private TreeView<String> view;
-	
+	// private TreeView<String> view;
+
 	@Override
 	public void handle(ActionEvent e) {
 		this.playMethod();
 	}
 
 	public void playMethod() {
-		TreeView<String> view = References.directoryView;
+		if (Data.SONG_QUEUE.size() == 0 || Util.checkIfPlaylistOrDirChanged()) {
+			Util.generateSongQueue();
+		}
 
-		int selectedIndex = view.getSelectionModel().getSelectedIndex();
-
-		if (selectedIndex > 0) {
-			FileTreeItem selectedItem = (FileTreeItem) view.getSelectionModel().getSelectedItem();
-
+		if (Data.SONG_QUEUE.size() > 0) {
+			FileTreeItem selectedItem = Data.SONG_QUEUE.get(Data.SONG_QUEUE_POSITION);
 			File file = new File(selectedItem.getPath());
 
-			if(file.isDirectory() && selectedItem.getChildren().size() > 0) {
-				file = new File(((FileTreeItem) selectedItem.getChildren().get(0)).getPath());
-			}
-			
 			if (!file.isDirectory()) {
 				// Change play button
-				ImageView imageView = new ImageView(new Image(PlayActionHandler.class.getResourceAsStream("../ressource/img/pause.png")));
+				ImageView imageView = new ImageView(
+						new Image(PlayActionHandler.class.getResourceAsStream("../ressource/img/pause.png")));
 				imageView.setFitHeight(50);
 				imageView.setFitWidth(50);
-				
+
 				References.bPlay.setGraphic(imageView);
 				References.bPlay.setOnAction(new PauseActionHandler());
-				
+
 				// Stop the current playing media
 				if (References.mediaPlayer != null) {
-					if(References.mediaPlayer.getStatus().equals(MediaPlayer.Status.PAUSED)) {
+					if (References.mediaPlayer.getStatus().equals(MediaPlayer.Status.PAUSED)) {
 						References.mediaPlayer.play();
 						return;
 					} else {
-						References.mediaPlayer.stop();	
+						References.mediaPlayer.stop();
 					}
 				}
 
@@ -66,10 +64,8 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 				References.songPlayingArtistLabel.setText("Unknown Artist");
 				References.coverImage
 						.setImage(new Image(getClass().getResourceAsStream("../ressource/img/defaultcover.jpg")));
-				References.currentlyPlayingItem = selectedItem;
-				
+
 				// TODO: Better implementation for metadata change listener
-				// reason: metadata gets loaded asynchronous
 				audioFile.getMetadata().addListener((Change<? extends String, ? extends Object> c) -> {
 					if (c.wasAdded()) {
 						if ("artist".equals(c.getKey())) {
@@ -104,13 +100,7 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 					if (References.checkBoxRepeat.isSelected()) {
 						player.seek(Duration.ZERO);
 					} else {
-						if (References.checkBoxShuffle.isSelected()) {
-							Util.selectRandomTreeItem(selectedItem);
-						} else {
-							// Just play next track
-							view.getSelectionModel().select(selectedItem.nextSibling());
-						}
-
+						Data.SONG_QUEUE_POSITION++;
 						this.playMethod();
 					}
 				});

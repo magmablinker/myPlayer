@@ -2,10 +2,14 @@ package util;
 
 import java.io.File;
 import java.text.DecimalFormat;
+import java.util.Collections;
 import java.util.Date;
 
 import javafx.collections.ObservableList;
+import javafx.scene.control.MultipleSelectionModel;
+import javafx.scene.control.SelectionModel;
 import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import ressource.Data;
@@ -70,6 +74,67 @@ public class Util {
 		References.directoryView.getSelectionModel().select(item);
 		
 		return item;
+	}
+	
+	public static void generateSongQueue() {
+		TreeView<String> view = References.directoryView;
+		
+		if(view.getSelectionModel().getSelectedIndex() > -1) {
+			TreeItem<String> selectedItem = view.getSelectionModel().getSelectedItem();
+			
+			if (!References.directoryView.getRoot().equals(selectedItem)) {
+				if(selectedItem.getChildren().isEmpty() && !selectedItem.getParent().equals(References.directoryView.getRoot())) {
+					selectedItem = selectedItem.getParent();
+				}
+				
+				TreeItem<String> yes = view.getSelectionModel().getSelectedItem();
+				
+				if(Data.SONG_QUEUE.size() > 0) {
+					Data.SONG_QUEUE.clear();
+				}
+				
+				int index = 0;
+				int finalIndex = 0;
+				
+				System.out.println("GENERATING QUEUE");
+				
+				for (TreeItem<String> child : selectedItem.getChildren()) {				
+					Data.SONG_QUEUE.add((FileTreeItem) child);
+					
+					if(child.equals(yes)) {
+						finalIndex = index;
+					} else {
+						index++;
+					}
+				}
+				
+				References.currentlyPlayingItem = (FileTreeItem) selectedItem;
+				
+				if (References.checkBoxShuffle.isSelected()) {
+					Collections.shuffle(Data.SONG_QUEUE);
+				} else {
+					Data.SONG_QUEUE_POSITION = finalIndex;
+				}
+
+			}
+			
+		}
+	
+	}
+
+	public static boolean checkIfPlaylistOrDirChanged() {
+		boolean isChanged = false;
+		
+		MultipleSelectionModel<TreeItem<String>> sm = References.directoryView.getSelectionModel();
+		if(!sm.getSelectedItem().getChildren().isEmpty()) {
+			if(!References.directoryView.getRoot().equals(sm.getSelectedItem())) {
+				if(!References.currentlyPlayingItem.equals(sm.getSelectedItem())) {
+					isChanged = true;
+				}
+			}
+		}
+		
+		return isChanged;
 	}
 
 }
