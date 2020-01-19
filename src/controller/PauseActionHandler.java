@@ -5,7 +5,6 @@ import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import ressource.References;
-import view.MusicPanel;
 
 public class PauseActionHandler implements EventHandler<ActionEvent> {
 

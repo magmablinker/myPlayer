@@ -1,7 +1,6 @@
 package view;
 
 import controller.NextHandler;
-import controller.PauseActionHandler;
 import controller.PlayActionHandler;
 import controller.PreviousHandler;
 import controller.ProgressMouseEventHandler;
@@ -10,7 +9,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
@@ -20,6 +18,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import ressource.References;
+import util.Util;
 
 public class MusicPanel extends BorderPane {
 	
@@ -78,6 +77,7 @@ public class MusicPanel extends BorderPane {
 		
 		CheckBox cbShuffle = new CheckBox("Shuffle");
 		cbShuffle.getStyleClass().add("margin-8-no-border");
+		cbShuffle.setOnAction(e -> Util.generateSongQueue());
 		
 		CheckBox cbRepeat = new CheckBox("Repeat");
 		cbRepeat.getStyleClass().add("margin-8-no-border");

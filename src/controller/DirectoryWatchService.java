@@ -14,6 +14,8 @@ import java.nio.file.WatchService;
 import java.util.HashMap;
 
 import javafx.scene.control.TreeItem;
+import ressource.Data;
+import ressource.References;
 import util.Util;
 import view.FileTreeItem;
 
@@ -94,15 +96,22 @@ public class DirectoryWatchService implements Runnable {
 		switch (kind.toString()) {
 		case "ENTRY_DELETE":
 			if (nodeChanged != null) {
+				FileTreeItem n = null;
 				int i = 0;
 				for (TreeItem<String> node : nodeChanged.getChildren()) {
-					FileTreeItem n = (FileTreeItem) node;
+					n = (FileTreeItem) node;
 					if (n.getPath().equals(file.getAbsolutePath())) {
-						System.out.println("===\nWIN\n===\n" + file.getAbsolutePath());
 						nodeChanged.getChildren().remove(i);
 						break;
 					}
 					i++;
+				}
+				
+				for (int j = 0; j < Data.SONG_QUEUE.size(); j++) {
+					if(Data.SONG_QUEUE.get(j).equals(n)) {
+						Data.SONG_QUEUE.remove(j);
+						break;
+					}
 				}
 			}
 
@@ -114,6 +123,10 @@ public class DirectoryWatchService implements Runnable {
 
 				if (file.isDirectory()) {
 					this.registerWatchService(child, node);
+				} else {
+					if(nodeChanged.equals(References.currentlyPlayingItem)) {
+						Data.SONG_QUEUE.add((FileTreeItem) node);
+					}
 				}
 
 				nodeChanged.getChildren().add(node);

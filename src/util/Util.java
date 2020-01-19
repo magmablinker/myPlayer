@@ -48,34 +48,6 @@ public class Util {
 		return (hours > 0) ? String.format("%d:%d:%02d", hours, mins, secs) : String.format("%d:%02d", mins, secs);
 	}
 	
-	public static TreeItem<String> selectRandomTreeItem(FileTreeItem item) {
-		// bad approach
-		// TODO: create arraylist with all tracks in them and just shuffle them
-		// when the shuffle checkbox gets selected do this asap
-		TreeItem<String> parent = item.getParent();
-		ObservableList<TreeItem<String>> items = parent.getChildren();
-		item.setPlayed(true);
-
-		int size = parent.getChildren().size();
-
-		if(References.currentlyPlayingItem.getNext() == null) {
-			int randomIndex = 0;
-			while (item.isPlayed()) {
-				randomIndex = (int) (Math.random() * size);
-				item = (FileTreeItem) items.get(randomIndex);
-			}	
-			
-			References.currentlyPlayingItem.setNext(item);
-			item.setPrevious(References.currentlyPlayingItem);
-		} else {
-			item = References.currentlyPlayingItem.getNext();
-		}
-		
-		References.directoryView.getSelectionModel().select(item);
-		
-		return item;
-	}
-	
 	public static void generateSongQueue() {
 		TreeView<String> view = References.directoryView;
 		
@@ -112,6 +84,15 @@ public class Util {
 				
 				if (References.checkBoxShuffle.isSelected()) {
 					Collections.shuffle(Data.SONG_QUEUE);
+					
+					for (int i = 0; i < Data.SONG_QUEUE.size(); i++) {
+						if(Data.SONG_QUEUE.get(i).equals(yes)) {
+							Data.SONG_QUEUE.add(0, Data.SONG_QUEUE.get(i));
+							Data.SONG_QUEUE.remove(i);
+							break;
+						}
+					}
+					
 				} else {
 					Data.SONG_QUEUE_POSITION = finalIndex;
 				}
