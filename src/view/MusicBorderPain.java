@@ -30,7 +30,11 @@ public class MusicBorderPain extends BorderPane {
 		MenuBar menuBar = new MusicMenuBar();
 		this.setTop(menuBar);
 
-		this.setLeft(createTreeView());
+		GridPane leftPane = (GridPane) createTreeView();
+		leftPane.setPrefWidth(300);
+		leftPane.prefHeightProperty().bind(this.prefHeightProperty());;
+		
+		this.setLeft(leftPane);
 		this.setCenter(createCenter());
 
 		System.out.println("Starting watchservice");
@@ -54,9 +58,13 @@ public class MusicBorderPain extends BorderPane {
 		GridPane.setVgrow(grid, Priority.ALWAYS);
 
 		TreeView<String> playlistView = new TreeView<String>();
+		playlistView.prefWidthProperty().bind(grid.prefWidthProperty());
+		playlistView.prefHeightProperty().bind(grid.prefHeightProperty());
 		playlistView.getStyleClass().add("margin-8");
 
 		directoryView = new TreeView<String>();
+		directoryView.prefWidthProperty().bind(grid.prefWidthProperty());
+		directoryView.prefHeightProperty().bind(grid.prefHeightProperty());
 		directoryView.getStyleClass().add("margin-8");
 		
 		References.directoryView = directoryView;

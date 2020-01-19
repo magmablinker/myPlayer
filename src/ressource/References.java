@@ -7,6 +7,7 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TreeView;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import view.FileTreeItem;
@@ -30,6 +31,7 @@ public class References {
 	public static Label songPlayingTitleLabel = null;
 	public static Label songPlayingArtistLabel = null;
 	
+	public static StackPane mediaStack = null;
 	public static ImageView coverImage = null;
 	
 	public static MediaPlayer mediaPlayer = null;
