@@ -1,6 +1,6 @@
 package view;
 
-import com.sun.javafx.scene.control.skin.ButtonSkin;
+import javafx.scene.control.skin.ButtonSkin;
 
 import javafx.animation.FadeTransition;
 import javafx.scene.control.Button;
