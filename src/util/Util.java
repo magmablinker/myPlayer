@@ -1,7 +1,9 @@
 package util;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.text.DecimalFormat;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 
@@ -13,6 +15,7 @@ import javafx.scene.control.TreeView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import ressource.Data;
+import ressource.Permissions;
 import ressource.References;
 import view.FileTreeItem;
 
@@ -25,6 +28,7 @@ public class Util {
 
 		if (file.isDirectory()) {
 			iconFilePath = "img/directory.png";
+			References.directoryWatchService.registerWatchService(file.toPath(), treeItem);
 		} else {
 			iconFilePath = "img/file.png";
 		}
@@ -36,6 +40,28 @@ public class Util {
 		treeItem.setGraphic(icon);
 
 		return treeItem;
+	}
+	
+	public static void createDirectoryView(File[] fileList, TreeItem<String> node) {
+		// TODO fix weird bug with empty directory appearing as parent???
+		// Problem: 2 directories have the same name
+		for (File file : fileList) {
+			Util.createTreeView(node, file);
+		}
+	}
+	
+	private static void createTreeView(TreeItem<String> root, File file) {
+		if (file.isDirectory()) {
+			TreeItem<String> node = Util.generateTreeNode(file);
+			root.getChildren().add(node);
+
+			for (File f : file.listFiles()) {
+				createTreeView(node, f);
+			}
+		} else if (Arrays.asList(Permissions.FILETYPES_ALLOWED)
+				.contains(file.getName().substring(file.getName().lastIndexOf(".") + 1, file.getName().length()))) {
+			root.getChildren().add(Util.generateTreeNode(file));
+		}
 	}
 
 	public static String formatDecimalToMinutes(double val) {

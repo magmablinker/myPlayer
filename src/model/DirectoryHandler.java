@@ -8,6 +8,7 @@ import controller.DirectoryWatchService;
 import javafx.scene.control.TreeItem;
 import ressource.Data;
 import ressource.Permissions;
+import ressource.References;
 import util.Util;
 
 public class DirectoryHandler implements IDataHandler {
@@ -17,6 +18,7 @@ public class DirectoryHandler implements IDataHandler {
 	public DirectoryHandler(DirectoryWatchService watchService) {
 		super();
 		this.directoryWatchService = watchService;
+		References.directoryWatchService = watchService;
 	}
 
 	@Override
@@ -33,40 +35,14 @@ public class DirectoryHandler implements IDataHandler {
 
 				root.getChildren().add(node);
 
-				this.directoryWatchService.registerWatchService(directory.toPath(), node);
-
 				File[] fileList = directory.listFiles();
 
-				// TODO fix weird bug with empty directory appearing as parent???
-				// Problem: 2 directories have the same name
-				for (File file : fileList) {
-					createTreeView(node, file);
-				}
-
+				Util.createDirectoryView(fileList, node);
 			} else {
 				root.getChildren().add(new TreeItem<String>("Directory '" + directory.getName() + "' not found"));
 			}
 		}
 
-	}
-
-	private void createTreeView(TreeItem<String> root, File file) {
-
-		if (file.isDirectory()) {
-			Path dir = file.toPath();
-
-			TreeItem<String> node = Util.generateTreeNode(file);
-			root.getChildren().add(node);
-
-			this.directoryWatchService.registerWatchService(dir, node);
-
-			for (File f : file.listFiles()) {
-				createTreeView(node, f);
-			}
-		} else if (Arrays.asList(Permissions.FILETYPES_ALLOWED)
-				.contains(file.getName().substring(file.getName().lastIndexOf(".") + 1, file.getName().length()))) {
-			root.getChildren().add(Util.generateTreeNode(file));
-		}
 	}
 
 	@Override

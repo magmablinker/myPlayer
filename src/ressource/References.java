@@ -1,5 +1,6 @@
 package ressource;
 
+import controller.DirectoryWatchService;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -41,5 +42,7 @@ public class References {
 	
 	public static Label labelTimeIndicator = null;
 	public static ProgressBar mediaProgressBar = null;
+
+	public static DirectoryWatchService directoryWatchService = null;
 	
 }

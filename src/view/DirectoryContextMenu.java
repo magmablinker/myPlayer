@@ -1,5 +1,6 @@
 package view;
 
+import controller.AddDirectoryHandler;
 import controller.RevealInExplorerHandler;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
@@ -15,7 +16,7 @@ public class DirectoryContextMenu extends ContextMenu {
 	public void generateMenuItems() {
 		// Directory Context Menu
 		MenuItem mAdd = new MenuItem("Add Directory");
-		mAdd.setOnAction(event -> Data.DIRECTORIES.add("yeee"));
+		mAdd.setOnAction(new AddDirectoryHandler());
 
 		MenuItem mRemove = new MenuItem("Remove Directory");
 
