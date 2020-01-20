@@ -11,10 +11,12 @@ import java.nio.file.Path;
 import java.nio.file.WatchEvent;
 import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import javafx.scene.control.TreeItem;
 import ressource.Data;
+import ressource.Permissions;
 import ressource.References;
 import util.Util;
 import view.FileTreeItem;
@@ -71,7 +73,7 @@ public class DirectoryWatchService implements Runnable {
 			}
 
 			// Should get checked but I don't care
-			if(!key.reset()) {
+			if (!key.reset()) {
 				this.directoryMap.remove(key);
 			}
 		}
@@ -82,7 +84,6 @@ public class DirectoryWatchService implements Runnable {
 		// Check if file got deleted, edited or created
 		File file = child.toFile().getAbsoluteFile();
 		String parentDir = file.getParent();
-		System.out.println(parentDir);
 		TreeItem<String> nodeChanged = this.treeItemMap.get(parentDir);
 
 		// TODO: find cause for weird bug where "Neuer Ordner" gets added twice
@@ -106,9 +107,9 @@ public class DirectoryWatchService implements Runnable {
 					}
 					i++;
 				}
-				
+
 				for (int j = 0; j < Data.SONG_QUEUE.size(); j++) {
-					if(Data.SONG_QUEUE.get(j).equals(n)) {
+					if (Data.SONG_QUEUE.get(j).equals(n)) {
 						Data.SONG_QUEUE.remove(j);
 						break;
 					}
@@ -118,24 +119,28 @@ public class DirectoryWatchService implements Runnable {
 			this.fileGotDeletedAction(file);
 			break;
 		case "ENTRY_CREATE":
-			if (nodeChanged != null) {
-				TreeItem<String> node = Util.generateTreeNode(file);
+			if (file.isDirectory() || Arrays.asList(Permissions.FILETYPES_ALLOWED)
+					.contains(file.getName().substring(file.getName().lastIndexOf(".") + 1, file.getName().length()))) {
+				if (nodeChanged != null) {
+					TreeItem<String> node = Util.generateTreeNode(file);
 
-				if (file.isDirectory()) {
-					this.registerWatchService(child, node);
-				} else {
-					if(nodeChanged.equals(References.currentlyPlayingItem)) {
-						Data.SONG_QUEUE.add((FileTreeItem) node);
+					if (file.isDirectory()) {
+						this.registerWatchService(child, node);
+					} else {
+						if (nodeChanged.equals(References.currentlyPlayingItem)) {
+							Data.SONG_QUEUE.add((FileTreeItem) node);
+						}
 					}
-				}
 
-				nodeChanged.getChildren().add(node);
+					nodeChanged.getChildren().add(node);
+				}
 			}
 
 			break;
 		default:
 			break;
 		}
+
 	}
 
 	private void fileGotDeletedAction(File file) {
