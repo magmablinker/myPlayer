@@ -6,7 +6,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.TreeItem;
 import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
 import ressource.Data;
 import ressource.References;
 import util.Util;

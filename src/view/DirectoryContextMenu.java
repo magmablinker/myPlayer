@@ -4,7 +4,6 @@ import controller.AddDirectoryHandler;
 import controller.RevealInExplorerHandler;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
-import ressource.Data;
 
 public class DirectoryContextMenu extends ContextMenu {
 
