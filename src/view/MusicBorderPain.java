@@ -94,6 +94,8 @@ public class MusicBorderPain extends BorderPane {
 
 		directoryView.setContextMenu(new DirectoryContextMenu());
 		directoryView.setOnMouseClicked(new DirectoryClickHandler());
+		
+		playlistView.setContextMenu(new PlaylistContextMenu());
 
 		grid.add(playlistView, 1, 1);
 		grid.add(directoryView, 1, 2);
