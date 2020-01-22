@@ -72,7 +72,6 @@ public class DirectoryWatchService implements Runnable {
 
 			}
 
-			// Should get checked but I don't care
 			if (!key.reset()) {
 				this.directoryMap.remove(key);
 			}
@@ -87,12 +86,12 @@ public class DirectoryWatchService implements Runnable {
 		TreeItem<String> nodeChanged = this.treeItemMap.get(parentDir);
 
 		// TODO: find cause for weird bug where "Neuer Ordner" gets added twice
-		System.out.println("\n*************************");
-		System.out.println("name: " + file.getName());
-		System.out.println("path: " + file.getAbsolutePath());
-		System.out.println("isDirectory: " + file.isDirectory());
-		System.out.println("kind: " + kind.toString());
-		System.out.println("*************************");
+		//System.out.println("\n*************************");
+		//System.out.println("name: " + file.getName());
+		//System.out.println("path: " + file.getAbsolutePath());
+		//System.out.println("isDirectory: " + file.isDirectory());
+		//System.out.println("kind: " + kind.toString());
+		//System.out.println("*************************");
 
 		switch (kind.toString()) {
 		case "ENTRY_DELETE":
