@@ -90,6 +90,7 @@ public class MusicPanel extends BorderPane {
 
 		CheckBox cbShuffle = new CheckBox("Shuffle");
 		cbShuffle.getStyleClass().add("margin-8-no-border");
+		// TODO: Check for playing file and remove icon
 		cbShuffle.setOnAction(e -> Util.generateSongQueue());
 
 		CheckBox cbRepeat = new CheckBox("Repeat");

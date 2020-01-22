@@ -18,8 +18,8 @@ public class DirectoryHandler implements IDataHandler {
 	@Override
 	public void load(TreeItem<String> root) {
 
-		Data.DIRECTORIES.add("Z:\\musik");
-		Data.DIRECTORIES.add("C:\\Users\\laurent\\Desktop\\music");
+		//Data.DIRECTORIES.add("Z:\\musik");
+		//Data.DIRECTORIES.add("C:\\Users\\laurent\\Desktop\\music");
 
 		for (int i = 0; i < Data.DIRECTORIES.size(); i++) {
 			File directory = new File(Data.DIRECTORIES.get(i));
