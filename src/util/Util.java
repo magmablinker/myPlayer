@@ -30,8 +30,14 @@ public class Util {
 		
 		ImageView icon = new ImageView(new Image(Data.class.getResourceAsStream(iconFilePath)));
 
-		icon.setFitWidth(22);
-		icon.setFitHeight(22);
+		if(file.isDirectory()) {
+			icon.setFitWidth(28);
+			icon.setFitHeight(28);	 
+		} else {
+			icon.setFitWidth(16);
+			icon.setFitHeight(16);
+		}
+		
 		treeItem.setGraphic(icon);
 
 		return treeItem;
