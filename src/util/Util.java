@@ -1,6 +1,7 @@
 package util;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -10,6 +11,7 @@ import javafx.scene.control.TreeView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import ressource.Data;
+import ressource.Icons;
 import ressource.Permissions;
 import ressource.References;
 import view.FileTreeItem;
@@ -19,16 +21,16 @@ public class Util {
 	public static TreeItem<String> generateTreeNode(File file) {
 		FileTreeItem treeItem = new FileTreeItem(file);
 
-		String iconFilePath;
-
+		String iconFile;
+		
 		if (file.isDirectory()) {
-			iconFilePath = "img/directory.png";
+			iconFile = Icons.ICON_DIR;
 			References.directoryWatchService.registerWatchService(file.toPath(), treeItem);
 		} else {
-			iconFilePath = "img/file.png";
+			iconFile = Icons.ICON_FILE;
 		}
 		
-		ImageView icon = new ImageView(new Image(Data.class.getResourceAsStream(iconFilePath)));
+		ImageView icon = new ImageView(new Image(Icons.class.getResourceAsStream(iconFile)));
 
 		if(file.isDirectory()) {
 			icon.setFitWidth(28);

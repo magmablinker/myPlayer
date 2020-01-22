@@ -1,30 +1,24 @@
 package model;
 
 import java.io.File;
-import java.nio.file.Path;
-import java.util.Arrays;
 
 import controller.DirectoryWatchService;
 import javafx.scene.control.TreeItem;
 import ressource.Data;
-import ressource.Permissions;
 import ressource.References;
 import util.Util;
 
 public class DirectoryHandler implements IDataHandler {
 
-	private DirectoryWatchService directoryWatchService;
-
 	public DirectoryHandler(DirectoryWatchService watchService) {
 		super();
-		this.directoryWatchService = watchService;
 		References.directoryWatchService = watchService;
 	}
 
 	@Override
 	public void load(TreeItem<String> root) {
 
-		// Data.DIRECTORIES.add("Z:\\musik");
+		Data.DIRECTORIES.add("Z:\\musik");
 		Data.DIRECTORIES.add("C:\\Users\\laurent\\Desktop\\music");
 
 		for (int i = 0; i < Data.DIRECTORIES.size(); i++) {

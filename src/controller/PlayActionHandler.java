@@ -3,19 +3,15 @@ package controller;
 import java.io.File;
 
 import javafx.beans.value.ObservableValue;
-import javafx.collections.MapChangeListener.Change;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.chart.XYChart;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.media.AudioEqualizer;
-import javafx.scene.media.EqualizerBand;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 import ressource.Data;
+import ressource.Icons;
 import ressource.References;
 import util.Util;
 import view.FileTreeItem;
@@ -34,7 +30,7 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 
 		if (Data.SONG_QUEUE.size() > 0) {
 			FileTreeItem selectedItem = Data.SONG_QUEUE.get(Data.SONG_QUEUE_POSITION);
-			ImageView icon = new ImageView(new Image(Data.class.getResourceAsStream("img/speaker.png")));
+			ImageView icon = new ImageView(new Image(Icons.class.getResourceAsStream(Icons.ICON_SPEAKER)));
 			icon.setFitWidth(16);
 			icon.setFitHeight(16);
 			selectedItem.setGraphic(icon);
@@ -43,14 +39,14 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 
 			if (!file.isDirectory()) {
 				// Change play button
-				ImageView imageView = new ImageView(new Image(Data.class.getResourceAsStream("img/pause.png")));
+				ImageView imageView = new ImageView(new Image(Icons.class.getResourceAsStream(Icons.ICON_PAUSE)));
 				imageView.setFitHeight(50);
 				imageView.setFitWidth(50);
 
 				References.bPlay.setGraphic(imageView);
 				References.bPlay.setOnAction(new PauseActionHandler());
 
-				// Stop the current playing media
+				// Stop the currently playing media
 				if (References.mediaPlayer != null) {
 					if (References.mediaPlayer.getStatus().equals(MediaPlayer.Status.PAUSED)) {
 						References.mediaPlayer.play();
@@ -64,7 +60,7 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 				References.songPlayingTitleLabel.setText(selectedItem.getValue());
 				References.songPlayingArtistLabel.setText("Unknown Artist");
 				References.songPlayingAlbum.setText("Unknown Album");
-				References.coverImage.setImage(new Image(Data.class.getResourceAsStream("img/defaultcover.jpg")));
+				References.coverImage.setImage(new Image(Icons.class.getResourceAsStream(Icons.DEFAULT_COVER)));
 
 				audioFile.getMetadata().addListener(new MetaDataChangeListener());
 
@@ -92,11 +88,11 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 						} else {
 							this.reset();
 						}
-						icon.setImage(new Image(Data.class.getResourceAsStream("img/file.png")));
+						
+						icon.setImage(new Image(Icons.class.getResourceAsStream(Icons.ICON_FILE)));
 						icon.setFitWidth(16);
 						icon.setFitHeight(16);
-						selectedItem
-								.setGraphic(icon);
+						selectedItem.setGraphic(icon);
 					}
 				});
 
@@ -114,6 +110,7 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 		References.songPlayingTitleLabel.setText("No song playing");
 		References.songPlayingAlbum.setText("");
 		References.songPlayingArtistLabel.setText("");
+		References.coverImage.setImage(new Image(Icons.class.getResourceAsStream(Icons.DEFAULT_COVER)));
 	}
 
 }
