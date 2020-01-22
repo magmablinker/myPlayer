@@ -21,7 +21,7 @@ public class Main extends Application {
 			stage.show();
 			
 			stage.setMinWidth(650);
-			stage.setMinHeight(550);
+			stage.setMinHeight(600);
 			
 			stage.setOnHiding(event -> {
 				System.out.println("Stopping watchservice");

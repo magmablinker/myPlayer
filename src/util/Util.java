@@ -116,6 +116,7 @@ public class Util {
 						if(Data.SONG_QUEUE.get(i).equals(selectedItemSong)) {
 							Data.SONG_QUEUE.add(0, Data.SONG_QUEUE.get(i));
 							Data.SONG_QUEUE.remove(i);
+							Data.SONG_QUEUE_POSITION = 0;
 							break;
 						}
 					}

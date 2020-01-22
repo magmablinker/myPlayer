@@ -1,6 +1,7 @@
 package view;
 
 import controller.ButtonEqualizerHandler;
+import controller.CheckBoxCheckListener;
 import controller.NextHandler;
 import controller.PlayActionHandler;
 import controller.PreviousHandler;
@@ -18,10 +19,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import ressource.Data;
 import ressource.Icons;
 import ressource.References;
-import util.Util;
 
 public class MusicPanel extends BorderPane {
 
@@ -91,7 +90,7 @@ public class MusicPanel extends BorderPane {
 		CheckBox cbShuffle = new CheckBox("Shuffle");
 		cbShuffle.getStyleClass().add("margin-8-no-border");
 		// TODO: Check for playing file and remove icon
-		cbShuffle.setOnAction(e -> Util.generateSongQueue());
+		cbShuffle.setOnAction(new CheckBoxCheckListener());
 
 		CheckBox cbRepeat = new CheckBox("Repeat");
 		cbRepeat.getStyleClass().add("margin-8-no-border");

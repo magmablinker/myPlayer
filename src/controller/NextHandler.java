@@ -17,11 +17,14 @@ public class NextHandler implements EventHandler<ActionEvent> {
 	@Override
 	public void handle(ActionEvent e) {
 		if (References.mediaPlayer != null) {
+			Util.removePlayingIcon();
+			
 			if(Data.SONG_QUEUE_POSITION < (Data.SONG_QUEUE.size() - 1)) {
-				Util.removePlayingIcon();
-				Data.SONG_QUEUE_POSITION++;
+				Data.SONG_QUEUE_POSITION++;			
+			} else {
+				Data.SONG_QUEUE_POSITION = 0;
 			}
-
+			
 			PlayActionHandler ah = new PlayActionHandler();
 			ah.playMethod();
 		} else {
