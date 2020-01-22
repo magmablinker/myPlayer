@@ -89,10 +89,7 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 							this.reset();
 						}
 						
-						icon.setImage(new Image(Icons.class.getResourceAsStream(Icons.ICON_FILE)));
-						icon.setFitWidth(16);
-						icon.setFitHeight(16);
-						selectedItem.setGraphic(icon);
+						Util.removePlayingIcon();
 					}
 				});
 
@@ -111,6 +108,7 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 		References.songPlayingAlbum.setText("");
 		References.songPlayingArtistLabel.setText("");
 		References.coverImage.setImage(new Image(Icons.class.getResourceAsStream(Icons.DEFAULT_COVER)));
+		Util.removePlayingIcon();
 	}
 
 }

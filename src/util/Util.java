@@ -144,5 +144,12 @@ public class Util {
 		
 		return isChanged;
 	}
+	
+	public static void removePlayingIcon() {
+		ImageView icon = new ImageView(new Image(Icons.class.getResourceAsStream(Icons.ICON_FILE)));
+		icon.setFitWidth(16);
+		icon.setFitHeight(16);
+		Data.SONG_QUEUE.get(Data.SONG_QUEUE_POSITION).setGraphic(icon);
+	}
 
 }
