@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import ressource.Data;
 import ressource.References;
 
 public class Main extends Application {
@@ -16,7 +17,7 @@ public class Main extends Application {
 			scene.getStylesheets().add(getClass().getResource("css/application.css").toExternalForm());
 			stage.setTitle("Soumd Symstem");
 			stage.setScene(scene);
-			stage.getIcons().add(new Image(Main.class.getResourceAsStream("../ressource/img/cheems.png")));
+			stage.getIcons().add(new Image(Data.class.getResourceAsStream("img/cheems.png")));
 			stage.show();
 			
 			stage.setMinWidth(650);

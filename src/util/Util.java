@@ -41,17 +41,17 @@ public class Util {
 		// TODO fix weird bug with empty directory appearing as parent???
 		// Problem: 2 directories have the same name
 		for (File file : fileList) {
-			Util.createTreeView(node, file);
+			Util.createDirectoryTreeView(node, file);
 		}
 	}
 	
-	private static void createTreeView(TreeItem<String> root, File file) {
+	private static void createDirectoryTreeView(TreeItem<String> root, File file) {
 		if (file.isDirectory()) {
 			TreeItem<String> node = Util.generateTreeNode(file);
 			root.getChildren().add(node);
 
 			for (File f : file.listFiles()) {
-				createTreeView(node, f);
+				createDirectoryTreeView(node, f);
 			}
 		} else if (Arrays.asList(Permissions.FILETYPES_ALLOWED)
 				.contains(file.getName().substring(file.getName().lastIndexOf(".") + 1, file.getName().length()))) {

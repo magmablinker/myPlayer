@@ -95,7 +95,7 @@ public class MusicPanel extends BorderPane {
 		
 		// Buttons
 		Button bPrev = new Button();
-		ImageView imageViewPrev = new ImageView(new Image(MusicPanel.class.getResourceAsStream("../ressource/img/previous.png")));
+		ImageView imageViewPrev = new ImageView(new Image(Data.class.getResourceAsStream("img/previous.png")));
 		imageViewPrev.setFitHeight(50);
 		imageViewPrev.setFitWidth(50);
 		imageViewPrev.setPreserveRatio(true);
@@ -104,7 +104,7 @@ public class MusicPanel extends BorderPane {
 		bPrev.setOnAction(new PreviousHandler());
 		
 		Button bPlay = new Button();
-		ImageView imageViewPlay = new ImageView(new Image(MusicPanel.class.getResourceAsStream("../ressource/img/play.png")));
+		ImageView imageViewPlay = new ImageView(new Image(Data.class.getResourceAsStream("img/play.png")));
 		imageViewPlay.setFitHeight(50);
 		imageViewPlay.setFitWidth(50);
 		imageViewPlay.setPreserveRatio(true);
@@ -114,7 +114,7 @@ public class MusicPanel extends BorderPane {
 		References.bPlay = bPlay;
 		
 		Button bNext = new Button();
-		ImageView imageViewNext = new ImageView(new Image(MusicPanel.class.getResourceAsStream("../ressource/img/next.png")));
+		ImageView imageViewNext = new ImageView(new Image(Data.class.getResourceAsStream("img/next.png")));
 		imageViewNext.setFitHeight(50);
 		imageViewNext.setFitWidth(50);
 		imageViewNext.setPreserveRatio(true);

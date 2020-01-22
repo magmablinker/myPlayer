@@ -39,7 +39,7 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 			if (!file.isDirectory()) {
 				// Change play button
 				ImageView imageView = new ImageView(
-						new Image(PlayActionHandler.class.getResourceAsStream("../ressource/img/pause.png")));
+						new Image(Data.class.getResourceAsStream("img/pause.png")));
 				imageView.setFitHeight(50);
 				imageView.setFitWidth(50);
 
@@ -61,7 +61,7 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 				References.songPlayingArtistLabel.setText("Unknown Artist");
 				References.songPlayingAlbum.setText("Unknown Album");
 				References.coverImage
-						.setImage(new Image(getClass().getResourceAsStream("../ressource/img/defaultcover.jpg")));
+						.setImage(new Image(Data.class.getResourceAsStream("img/defaultcover.jpg")));
 
 				audioFile.getMetadata().addListener(new MetaDataChangeListener());
 

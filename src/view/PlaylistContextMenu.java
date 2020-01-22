@@ -11,10 +11,12 @@ public class PlaylistContextMenu extends ContextMenu {
 	}
 
 	private void createContextMenu() {
-		MenuItem mAdd = new MenuItem("Add Playlist");
+		MenuItem mNew = new MenuItem("New Playlist");
 		//mAdd.setOnAction(new AddDirectoryHandler());
 		
-		this.getItems().addAll(mAdd);
+		MenuItem mDel = new MenuItem("Delete Playlist");
+		
+		this.getItems().addAll(mNew, mDel);
 	}
 	
 }
