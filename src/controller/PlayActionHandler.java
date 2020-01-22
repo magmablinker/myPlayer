@@ -34,12 +34,16 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 
 		if (Data.SONG_QUEUE.size() > 0) {
 			FileTreeItem selectedItem = Data.SONG_QUEUE.get(Data.SONG_QUEUE_POSITION);
+			ImageView icon = new ImageView(new Image(Data.class.getResourceAsStream("img/speaker.png")));
+			icon.setFitWidth(16);
+			icon.setFitHeight(16);
+			selectedItem.setGraphic(icon);
+
 			File file = new File(selectedItem.getPath());
 
 			if (!file.isDirectory()) {
 				// Change play button
-				ImageView imageView = new ImageView(
-						new Image(Data.class.getResourceAsStream("img/pause.png")));
+				ImageView imageView = new ImageView(new Image(Data.class.getResourceAsStream("img/pause.png")));
 				imageView.setFitHeight(50);
 				imageView.setFitWidth(50);
 
@@ -60,13 +64,12 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 				References.songPlayingTitleLabel.setText(selectedItem.getValue());
 				References.songPlayingArtistLabel.setText("Unknown Artist");
 				References.songPlayingAlbum.setText("Unknown Album");
-				References.coverImage
-						.setImage(new Image(Data.class.getResourceAsStream("img/defaultcover.jpg")));
+				References.coverImage.setImage(new Image(Data.class.getResourceAsStream("img/defaultcover.jpg")));
 
 				audioFile.getMetadata().addListener(new MetaDataChangeListener());
 
 				MediaPlayer player = new MediaPlayer(audioFile);
-				
+
 				player.currentTimeProperty().addListener(
 						(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) -> {
 							References.labelTimeIndicator
@@ -83,12 +86,17 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 					if (References.checkBoxRepeat.isSelected()) {
 						player.seek(Duration.ZERO);
 					} else {
-						if(Data.SONG_QUEUE_POSITION < (Data.SONG_QUEUE.size() - 1)) {
+						if (Data.SONG_QUEUE_POSITION < (Data.SONG_QUEUE.size() - 1)) {
 							Data.SONG_QUEUE_POSITION++;
 							this.playMethod();
 						} else {
 							this.reset();
 						}
+						icon.setImage(new Image(Data.class.getResourceAsStream("img/file.png")));
+						icon.setFitWidth(16);
+						icon.setFitHeight(16);
+						selectedItem
+								.setGraphic(icon);
 					}
 				});
 
@@ -99,7 +107,7 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 		}
 
 	}
-	
+
 	private void reset() {
 		References.mediaProgressBar.setProgress(0);
 		References.labelTimeIndicator.setText("00:00 / 00:00");
