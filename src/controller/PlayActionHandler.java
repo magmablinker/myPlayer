@@ -82,14 +82,14 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 					if (References.checkBoxRepeat.isSelected()) {
 						player.seek(Duration.ZERO);
 					} else {
+						Util.removePlayingIcon();
+						
 						if (Data.SONG_QUEUE_POSITION < (Data.SONG_QUEUE.size() - 1)) {
 							Data.SONG_QUEUE_POSITION++;
 							this.playMethod();
 						} else {
 							this.reset();
 						}
-						
-						Util.removePlayingIcon();
 					}
 				});
 
