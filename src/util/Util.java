@@ -46,8 +46,6 @@ public class Util {
 	}
 	
 	public static void createDirectoryView(File[] fileList, TreeItem<String> node) {
-		// TODO fix weird bug with empty directory appearing as parent???
-		// Problem: 2 directories have the same name
 		for (File file : fileList) {
 			Util.createDirectoryTreeView(node, file);
 		}
@@ -151,6 +149,15 @@ public class Util {
 		icon.setFitWidth(16);
 		icon.setFitHeight(16);
 		Data.SONG_QUEUE.get(Data.SONG_QUEUE_POSITION).setGraphic(icon);
+	}
+
+	public static boolean isAlreadyInTreeView(TreeView<String> directoryView, File file) {
+		for(TreeItem<String> item : directoryView.getRoot().getChildren()) {
+			if(((FileTreeItem) item).getPath().equals(file.getAbsolutePath()))
+				return true;
+		}
+		
+		return false;
 	}
 
 }
