@@ -25,8 +25,8 @@ public class DirectoryWatchService implements Runnable {
 
 	private boolean isRunning = true;
 	private WatchService watchService;
-	HashMap<WatchKey, Path> directoryMap = new HashMap<WatchKey, Path>();
-	HashMap<String, TreeItem<String>> treeItemMap = new HashMap<String, TreeItem<String>>();
+	private HashMap<WatchKey, Path> directoryMap = new HashMap<WatchKey, Path>();
+	private HashMap<String, TreeItem<String>> treeItemMap = new HashMap<String, TreeItem<String>>();
 
 	public DirectoryWatchService() {
 		super();
@@ -73,7 +73,7 @@ public class DirectoryWatchService implements Runnable {
 			}
 
 			if (!key.reset()) {
-				this.directoryMap.remove(key);
+				this.removeWatchKey(key);
 			}
 		}
 
@@ -171,6 +171,15 @@ public class DirectoryWatchService implements Runnable {
 
 	public void setRunning(boolean bool) {
 		this.isRunning = bool;
+	}
+	
+	public HashMap<WatchKey, Path> getDirectoryMap() {
+		return this.directoryMap;
+	}
+	
+	public void removeWatchKey(WatchKey key) {
+		key.cancel();
+		this.directoryMap.remove(key);
 	}
 
 }
