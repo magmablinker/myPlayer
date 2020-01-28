@@ -7,7 +7,7 @@ import javafx.stage.Stage;
 import ressource.References;
 import view.EqualizerPane;
 
-public class ButtonEqualizerHandler implements EventHandler<ActionEvent> {
+public class MenuSettingsEqualizerHandler implements EventHandler<ActionEvent> {
 
 	@Override
 	public void handle(ActionEvent e) {

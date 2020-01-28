@@ -1,6 +1,6 @@
 package view;
 
-import controller.ButtonEqualizerHandler;
+import controller.MenuSettingsEqualizerHandler;
 import controller.CheckBoxCheckListener;
 import controller.NextHandler;
 import controller.PlayActionHandler;
@@ -62,11 +62,6 @@ public class MusicPanel extends BorderPane {
 		References.labelTimeIndicator = labelTimeIndicator;
 		References.mediaProgressBar = progressBar;
 
-		Button bEqualizer = new Button("Equalizer");
-		bEqualizer.setAlignment(Pos.CENTER_RIGHT);
-		bEqualizer.getStyleClass().addAll("margin-8");
-		bEqualizer.setOnAction(new ButtonEqualizerHandler());
-
 		bottomPane.add(songPlaying, 1, 1);
 		bottomPane.add(songPlayingAlbum, 1, 2);
 		bottomPane.add(songPlayingArtist, 1, 3);
@@ -77,7 +72,6 @@ public class MusicPanel extends BorderPane {
 
 		pane.setCenter(cover);
 		pane.setBottom(bottomPane);
-		pane.setTop(bEqualizer);
 
 		return pane;
 	}

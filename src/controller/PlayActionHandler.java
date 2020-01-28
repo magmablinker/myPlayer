@@ -28,7 +28,7 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 			Util.generateSongQueue();
 		}
 
-		if (Data.SONG_QUEUE.size() > 0) {
+		if (Data.SONG_QUEUE.size() > 0 && Data.SONG_QUEUE_POSITION < Data.SONG_QUEUE.size()) {
 			FileTreeItem selectedItem = Data.SONG_QUEUE.get(Data.SONG_QUEUE_POSITION);
 			ImageView icon = new ImageView(new Image(Icons.class.getResourceAsStream(Icons.ICON_SPEAKER)));
 			icon.setFitWidth(16);

@@ -1,5 +1,6 @@
 package view;
 
+import controller.MenuSettingsEqualizerHandler;
 import javafx.application.Platform;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -9,7 +10,20 @@ public class MusicMenuBar extends MenuBar {
 
 	public MusicMenuBar() {
 		Menu menuFile = createFileMenu();
-		this.getMenus().add(menuFile);
+		Menu menuSettings = createMenuSettings();
+		this.getMenus().addAll(menuFile, menuSettings);
+	}
+
+	private Menu createMenuSettings() {
+		Menu menuSettings = new Menu("_Settings");
+		menuSettings.setMnemonicParsing(true);
+		menuSettings.setOnAction(new MenuSettingsEqualizerHandler());
+		
+		MenuItem equalizer = new MenuItem("Equalizer");
+		
+		menuSettings.getItems().add(equalizer);
+		
+		return menuSettings;
 	}
 
 	private Menu createFileMenu() {
