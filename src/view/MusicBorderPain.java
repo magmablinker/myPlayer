@@ -9,13 +9,16 @@ import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeItem.TreeModificationEvent;
 import javafx.scene.control.TreeView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
+import javafx.util.Callback;
 import model.DirectoryHandler;
+import model.DirectoryViewCell;
 import ressource.References;
 
 public class MusicBorderPain extends BorderPane {
@@ -66,6 +69,14 @@ public class MusicBorderPain extends BorderPane {
 		directoryView.prefWidthProperty().bind(grid.prefWidthProperty());
 		directoryView.prefHeightProperty().bind(grid.prefHeightProperty());
 		directoryView.getStyleClass().add("margin-8");
+		
+		directoryView.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
+			@Override
+			public TreeCell<String> call(TreeView<String> param) {
+				TreeCell<String> cell = new DirectoryViewCell(param);
+				return cell;
+			}
+		});
 		
 		References.directoryView = directoryView;
 

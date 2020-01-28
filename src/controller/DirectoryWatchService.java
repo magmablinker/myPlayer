@@ -15,11 +15,11 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 import javafx.scene.control.TreeItem;
+import model.FileTreeItem;
 import ressource.Data;
 import ressource.Permissions;
 import ressource.References;
 import util.Util;
-import view.FileTreeItem;
 
 public class DirectoryWatchService implements Runnable {
 

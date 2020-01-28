@@ -10,11 +10,11 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import model.FileTreeItem;
 import ressource.Data;
 import ressource.Icons;
 import ressource.Permissions;
 import ressource.References;
-import view.FileTreeItem;
 
 public class Util {
 

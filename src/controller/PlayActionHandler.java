@@ -10,11 +10,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
+import model.FileTreeItem;
 import ressource.Data;
 import ressource.Icons;
 import ressource.References;
 import util.Util;
-import view.FileTreeItem;
 
 public class PlayActionHandler implements EventHandler<ActionEvent> {
 

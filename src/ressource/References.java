@@ -11,7 +11,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
-import view.FileTreeItem;
+import model.FileTreeItem;
 import view.MusicPanel;
 
 public class References {

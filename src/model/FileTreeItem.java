@@ -1,4 +1,4 @@
-package view;
+package model;
 
 import java.io.File;
 
@@ -16,6 +16,10 @@ public class FileTreeItem extends TreeItem<String> {
 	
 	public String getPath() {
 		return this.path;
+	}
+	
+	public String toString() {
+		return this.getValue() + ":" + this.getPath();
 	}
 	
 }

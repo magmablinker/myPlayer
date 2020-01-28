@@ -3,7 +3,7 @@ package ressource;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import view.FileTreeItem;
+import model.FileTreeItem;
 
 public class Data {
 	
