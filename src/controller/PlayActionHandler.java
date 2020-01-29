@@ -3,10 +3,12 @@ package controller;
 import java.io.File;
 
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.media.EqualizerBand;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
@@ -63,8 +65,19 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 				References.coverImage.setImage(new Image(Icons.class.getResourceAsStream(Icons.DEFAULT_COVER)));
 
 				audioFile.getMetadata().addListener(new MetaDataChangeListener());
-
+				
 				MediaPlayer player = new MediaPlayer(audioFile);
+				player.setAudioSpectrumNumBands(10);
+				
+				// Preserve the equalizer
+				if(References.mediaPlayer != null) {
+					ObservableList<EqualizerBand> bands = References.mediaPlayer.getAudioEqualizer().getBands();
+					
+					for(int i = 0; i < bands.size(); i++) {
+						System.out.println(bands.get(i).getGain());
+						player.getAudioEqualizer().getBands().get(i).setGain(bands.get(i).getGain());
+					}
+				}
 
 				player.currentTimeProperty().addListener(
 						(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) -> {

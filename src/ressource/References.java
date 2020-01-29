@@ -9,6 +9,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TreeView;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
+import javafx.scene.media.AudioEqualizer;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import model.FileTreeItem;
@@ -44,5 +45,7 @@ public class References {
 	public static ProgressBar mediaProgressBar = null;
 
 	public static DirectoryWatchService directoryWatchService = null;
+
+	public static AudioEqualizer audioEqualizer = null;
 	
 }
