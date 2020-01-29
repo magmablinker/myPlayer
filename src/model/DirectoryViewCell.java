@@ -19,6 +19,8 @@ import javafx.scene.input.TransferMode;
 
 public class DirectoryViewCell extends TreeCell<String> {
 
+	
+	// https://examples.javacodegeeks.com/desktop-java/javafx/event-javafx/javafx-drag-drop-example/
 	private TreeView<String> parentTree;
 	private TreeItem<String> item;
 
@@ -46,13 +48,14 @@ public class DirectoryViewCell extends TreeCell<String> {
 
 			@Override
 			public void handle(DragEvent event) {
-				event.acceptTransferModes(TransferMode.MOVE);
-				/*
-				 * if(event.getDragboard().hasString()) {
-				 * if(!event.getDragboard().getString().matches(item.getValue())) {
-				 * System.out.println("NEW DRAG OVER");
-				 * event.acceptTransferModes(TransferMode.MOVE); } }
-				 */
+				if (event.getGestureSource() != this && event.getDragboard().hasString()) {
+					System.out.println("acceptTransferModes");
+					event.acceptTransferModes(TransferMode.MOVE);
+				}
+				
+				System.out.println(event.getTarget().toString());
+				System.out.println("setOnDragOver");
+				event.consume();
 			}
 
 		});
@@ -65,11 +68,11 @@ public class DirectoryViewCell extends TreeCell<String> {
 						|| (((TreeCell<String>) event.getSource()).getTreeView() != getTreeView())) {
 					return;
 				}
-				
+
 				System.out.println("DRAG DONE");
 
 				TreeItem<String> sourceItem = ((TreeCell<String>) event.getGestureSource()).getTreeItem();
-				TreeItem<String> item = getTreeItem();
+				TreeItem<String> item = ((TreeCell<String>) event.getTarget()).getTreeItem();
 
 				while (item != null && !item.equals(sourceItem)) {
 					System.out.println(item.getValue());
@@ -79,6 +82,8 @@ public class DirectoryViewCell extends TreeCell<String> {
 				if (item == null) {
 					event.acceptTransferModes(TransferMode.MOVE);
 				}
+				
+				System.out.println(item.getValue());
 
 				event.consume();
 			}
@@ -86,28 +91,23 @@ public class DirectoryViewCell extends TreeCell<String> {
 		});
 
 		this.setOnDragDropped(e -> {
+			System.out.println("DROPPED NIGGA");
 			Dragboard db = e.getDragboard();
-			if (db.hasContent(DataFormat.PLAIN_TEXT)) {
-				System.out.println("HERE");
-				System.out.println(db.getContent(DataFormat.PLAIN_TEXT));
-				e.setDropCompleted(true);
-			}
+			System.out.println(e.getTarget().getClass());
+			//TreeItem<String> target = ((TreeItem<String>) e.getTarget());
+			//System.out.println(target.getValue());
+			System.out.println(db.getString());
 		});
-		
+
 		/*
-		this.addEventFilter(MouseEvent.MOUSE_PRESSED, e -> {
-			if (getTreeItem() != null) {
-				Object target = e.getTarget();
-				if (target instanceof Node && target instanceof FileTreeItem && ((FileTreeItem) target).getGraphic()
-						.equals(new ImageView(new Image(Data.class.getResourceAsStream("img/directory.png"))))) {
-					getTreeItem().setExpanded(true);
-					System.out.println("HJERERE");
-				}
-			}
-			
-			e.consume();
-		});
-		*/
+		 * this.addEventFilter(MouseEvent.MOUSE_PRESSED, e -> { if (getTreeItem() !=
+		 * null) { Object target = e.getTarget(); if (target instanceof Node && target
+		 * instanceof FileTreeItem && ((FileTreeItem) target).getGraphic() .equals(new
+		 * ImageView(new Image(Data.class.getResourceAsStream("img/directory.png"))))) {
+		 * getTreeItem().setExpanded(true); System.out.println("HJERERE"); } }
+		 * 
+		 * e.consume(); });
+		 */
 
 	}
 
