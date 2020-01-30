@@ -25,6 +25,10 @@
 	-fx-cursor: hand;
 }
 
+.tree-cell:hover {
+  -fx-background-color: #0093ff ;
+}
+
 /*
  * This is an adjustment of the original modena.css for a consistent dark theme.
  * Original modena.css here: https://gist.github.com/maxd/63691840fc372f22f470.

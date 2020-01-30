@@ -1,5 +1,10 @@
 package model;
 
+import java.io.File;
+import java.util.StringTokenizer;
+
+import com.sun.prism.impl.Disposer.Target;
+
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -51,7 +56,9 @@ public class DirectoryViewCell extends TreeCell<String> {
 				if (event.getGestureSource() != this && event.getDragboard().hasString()) {
 					System.out.println("acceptTransferModes");
 					System.out.println(event.getTarget().getClass());
-					((FileTreeItem) ((DirectoryViewCell) event.getTarget()).getTreeItem()).setExpanded(true);
+					
+					if(event.getTarget() instanceof DirectoryViewCell)
+						((FileTreeItem) ((DirectoryViewCell) event.getTarget()).getTreeItem()).setExpanded(true);
 					event.acceptTransferModes(TransferMode.MOVE);
 				}
 				
@@ -59,6 +66,18 @@ public class DirectoryViewCell extends TreeCell<String> {
 				event.consume();
 			}
 
+		});
+		
+		this.setOnDragExited(new EventHandler<DragEvent>() {
+
+			@Override
+			public void handle(DragEvent event) {
+				System.out.println("HERER");
+				if(event.getTarget() instanceof DirectoryViewCell)
+					((FileTreeItem) ((DirectoryViewCell) event.getTarget()).getTreeItem()).setExpanded(false);
+				event.consume();
+			}
+			
 		});
 
 		this.setOnDragDone(new EventHandler<DragEvent>() {
@@ -94,10 +113,11 @@ public class DirectoryViewCell extends TreeCell<String> {
 		this.setOnDragDropped(e -> {
 			System.out.println("DROPPED NIGGA");
 			Dragboard db = e.getDragboard();
-			System.out.println(e.getTarget().getClass());
 			//TreeItem<String> target = ((TreeItem<String>) e.getTarget());
 			//System.out.println(target.getValue());
-			System.out.println(db.getString());
+			
+			FileTreeItem target = new FileTreeItem(new File(db.getString()));
+			System.out.println(target.getPath() + " - " + target.getValue());
 		});
 
 		/*

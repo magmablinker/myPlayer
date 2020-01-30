@@ -12,7 +12,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.media.EqualizerBand;
 import ressource.References;
 
@@ -39,11 +38,11 @@ public class EqualizerPane extends BorderPane {
 			double currentValue = (References.mediaPlayer == null) ? 0 : References.mediaPlayer.getAudioEqualizer().getBands().get(fi).getGain(); 
 			//sliders[i] = new Slider(EqualizerBand.MIN_GAIN, EqualizerBand.MAX_GAIN);
 			sliders[i] = new Slider();
+			sliders[i].setPrefHeight(200);
 			sliders[i].setMin(EqualizerBand.MIN_GAIN);
 			sliders[i].setMax(EqualizerBand.MAX_GAIN);
 			sliders[i].getStyleClass().add("margin-8");
 			sliders[i].setOrientation(Orientation.VERTICAL);
-			sliders[i].setPrefHeight(200);
 			sliders[i].setValue(currentValue);
 			sliders[i].valueProperty().addListener(new ChangeListener<Number>() {
 				@Override

@@ -23,7 +23,7 @@ public class FileTreeItem extends TreeItem<String> implements Serializable {
 	
 	@Override
 	public String toString() {
-		return this.getValue() + ":" + this.getPath();
+		return this.getPath();
 	}
 	
 }
