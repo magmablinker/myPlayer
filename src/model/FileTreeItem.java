@@ -1,11 +1,14 @@
 package model;
 
 import java.io.File;
+import java.io.Serializable;
 
 import javafx.scene.control.TreeItem;
 
-public class FileTreeItem extends TreeItem<String> {
+public class FileTreeItem extends TreeItem<String> implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+	
 	private String path;
 	
 	public FileTreeItem(File file) {
@@ -18,6 +21,7 @@ public class FileTreeItem extends TreeItem<String> {
 		return this.path;
 	}
 	
+	@Override
 	public String toString() {
 		return this.getValue() + ":" + this.getPath();
 	}

@@ -18,7 +18,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 
 public class DirectoryViewCell extends TreeCell<String> {
-
 	
 	// https://examples.javacodegeeks.com/desktop-java/javafx/event-javafx/javafx-drag-drop-example/
 	private TreeView<String> parentTree;
@@ -34,11 +33,12 @@ public class DirectoryViewCell extends TreeCell<String> {
 				if (!isEmpty()) {
 					Dragboard db = startDragAndDrop(TransferMode.MOVE);
 					ClipboardContent cc = new ClipboardContent();
-					cc.put(DataFormat.PLAIN_TEXT, getTreeItem().getValue());
+					cc.put(DataFormat.PLAIN_TEXT, ((FileTreeItem) getTreeItem()).toString());
 					db.setContent(cc);
-					Label label = new Label(String.format("%s", getTreeItem().getValue()));
-					new Scene(label);
-					db.setDragView(label.snapshot(null, null));
+					
+					//Label label = new Label(String.format("%s", getTreeItem().getValue()));
+					//new Scene(label);
+					//db.setDragView(label.snapshot(null, null));
 				}
 			}
 
@@ -50,10 +50,11 @@ public class DirectoryViewCell extends TreeCell<String> {
 			public void handle(DragEvent event) {
 				if (event.getGestureSource() != this && event.getDragboard().hasString()) {
 					System.out.println("acceptTransferModes");
+					System.out.println(event.getTarget().getClass());
+					((FileTreeItem) ((DirectoryViewCell) event.getTarget()).getTreeItem()).setExpanded(true);
 					event.acceptTransferModes(TransferMode.MOVE);
 				}
 				
-				System.out.println(event.getTarget().toString());
 				System.out.println("setOnDragOver");
 				event.consume();
 			}
@@ -118,8 +119,10 @@ public class DirectoryViewCell extends TreeCell<String> {
 
 		if (!empty && item != null) {
 			setText(item == null ? "" : item);
-
 			setGraphic(getTreeItem().getGraphic());
+		} else {
+			setText(null);
+			setGraphic(null);
 		}
 	}
 

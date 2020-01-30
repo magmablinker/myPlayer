@@ -74,7 +74,6 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 					ObservableList<EqualizerBand> bands = References.mediaPlayer.getAudioEqualizer().getBands();
 					
 					for(int i = 0; i < bands.size(); i++) {
-						System.out.println(bands.get(i).getGain());
 						player.getAudioEqualizer().getBands().get(i).setGain(bands.get(i).getGain());
 					}
 				}

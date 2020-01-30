@@ -112,8 +112,10 @@ public class Util {
 					
 					for (int i = 0; i < Data.SONG_QUEUE.size(); i++) {
 						if(Data.SONG_QUEUE.get(i).equals(selectedItemSong)) {
+							FileTreeItem replace = Data.SONG_QUEUE.get(0);
 							Data.SONG_QUEUE.add(0, Data.SONG_QUEUE.get(i));
 							Data.SONG_QUEUE.remove(i);
+							Data.SONG_QUEUE.add(i, replace);
 							Data.SONG_QUEUE_POSITION = 0;
 							break;
 						}
