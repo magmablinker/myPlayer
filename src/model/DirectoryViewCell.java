@@ -1,32 +1,29 @@
 package model;
 
 import java.io.File;
-import java.util.StringTokenizer;
-
-import com.sun.prism.impl.Disposer.Target;
 
 import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DataFormat;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
+import javafx.scene.text.Text;
+import ressource.References;
 
 public class DirectoryViewCell extends TreeCell<String> {
-	
+
 	// https://examples.javacodegeeks.com/desktop-java/javafx/event-javafx/javafx-drag-drop-example/
 	private TreeView<String> parentTree;
 	private TreeItem<String> item;
+
+	static final DataFormat FILE_TREE_ITEM = new DataFormat("FileTreeItem");
 
 	public DirectoryViewCell(final TreeView<String> parentTree) {
 		this.parentTree = parentTree;
@@ -35,75 +32,47 @@ public class DirectoryViewCell extends TreeCell<String> {
 
 			@Override
 			public void handle(MouseEvent event) {
-				if (!isEmpty()) {
-					Dragboard db = startDragAndDrop(TransferMode.MOVE);
-					ClipboardContent cc = new ClipboardContent();
-					cc.put(DataFormat.PLAIN_TEXT, ((FileTreeItem) getTreeItem()).toString());
-					db.setContent(cc);
-					
-					//Label label = new Label(String.format("%s", getTreeItem().getValue()));
-					//new Scene(label);
-					//db.setDragView(label.snapshot(null, null));
+				int selectedIndex = References.directoryView.getSelectionModel().getSelectedIndex();
+
+				if (selectedIndex < 0) {
+					System.out.println("HERERER");
+					event.consume();
+					return;
 				}
+
+				System.out.println("YEEE");
+				
+				Dragboard db = References.directoryView.startDragAndDrop(TransferMode.COPY_OR_MOVE);
+				FileTreeItem selectedItem = (FileTreeItem) References.directoryView.getSelectionModel()
+						.getSelectedItem();
+				
+				Label label = new Label(String.format("%s", getTreeItem().getValue()));
+				new Scene(label);
+				db.setDragView(label.snapshot(null, null));
+
+				ClipboardContent content = new ClipboardContent();
+				content.put(FILE_TREE_ITEM, selectedItem);
+
+				db.setContent(content);
+				event.consume();
 			}
 
+		});
+		
+		this.setOnDragEntered(e -> {
+			System.out.println("REEEEEEE");
 		});
 
 		this.setOnDragOver(new EventHandler<DragEvent>() {
 
 			@Override
 			public void handle(DragEvent event) {
-				if (event.getGestureSource() != this && event.getDragboard().hasString()) {
-					System.out.println("acceptTransferModes");
-					System.out.println(event.getTarget().getClass());
-					
-					if(event.getTarget() instanceof DirectoryViewCell)
-						((FileTreeItem) ((DirectoryViewCell) event.getTarget()).getTreeItem()).setExpanded(true);
+				Dragboard db = event.getDragboard();
+				System.out.println("SHFSHFHS");
+				
+				if (!event.getTarget().equals((FileTreeItem) db.getContent(FILE_TREE_ITEM)) && db.hasContent(FILE_TREE_ITEM)) {
 					event.acceptTransferModes(TransferMode.MOVE);
 				}
-				
-				System.out.println("setOnDragOver");
-				event.consume();
-			}
-
-		});
-		
-		this.setOnDragExited(new EventHandler<DragEvent>() {
-
-			@Override
-			public void handle(DragEvent event) {
-				System.out.println("HERER");
-				if(event.getTarget() instanceof DirectoryViewCell)
-					((FileTreeItem) ((DirectoryViewCell) event.getTarget()).getTreeItem()).setExpanded(false);
-				event.consume();
-			}
-			
-		});
-
-		this.setOnDragDone(new EventHandler<DragEvent>() {
-
-			@Override
-			public void handle(DragEvent event) {
-				if (!(event.getSource() instanceof TreeCell)
-						|| (((TreeCell<String>) event.getSource()).getTreeView() != getTreeView())) {
-					return;
-				}
-
-				System.out.println("DRAG DONE");
-
-				TreeItem<String> sourceItem = ((TreeCell<String>) event.getGestureSource()).getTreeItem();
-				TreeItem<String> item = ((TreeCell<String>) event.getTarget()).getTreeItem();
-
-				while (item != null && !item.equals(sourceItem)) {
-					System.out.println(item.getValue());
-					item = item.getParent();
-				}
-
-				if (item == null) {
-					event.acceptTransferModes(TransferMode.MOVE);
-				}
-				
-				System.out.println(item.getValue());
 
 				event.consume();
 			}
@@ -111,13 +80,38 @@ public class DirectoryViewCell extends TreeCell<String> {
 		});
 
 		this.setOnDragDropped(e -> {
-			System.out.println("DROPPED NIGGA");
+			boolean dragCompleted = false;
+
 			Dragboard db = e.getDragboard();
-			//TreeItem<String> target = ((TreeItem<String>) e.getTarget());
-			//System.out.println(target.getValue());
-			
-			FileTreeItem target = new FileTreeItem(new File(db.getString()));
-			System.out.println(target.getPath() + " - " + target.getValue());
+
+			if (db.hasContent(FILE_TREE_ITEM)) {
+				FileTreeItem item = (FileTreeItem) db.getContent(FILE_TREE_ITEM);
+				
+				for(TreeItem<String> it : References.playlistView.getRoot().getChildren()) {
+					if(it.getValue().equals(((Text)e.getTarget()).getText())) {
+						FileTreeItem newItem = new FileTreeItem(new File(item.getPath()));
+						it.getChildren().add(newItem);
+						break;
+					}
+				}
+				
+				dragCompleted = true;
+			}
+
+			e.setDropCompleted(dragCompleted);
+			e.consume();
+		});
+
+		this.setOnDragExited(new EventHandler<DragEvent>() {
+
+			@Override
+			public void handle(DragEvent event) {
+				// if (event.getTarget() instanceof DirectoryViewCell)
+				// ((FileTreeItem) ((DirectoryViewCell)
+				// event.getTarget()).getTreeItem()).setExpanded(false);
+				event.consume();
+			}
+
 		});
 
 		/*

@@ -1,6 +1,5 @@
 package view;
 
-import controller.MenuSettingsEqualizerHandler;
 import controller.CheckBoxCheckListener;
 import controller.NextHandler;
 import controller.PlayActionHandler;

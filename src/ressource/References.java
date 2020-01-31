@@ -20,6 +20,7 @@ public class References {
 	public static Stage stage = null;
 
 	public static TreeView<String> directoryView = null;
+	public static TreeView<String> playlistView = null;
 
 	public static MusicPanel musicPanel = null;
 	

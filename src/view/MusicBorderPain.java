@@ -65,6 +65,15 @@ public class MusicBorderPain extends BorderPane {
 		playlistView.prefHeightProperty().bind(grid.prefHeightProperty());
 		playlistView.getStyleClass().add("margin-8");
 
+		playlistView.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
+			@Override
+			public TreeCell<String> call(TreeView<String> param) {
+				TreeCell<String> cell = new DirectoryViewCell(param);
+				return cell;
+			}
+		});
+		
+		
 		directoryView = new TreeView<String>();
 		directoryView.prefWidthProperty().bind(grid.prefWidthProperty());
 		directoryView.prefHeightProperty().bind(grid.prefHeightProperty());
@@ -79,8 +88,12 @@ public class MusicBorderPain extends BorderPane {
 		});
 		
 		References.directoryView = directoryView;
+		References.playlistView = playlistView;
 
 		TreeItem<String> playlistViewRoot = new TreeItem<String>("Playlists");
+		playlistViewRoot.setExpanded(true);
+		
+		playlistViewRoot.getChildren().add(new TreeItem<String>("PLAYLIT"));
 
 		TreeItem<String> directoryViewRoot = new TreeItem<String>("Directories");
 		
