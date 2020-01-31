@@ -14,6 +14,14 @@
 	-fx-background-insets: 8.0px;
 }
 
+.margin-4 {
+	-fx-padding: 4.0px; 
+	-fx-border-insets: 4.0px; 
+	-fx-background-insets: 4.0px;
+	-fx-border-color: grey;
+	-fx-border-radius: 2.0px;
+}
+
 .button-icon {
 	-fx-background-color: rgba(0.0,0.0,0.0,0.0);
 	-fx-border-color: rgba(0.0,0.0,0.0,0.0);
