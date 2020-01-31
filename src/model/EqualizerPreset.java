@@ -38,6 +38,10 @@ public class EqualizerPreset implements Serializable {
 		return bands;
 	}
 	
+	public void setPreset(String preset) {
+		this.preset = preset;
+	}
+	
 	@Override
 	public String toString() {
 		return this.name;

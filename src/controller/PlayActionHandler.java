@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
@@ -69,7 +70,15 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 				MediaPlayer player = new MediaPlayer(audioFile);
 				player.setAudioSpectrumNumBands(10);
 				
+				ArrayList<EqualizerBand> bands = Data.currentPreset.getBands();
+				ObservableList<EqualizerBand> bandsObs = player.getAudioEqualizer().getBands();
+				
+				for (int i = 0; i < bands.size(); i++) {
+					bandsObs.get(i).setGain(bands.get(i).getGain());
+				}
+				
 				// Preserve the equalizer
+				/*
 				if(References.mediaPlayer != null) {
 					ObservableList<EqualizerBand> bands = References.mediaPlayer.getAudioEqualizer().getBands();
 					
@@ -77,6 +86,7 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 						player.getAudioEqualizer().getBands().get(i).setGain(bands.get(i).getGain());
 					}
 				}
+				*/
 
 				player.currentTimeProperty().addListener(
 						(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) -> {

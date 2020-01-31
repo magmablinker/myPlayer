@@ -1,8 +1,8 @@
 package ressource;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
+import model.EqualizerPreset;
 import model.FileTreeItem;
 
 public class Data {
@@ -12,5 +12,7 @@ public class Data {
 	
 	public static int SONG_QUEUE_POSITION = 0;
 	public static ArrayList<FileTreeItem> SONG_QUEUE = new ArrayList<FileTreeItem>();
+	
+	public static EqualizerPreset currentPreset = new EqualizerPreset("Default", "0.0;0.0;0.0;0.0;0.0;0.0;0.0;0.0;0.0;0.0;");
 	
 }
