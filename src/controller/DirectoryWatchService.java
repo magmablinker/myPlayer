@@ -80,12 +80,11 @@ public class DirectoryWatchService implements Runnable {
 	}
 
 	private void resolveTreeViewAction(Path child, WatchEvent.Kind<?> kind, WatchKey key) {
-		// Check if file got deleted, edited or created
+		// Check if file got deleted or created
 		File file = child.toFile().getAbsoluteFile();
 		String parentDir = file.getParent();
 		TreeItem<String> nodeChanged = this.treeItemMap.get(parentDir);
 
-		// TODO: find cause for weird bug where "Neuer Ordner" gets added twice
 		//System.out.println("\n*************************");
 		//System.out.println("name: " + file.getName());
 		//System.out.println("path: " + file.getAbsolutePath());

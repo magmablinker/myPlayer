@@ -150,7 +150,6 @@ public class EqualizerPane extends BorderPane {
 				}
 				
 				EqualizerPreset selectedPreset = comboPreset.getSelectionModel().getSelectedItem();
-				System.out.println(sb.toString());
 				selectedPreset.setPreset(sb.toString());
 			}
 		});
