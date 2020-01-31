@@ -41,11 +41,10 @@ public class DirectoryViewCell extends TreeCell<String> {
 				}
 
 				System.out.println("YEEE");
-				
+
 				Dragboard db = References.directoryView.startDragAndDrop(TransferMode.COPY_OR_MOVE);
-				FileTreeItem selectedItem = (FileTreeItem) References.directoryView.getSelectionModel()
-						.getSelectedItem();
-				
+				FileTreeItem selectedItem = (FileTreeItem) References.directoryView.getSelectionModel().getSelectedItem();
+
 				Label label = new Label(String.format("%s", getTreeItem().getValue()));
 				new Scene(label);
 				db.setDragView(label.snapshot(null, null));
@@ -58,19 +57,15 @@ public class DirectoryViewCell extends TreeCell<String> {
 			}
 
 		});
-		
-		this.setOnDragEntered(e -> {
-			System.out.println("REEEEEEE");
-		});
 
 		this.setOnDragOver(new EventHandler<DragEvent>() {
 
 			@Override
 			public void handle(DragEvent event) {
 				Dragboard db = event.getDragboard();
-				System.out.println("SHFSHFHS");
-				
-				if (!event.getTarget().equals((FileTreeItem) db.getContent(FILE_TREE_ITEM)) && db.hasContent(FILE_TREE_ITEM)) {
+
+				if (!event.getTarget().equals((FileTreeItem) db.getContent(FILE_TREE_ITEM))
+						&& db.hasContent(FILE_TREE_ITEM)) {
 					event.acceptTransferModes(TransferMode.MOVE);
 				}
 
@@ -87,43 +82,24 @@ public class DirectoryViewCell extends TreeCell<String> {
 			if (db.hasContent(FILE_TREE_ITEM)) {
 				FileTreeItem item = (FileTreeItem) db.getContent(FILE_TREE_ITEM);
 				
-				for(TreeItem<String> it : References.playlistView.getRoot().getChildren()) {
-					if(it.getValue().equals(((Text)e.getTarget()).getText())) {
-						FileTreeItem newItem = new FileTreeItem(new File(item.getPath()));
-						it.getChildren().add(newItem);
-						break;
+				if (!(new File(item.getPath()).isDirectory())) {
+					for (TreeItem<String> it : References.playlistView.getRoot().getChildren()) {
+						if (it.getValue().equals(((Text) e.getTarget()).getText())) {
+							FileTreeItem newItem = new FileTreeItem(new File(item.getPath()));
+							it.getChildren().add(newItem);
+							it.setExpanded(true);
+							break;
+						}
 					}
+
+					dragCompleted = true;
 				}
-				
-				dragCompleted = true;
+
 			}
 
 			e.setDropCompleted(dragCompleted);
 			e.consume();
 		});
-
-		this.setOnDragExited(new EventHandler<DragEvent>() {
-
-			@Override
-			public void handle(DragEvent event) {
-				// if (event.getTarget() instanceof DirectoryViewCell)
-				// ((FileTreeItem) ((DirectoryViewCell)
-				// event.getTarget()).getTreeItem()).setExpanded(false);
-				event.consume();
-			}
-
-		});
-
-		/*
-		 * this.addEventFilter(MouseEvent.MOUSE_PRESSED, e -> { if (getTreeItem() !=
-		 * null) { Object target = e.getTarget(); if (target instanceof Node && target
-		 * instanceof FileTreeItem && ((FileTreeItem) target).getGraphic() .equals(new
-		 * ImageView(new Image(Data.class.getResourceAsStream("img/directory.png"))))) {
-		 * getTreeItem().setExpanded(true); System.out.println("HJERERE"); } }
-		 * 
-		 * e.consume(); });
-		 */
-
 	}
 
 	@Override

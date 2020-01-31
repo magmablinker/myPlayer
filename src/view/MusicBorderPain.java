@@ -104,17 +104,6 @@ public class MusicBorderPain extends BorderPane {
 
 		directoryView.setRoot(directoryViewRoot);
 		directoryViewRoot.setExpanded(true);
-		// Make root always expanded => bad hack
-		directoryViewRoot.addEventHandler(TreeItem.branchCollapsedEvent(),
-				new EventHandler<TreeModificationEvent<String>>() {
-
-					@Override
-					public void handle(TreeModificationEvent<String> e) {
-						if (e.getTreeItem().getValue().equals("Directories"))
-							e.getTreeItem().setExpanded(true);
-					}
-
-				});
 
 		directoryView.setContextMenu(new DirectoryContextMenu());
 		directoryView.setOnMouseClicked(new DirectoryClickHandler());
