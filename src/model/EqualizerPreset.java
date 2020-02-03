@@ -13,19 +13,13 @@ public class EqualizerPreset implements Serializable {
 	private String name;
 	private String preset;
 	
+	private ArrayList<EqualizerBand> bands = new ArrayList<EqualizerBand>();
+	
 	public EqualizerPreset(String name, String preset) {
 		this.name = name;
 		this.preset = preset;
-	}
-	
-	
-	public String getName() {
-		return name;
-	}
-	
-	public ArrayList<EqualizerBand> getBands() {
-		ArrayList<EqualizerBand> bands = new ArrayList<EqualizerBand>();
-		StringTokenizer tokenizer = new StringTokenizer(this.preset, ";");
+		
+		StringTokenizer tokenizer = new StringTokenizer(preset, ";");
 		
 		String token;
 		while(tokenizer.hasMoreTokens()) {
@@ -34,7 +28,14 @@ public class EqualizerPreset implements Serializable {
 			band.setGain(Double.valueOf(token));
 			bands.add(band);
 		}
-		
+	}
+	
+	
+	public String getName() {
+		return name;
+	}
+	
+	public ArrayList<EqualizerBand> getBands() {
 		return bands;
 	}
 	
@@ -44,7 +45,12 @@ public class EqualizerPreset implements Serializable {
 	
 	@Override
 	public String toString() {
-		return this.name;
+		return name;
+	}
+
+
+	public void setBands(ArrayList<EqualizerBand> bands) {
+		this.bands = bands;
 	}
 	
 }

@@ -70,6 +70,8 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 				MediaPlayer player = new MediaPlayer(audioFile);
 				player.setAudioSpectrumNumBands(10);
 				
+				
+				// Preserve the equalizer
 				ArrayList<EqualizerBand> bands = Data.currentPreset.getBands();
 				ObservableList<EqualizerBand> bandsObs = player.getAudioEqualizer().getBands();
 				
@@ -77,17 +79,6 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 					bandsObs.get(i).setGain(bands.get(i).getGain());
 				}
 				
-				// Preserve the equalizer
-				/*
-				if(References.mediaPlayer != null) {
-					ObservableList<EqualizerBand> bands = References.mediaPlayer.getAudioEqualizer().getBands();
-					
-					for(int i = 0; i < bands.size(); i++) {
-						player.getAudioEqualizer().getBands().get(i).setGain(bands.get(i).getGain());
-					}
-				}
-				*/
-
 				player.currentTimeProperty().addListener(
 						(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) -> {
 							References.labelTimeIndicator

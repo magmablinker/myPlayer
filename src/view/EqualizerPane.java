@@ -13,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -48,7 +49,12 @@ public class EqualizerPane extends BorderPane {
 		bAdd.setPrefWidth(100);
 		bAdd.getStyleClass().add("margin-4");
 		bAdd.setOnAction(e -> {
-			System.out.println("LOAD");
+			TextInputDialog dialog = new TextInputDialog();
+			// TODO: Custom Dialog
+			dialog.setContentText("Preset Name");
+			dialog.showAndWait().ifPresent(text -> {
+				comboPreset.getItems().add(new EqualizerPreset(text, "0;0;0;0;0;0;0;0;0;0;"));
+			});
 		});
 
 		Button bLoad = new Button("Load Preset");
@@ -91,7 +97,6 @@ public class EqualizerPane extends BorderPane {
 			panes[i] = new BorderPane();
 			double currentValue = (References.mediaPlayer == null) ? 0
 					: References.mediaPlayer.getAudioEqualizer().getBands().get(fi).getGain();
-			// sliders[i] = new Slider(EqualizerBand.MIN_GAIN, EqualizerBand.MAX_GAIN);
 			sliders[i] = new Slider();
 			sliders[i].setPrefHeight(200);
 			sliders[i].setPrefWidth(100);
@@ -100,13 +105,21 @@ public class EqualizerPane extends BorderPane {
 			sliders[i].getStyleClass().add("margin-4-no-border");
 			sliders[i].setOrientation(Orientation.VERTICAL);
 			sliders[i].setValue(currentValue);
+			
 			sliders[i].valueProperty().addListener(new ChangeListener<Number>() {
+				
 				@Override
 				public void changed(ObservableValue<? extends Number> arg0, Number oldValue, Number newValue) {
 					if (References.mediaPlayer != null) {
 						References.mediaPlayer.getAudioEqualizer().getBands().get(fi).setGain(newValue.doubleValue());
 					}
+
+					Data.currentPreset.getBands().get(fi).setGain(newValue.doubleValue());
+					System.out.println("GAIN " + Data.currentPreset.getBands().get(fi).getGain());
+					
+					//Data.currentPreset.setBands(bands);
 				}
+				
 			});
 
 			Label hzText = new Label(hzTexts[i]);
@@ -148,7 +161,7 @@ public class EqualizerPane extends BorderPane {
 				for (int i = 0; i < sliders.length; i++) {
 					sb.append(sliders[i].getValue() + ";");
 				}
-				
+
 				EqualizerPreset selectedPreset = comboPreset.getSelectionModel().getSelectedItem();
 				selectedPreset.setPreset(sb.toString());
 			}
