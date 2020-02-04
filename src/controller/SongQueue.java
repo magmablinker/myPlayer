@@ -42,7 +42,7 @@ public class SongQueue {
 				int finalIndex = 0;
 
 				for (TreeItem<String> child : selectedItem.getChildren()) {
-					System.out.println("ADDING " + child.getValue());
+					System.out.println("ADDING: " + child.getValue());
 					this.songList.add(((FileTreeItem) child));
 					
 					if (child.equals(realSelectedItem)) {
@@ -55,6 +55,7 @@ public class SongQueue {
 				References.currentlyPlayingItem = selectedItem;
 				
 				if(References.checkBoxShuffle.isSelected()) {
+					songQueuePosition = finalIndex;
 					this.shuffleQueue();
 				} else {
 					songQueuePosition = finalIndex;
@@ -80,6 +81,8 @@ public class SongQueue {
 				if (!replace.equals(currentItem)) {
 					songList.set(0, currentItem);
 					songList.set(i, replace);
+					
+					songQueuePosition = 0;
 				}
 
 				break;
