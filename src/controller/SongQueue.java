@@ -120,5 +120,9 @@ public class SongQueue {
 	public TreeView<String> getCurrentTreeView() {
 		return this.currentTreeView;
 	}
+
+	public void add(FileTreeItem newItem) {
+		this.songList.add(newItem);
+	}
 	
 }

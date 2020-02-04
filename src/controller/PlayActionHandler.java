@@ -98,6 +98,7 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 					if (References.checkBoxRepeat.isSelected()) {
 						player.seek(Duration.ZERO);
 					} else {
+						Util.removePlayingIcon();
 						queue.next();
 						
 						PlayActionHandler ah = new PlayActionHandler();

@@ -6,12 +6,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import ressource.Icons;
 import ressource.References;
+import util.Util;
 
 public class PauseActionHandler implements EventHandler<ActionEvent> {
 
 	@Override
 	public void handle(ActionEvent event) {
 		if(References.mediaPlayer != null) {
+			Util.removePlayingIcon();
 			ImageView imageView = new ImageView(new Image(Icons.class.getResourceAsStream(Icons.ICON_PLAY)));
 			imageView.setFitHeight(50);
 			imageView.setFitWidth(50);

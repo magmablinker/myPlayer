@@ -102,7 +102,11 @@ public class DirectoryViewCell extends TreeCell<String> {
 								newItem.setGraphic(icon);
 								icon.setFitWidth(16);
 								icon.setFitHeight(16);
-								it.getChildren().add(newItem);		
+								it.getChildren().add(newItem);
+								
+								if(References.SONG_QUEUE != null)
+									References.SONG_QUEUE.add(newItem);
+								
 							}
 						
 							it.setExpanded(true);
