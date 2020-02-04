@@ -40,6 +40,7 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 			icon.setFitWidth(16);
 			icon.setFitHeight(16);
 			currentItem.setGraphic(icon);
+			References.SONG_QUEUE.getCurrentTreeView().refresh();
 
 			File file = new File(currentItem.getPath());
 

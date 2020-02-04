@@ -91,11 +91,11 @@ public class Util {
 	
 	public static void removePlayingIcon() {
 		
-		if(Data.SONG_QUEUE.size() > 0) {
+		if(References.SONG_QUEUE.size() > 0) {
 			ImageView icon = new ImageView(new Image(Icons.class.getResourceAsStream(Icons.ICON_FILE)));
 			icon.setFitWidth(16);
 			icon.setFitHeight(16);
-			Data.SONG_QUEUE.get(Data.SONG_QUEUE_POSITION).setGraphic(icon);
+			References.SONG_QUEUE.getCurrentItem().setGraphic(icon);
 		}
 		
 	}

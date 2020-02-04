@@ -8,6 +8,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DataFormat;
 import javafx.scene.input.DragEvent;
@@ -15,6 +17,7 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.text.Text;
+import ressource.Icons;
 import ressource.References;
 
 public class DirectoryViewCell extends TreeCell<String> {
@@ -95,6 +98,10 @@ public class DirectoryViewCell extends TreeCell<String> {
 							}
 							
 							if(!alreadyInPlaylist) {
+								ImageView icon = new ImageView(new Image(Icons.class.getResourceAsStream(Icons.ICON_FILE)));
+								newItem.setGraphic(icon);
+								icon.setFitWidth(16);
+								icon.setFitHeight(16);
 								it.getChildren().add(newItem);		
 							}
 						
@@ -115,7 +122,6 @@ public class DirectoryViewCell extends TreeCell<String> {
 
 	@Override
 	protected void updateItem(String item, boolean empty) {
-		// System.out.format("nupdateItem - [%s]n\n", item);
 		super.updateItem(item, empty);
 
 		if (!empty && item != null) {
