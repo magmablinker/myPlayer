@@ -42,6 +42,7 @@ public class EqualizerPane extends BorderPane {
 		comboPreset.getItems().add(new EqualizerPreset("Zwei", "8;3;10;0.1;0.1;0.1;0.1;0.1;0.1;0.1;"));
 		comboPreset.setPrefWidth(200);
 		comboPreset.getStyleClass().add("margin-4");
+		comboPreset.getSelectionModel().select(Data.currentPreset);
 
 		HBox buttonPanel = new HBox();
 

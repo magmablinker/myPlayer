@@ -24,6 +24,8 @@ public class MenuSettingsEqualizerHandler implements EventHandler<ActionEvent> {
 		stage.getIcons().add(new Image(Data.class.getResourceAsStream("img/equalizer.png")));
 		stage.setResizable(false);
 		stage.setScene(scene);
+		stage.setX(References.stage.getX() + (References.stage.getHeight() / 4));
+		stage.setY(References.stage.getY() + (References.stage.getWidth() / 6));
 		stage.show();
 	}
 	

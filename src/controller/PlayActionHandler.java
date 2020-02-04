@@ -98,6 +98,9 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 						player.seek(Duration.ZERO);
 					} else {
 						queue.next();
+						
+						PlayActionHandler ah = new PlayActionHandler();
+						ah.playMethod();
 					}
 				});
 
