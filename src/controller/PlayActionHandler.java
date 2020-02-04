@@ -27,18 +27,21 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 	}
 
 	public void playMethod() {
-		if (Data.SONG_QUEUE.size() == 0 || Util.checkIfPlaylistOrDirChanged()) {
-			Util.generateSongQueue();
+		SongQueue queue = References.SONG_QUEUE;
+
+		if (queue.size() == 0 || Util.checkIfPlaylistOrDirChanged()) {
+			queue.generateSongQueue();
 		}
 
-		if (Data.SONG_QUEUE.size() > 0 && Data.SONG_QUEUE_POSITION < Data.SONG_QUEUE.size()) {
-			FileTreeItem selectedItem = Data.SONG_QUEUE.get(Data.SONG_QUEUE_POSITION);
+		if (queue.size() > 0) {
+			FileTreeItem currentItem = queue.getCurrentItem();
+
 			ImageView icon = new ImageView(new Image(Icons.class.getResourceAsStream(Icons.ICON_SPEAKER)));
 			icon.setFitWidth(16);
 			icon.setFitHeight(16);
-			selectedItem.setGraphic(icon);
+			currentItem.setGraphic(icon);
 
-			File file = new File(selectedItem.getPath());
+			File file = new File(currentItem.getPath());
 
 			if (!file.isDirectory()) {
 				// Change play button
@@ -60,25 +63,24 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 				}
 
 				Media audioFile = new Media(file.toURI().toString());
-				References.songPlayingTitleLabel.setText(selectedItem.getValue());
+				References.songPlayingTitleLabel.setText(currentItem.getValue());
 				References.songPlayingArtistLabel.setText("Unknown Artist");
 				References.songPlayingAlbum.setText("Unknown Album");
 				References.coverImage.setImage(new Image(Icons.class.getResourceAsStream(Icons.DEFAULT_COVER)));
 
 				audioFile.getMetadata().addListener(new MetaDataChangeListener());
-				
+
 				MediaPlayer player = new MediaPlayer(audioFile);
 				player.setAudioSpectrumNumBands(10);
-				
-				
+
 				// Preserve the equalizer
 				ArrayList<EqualizerBand> bands = Data.currentPreset.getBands();
 				ObservableList<EqualizerBand> bandsObs = player.getAudioEqualizer().getBands();
-				
+
 				for (int i = 0; i < bands.size(); i++) {
 					bandsObs.get(i).setGain(bands.get(i).getGain());
 				}
-				
+
 				player.currentTimeProperty().addListener(
 						(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) -> {
 							References.labelTimeIndicator
@@ -95,14 +97,7 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 					if (References.checkBoxRepeat.isSelected()) {
 						player.seek(Duration.ZERO);
 					} else {
-						Util.removePlayingIcon();
-						
-						if (Data.SONG_QUEUE_POSITION < (Data.SONG_QUEUE.size() - 1)) {
-							Data.SONG_QUEUE_POSITION++;
-							this.playMethod();
-						} else {
-							this.reset();
-						}
+						queue.next();
 					}
 				});
 
@@ -110,8 +105,9 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 			} else {
 				this.reset();
 			}
-		}
 
+		}
+		
 	}
 
 	private void reset() {

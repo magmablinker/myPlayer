@@ -1,10 +1,13 @@
 package view;
 
+import java.util.Iterator;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import controller.DirectoryClickHandler;
 import controller.DirectoryWatchService;
+import controller.PlayActionHandler;
+import controller.SongQueue;
 import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -19,6 +22,7 @@ import javafx.scene.layout.Priority;
 import javafx.util.Callback;
 import model.DirectoryHandler;
 import model.DirectoryViewCell;
+import model.FileTreeItem;
 import ressource.References;
 
 public class MusicBorderPain extends BorderPane {
@@ -90,9 +94,21 @@ public class MusicBorderPain extends BorderPane {
 		References.directoryView = directoryView;
 		References.playlistView = playlistView;
 
-		TreeItem<String> playlistViewRoot = new TreeItem<String>("Playlists");
-		playlistViewRoot.setExpanded(true);
+		playlistView.setOnMouseClicked(e -> {
+			if(e.getClickCount() == 2) {
+				SongQueue queue = new SongQueue(playlistView);
+				
+				References.SONG_QUEUE = queue;
+					
+				queue.generateSongQueue();
+				
+				PlayActionHandler ah = new PlayActionHandler();
+				ah.playMethod();
+			}
+		});
 		
+		TreeItem<String> playlistViewRoot = new TreeItem<String>("Playlists");
+		playlistViewRoot.setExpanded(true);		
 		playlistViewRoot.getChildren().add(new TreeItem<String>("PLAYLIT"));
 
 		TreeItem<String> directoryViewRoot = new TreeItem<String>("Directories");

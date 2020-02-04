@@ -1,11 +1,13 @@
 package ressource;
 
 import controller.DirectoryWatchService;
+import controller.SongQueue;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -17,6 +19,8 @@ import view.MusicPanel;
 
 public class References {
 	
+	public static SongQueue SONG_QUEUE = null;
+
 	public static Stage stage = null;
 
 	public static TreeView<String> directoryView = null;
@@ -26,7 +30,7 @@ public class References {
 	
 	public static Slider volumeSlider = null;
 	
-	public static FileTreeItem currentlyPlayingItem = null;
+	public static TreeItem<String> currentlyPlayingItem = null;
 	
 	public static Button bPlay = null;
 	

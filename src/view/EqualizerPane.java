@@ -115,9 +115,6 @@ public class EqualizerPane extends BorderPane {
 					}
 
 					Data.currentPreset.getBands().get(fi).setGain(newValue.doubleValue());
-					System.out.println("GAIN " + Data.currentPreset.getBands().get(fi).getGain());
-					
-					//Data.currentPreset.setBands(bands);
 				}
 				
 			});

@@ -14,7 +14,13 @@ public class CheckBoxCheckListener implements EventHandler<ActionEvent> {
 			Util.removePlayingIcon();
 		}
 		
-		Util.generateSongQueue();
+		if(References.checkBoxShuffle.isSelected()) {
+			if(References.SONG_QUEUE != null)
+				References.SONG_QUEUE.shuffleQueue();	
+		} else {
+			References.SONG_QUEUE.generateSongQueue();
+		}
+		
 	}
 
 }

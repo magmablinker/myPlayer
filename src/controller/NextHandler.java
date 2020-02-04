@@ -19,11 +19,7 @@ public class NextHandler implements EventHandler<ActionEvent> {
 		if (References.mediaPlayer != null) {
 			Util.removePlayingIcon();
 			
-			if(Data.SONG_QUEUE_POSITION < (Data.SONG_QUEUE.size() - 1)) {
-				Data.SONG_QUEUE_POSITION++;			
-			} else {
-				Data.SONG_QUEUE_POSITION = 0;
-			}
+			References.SONG_QUEUE.next();
 			
 			PlayActionHandler ah = new PlayActionHandler();
 			ah.playMethod();

@@ -14,7 +14,12 @@ public class DirectoryClickHandler implements EventHandler<MouseEvent> {
 				Util.removePlayingIcon();
 			}
 			
-			Util.generateSongQueue();
+			SongQueue queue = new SongQueue(References.directoryView);
+			
+			queue.generateSongQueue();
+			
+			References.SONG_QUEUE = queue;
+			
 			PlayActionHandler ah = new PlayActionHandler();
 			ah.playMethod();
 		}
