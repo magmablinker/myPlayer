@@ -35,56 +35,6 @@ public class EqualizerPane extends BorderPane {
 		this.setBottom(createButtons());
 	}
 
-	private Node createPresetDropDown() {
-		VBox panel = new VBox();
-		comboPreset = new ComboBox<EqualizerPreset>();
-		comboPreset.getItems().add(new EqualizerPreset("Test", "100;100;100;0.1;0.1;0.1;0.1;0.1;0.1;0.1;"));
-		comboPreset.getItems().add(new EqualizerPreset("Zwei", "8;3;10;0.1;0.1;0.1;0.1;0.1;0.1;0.1;"));
-		comboPreset.setPrefWidth(200);
-		comboPreset.getStyleClass().add("margin-4");
-		comboPreset.getSelectionModel().select(Data.currentPreset);
-
-		HBox buttonPanel = new HBox();
-
-		Button bAdd = new Button("Add Preset");
-		bAdd.setPrefWidth(100);
-		bAdd.getStyleClass().add("margin-4");
-		bAdd.setOnAction(e -> {
-			TextInputDialog dialog = new TextInputDialog();
-			// TODO: Custom Dialog
-			dialog.setContentText("Preset Name");
-			dialog.showAndWait().ifPresent(text -> {
-				comboPreset.getItems().add(new EqualizerPreset(text, "0;0;0;0;0;0;0;0;0;0;"));
-			});
-		});
-
-		Button bLoad = new Button("Load Preset");
-		bLoad.setPrefWidth(100);
-		bLoad.getStyleClass().add("margin-4");
-		bLoad.setOnAction(e -> {
-
-			if (comboPreset.getSelectionModel().getSelectedIndex() > -1) {
-				EqualizerPreset selectedPreset = comboPreset.getSelectionModel().getSelectedItem();
-				ArrayList<EqualizerBand> bands = selectedPreset.getBands();
-				Data.currentPreset = selectedPreset;
-
-				for (int i = 0; i < sliders.length; i++) {
-					sliders[i].setValue(bands.get(i).getGain());
-
-					if (References.mediaPlayer != null)
-						References.mediaPlayer.getAudioEqualizer().getBands().get(i).setGain(bands.get(i).getGain());
-				}
-			}
-
-		});
-
-		buttonPanel.getChildren().addAll(bAdd, bLoad);
-
-		panel.getChildren().addAll(comboPreset, buttonPanel);
-
-		return panel;
-	}
-
 	private Node createEqualizerSlides() {
 		HBox panel = new HBox();
 		panel.setAlignment(Pos.CENTER);
@@ -121,9 +71,8 @@ public class EqualizerPane extends BorderPane {
 			});
 
 			Label hzText = new Label(hzTexts[i]);
-
 			hzText.getStyleClass().add("margin-4-no-border");
-
+			
 			panes[i].setCenter(sliders[i]);
 			panes[i].setBottom(hzText);
 		}
@@ -132,10 +81,59 @@ public class EqualizerPane extends BorderPane {
 
 		return panel;
 	}
+	
+	private Node createPresetDropDown() {
+		VBox panel = new VBox();
+		comboPreset = new ComboBox<EqualizerPreset>();
+		comboPreset.getItems().add(new EqualizerPreset("Test", "100;100;100;0.1;0.1;0.1;0.1;0.1;0.1;0.1;"));
+		comboPreset.getItems().add(new EqualizerPreset("Zwei", "8;3;10;0.1;0.1;0.1;0.1;0.1;0.1;0.1;"));
+		comboPreset.setPrefWidth(200);
+		comboPreset.getStyleClass().add("margin-4");
+		comboPreset.getSelectionModel().select(Data.currentPreset);
+
+		panel.getChildren().addAll(comboPreset);
+
+		return panel;
+	}
 
 	private Node createButtons() {
 		HBox box = new HBox();
 		box.setAlignment(Pos.CENTER_LEFT);
+		
+		Button bAdd = new Button("Add Preset");
+		bAdd.setPrefWidth(100);
+		bAdd.getStyleClass().add("margin-4");
+		bAdd.setOnAction(e -> {
+			TextInputDialog dialog = new TextInputDialog();
+			// TODO: Custom Dialog, preserve newly added items
+			dialog.setContentText("Preset Name");
+			dialog.showAndWait().ifPresent(text -> {
+				EqualizerPreset newPreset = new EqualizerPreset(text, "0;0;0;0;0;0;0;0;0;0;");
+				comboPreset.getItems().add(newPreset);
+				comboPreset.getSelectionModel().select(newPreset);
+			});
+		});
+
+		Button bLoad = new Button("Load Preset");
+		bLoad.setPrefWidth(100);
+		bLoad.getStyleClass().add("margin-4");
+		bLoad.setOnAction(e -> {
+
+			if (comboPreset.getSelectionModel().getSelectedIndex() > -1) {
+				EqualizerPreset selectedPreset = comboPreset.getSelectionModel().getSelectedItem();
+				ArrayList<EqualizerBand> bands = selectedPreset.getBands();
+				Data.currentPreset = selectedPreset;
+
+				for (int i = 0; i < sliders.length; i++) {
+					sliders[i].setValue(bands.get(i).getGain());
+
+					if (References.mediaPlayer != null)
+						References.mediaPlayer.getAudioEqualizer().getBands().get(i).setGain(bands.get(i).getGain());
+				}
+			}
+
+		});
+
 
 		Button bReset = new Button("Reset");
 		bReset.getStyleClass().add("margin-4");
@@ -151,7 +149,7 @@ public class EqualizerPane extends BorderPane {
 
 		});
 
-		Button bSave = new Button("Save");
+		Button bSave = new Button("Save Preset");
 		bSave.setOnAction(e -> {
 			if (comboPreset.getSelectionModel().getSelectedIndex() > -1) {
 				StringBuilder sb = new StringBuilder();
@@ -167,7 +165,7 @@ public class EqualizerPane extends BorderPane {
 		bSave.getStyleClass().add("margin-4");
 		bSave.setPrefWidth(100);
 
-		box.getChildren().addAll(bReset, bSave);
+		box.getChildren().addAll(bSave, bLoad, bAdd, bReset);
 
 		return box;
 	}

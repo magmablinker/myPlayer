@@ -86,7 +86,18 @@ public class DirectoryViewCell extends TreeCell<String> {
 					for (TreeItem<String> it : References.playlistView.getRoot().getChildren()) {
 						if (it.getValue().equals(((Text) e.getTarget()).getText())) {
 							FileTreeItem newItem = new FileTreeItem(new File(item.getPath()));
-							it.getChildren().add(newItem);
+							boolean alreadyInPlaylist = false;
+							for (TreeItem<String> child : it.getChildren()) {
+								if(((FileTreeItem) child).getPath().equals(newItem.getPath())) {
+									alreadyInPlaylist = true;
+									break;
+								}
+							}
+							
+							if(!alreadyInPlaylist) {
+								it.getChildren().add(newItem);		
+							}
+						
 							it.setExpanded(true);
 							break;
 						}
