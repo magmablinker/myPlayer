@@ -106,9 +106,9 @@ public class DirectoryWatchService implements Runnable {
 					i++;
 				}
 
-				for (int j = 0; j < Data.SONG_QUEUE.size(); j++) {
-					if (Data.SONG_QUEUE.get(j).equals(n)) {
-						Data.SONG_QUEUE.remove(j);
+				for (int j = 0; j < References.SONG_QUEUE.size(); j++) {
+					if (References.SONG_QUEUE.get(j).equals(n)) {
+						References.SONG_QUEUE.remove(j);
 						break;
 					}
 				}
@@ -126,7 +126,7 @@ public class DirectoryWatchService implements Runnable {
 						this.registerWatchService(child, node);
 					} else {
 						if (nodeChanged.equals(References.currentlyPlayingItem)) {
-							Data.SONG_QUEUE.add((FileTreeItem) node);
+							References.SONG_QUEUE.add((FileTreeItem) node);
 						}
 					}
 

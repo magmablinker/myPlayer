@@ -158,5 +158,13 @@ public class SongQueue {
 	public void add(FileTreeItem newItem) {
 		this.songList.add(newItem);
 	}
+
+	public FileTreeItem get(int index) {
+		return this.songList.get(index);
+	}
+	
+	public void remove(int index) {
+		this.songList.remove(index);
+	}
 	
 }

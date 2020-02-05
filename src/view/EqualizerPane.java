@@ -46,8 +46,7 @@ public class EqualizerPane extends BorderPane {
 		for (int i = 0; i < 10; i++) {
 			final int fi = i;
 			panes[i] = new BorderPane();
-			double currentValue = (References.mediaPlayer == null) ? 0
-					: References.mediaPlayer.getAudioEqualizer().getBands().get(fi).getGain();
+			double currentValue = Data.currentPreset.getBands().get(fi).getGain();
 			sliders[i] = new Slider();
 			sliders[i].setPrefHeight(200);
 			sliders[i].setPrefWidth(100);
@@ -85,6 +84,7 @@ public class EqualizerPane extends BorderPane {
 	private Node createPresetDropDown() {
 		VBox panel = new VBox();
 		comboPreset = new ComboBox<EqualizerPreset>();
+		comboPreset.getItems().add(Data.defaultPreset);
 		comboPreset.getItems().add(new EqualizerPreset("Test", "100;100;100;0.1;0.1;0.1;0.1;0.1;0.1;0.1;"));
 		comboPreset.getItems().add(new EqualizerPreset("Zwei", "8;3;10;0.1;0.1;0.1;0.1;0.1;0.1;0.1;"));
 		comboPreset.setPrefWidth(200);
@@ -160,6 +160,7 @@ public class EqualizerPane extends BorderPane {
 
 				EqualizerPreset selectedPreset = comboPreset.getSelectionModel().getSelectedItem();
 				selectedPreset.setPreset(sb.toString());
+				System.out.println(sb.toString());
 			}
 		});
 		bSave.getStyleClass().add("margin-4");
