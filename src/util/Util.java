@@ -89,19 +89,6 @@ public class Util {
 		return isChanged;
 	}
 	
-	/*
-	public static void removePlayingIcon() {
-		
-		if(References.SONG_QUEUE.size() > 0) {
-			ImageView icon = new ImageView(new Image(Icons.class.getResourceAsStream(Icons.ICON_FILE)));
-			icon.setFitWidth(16);
-			icon.setFitHeight(16);
-			References.SONG_QUEUE.getCurrentItem().setGraphic(icon);
-		}
-		
-	}
-	*/
-
 	public static boolean isAlreadyInTreeView(TreeView<String> directoryView, File file) {
 		for(TreeItem<String> item : directoryView.getRoot().getChildren()) {
 			if(((FileTreeItem) item).getPath().equals(file.getAbsolutePath()))

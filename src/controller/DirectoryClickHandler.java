@@ -3,7 +3,6 @@ package controller;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import ressource.References;
-import util.Util;
 
 public class DirectoryClickHandler implements EventHandler<MouseEvent> {
 

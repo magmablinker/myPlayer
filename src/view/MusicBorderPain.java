@@ -1,6 +1,5 @@
 package view;
 
-import java.util.Iterator;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -9,12 +8,10 @@ import controller.DirectoryWatchService;
 import controller.PlayActionHandler;
 import controller.SongQueue;
 import javafx.concurrent.Task;
-import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeItem.TreeModificationEvent;
 import javafx.scene.control.TreeView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -22,9 +19,7 @@ import javafx.scene.layout.Priority;
 import javafx.util.Callback;
 import model.DirectoryHandler;
 import model.DirectoryViewCell;
-import model.FileTreeItem;
 import ressource.References;
-import util.Util;
 
 public class MusicBorderPain extends BorderPane {
 
@@ -40,7 +35,8 @@ public class MusicBorderPain extends BorderPane {
 
 		GridPane leftPane = (GridPane) createTreeView();
 		leftPane.setPrefWidth(300);
-		leftPane.prefHeightProperty().bind(this.prefHeightProperty());;
+		leftPane.prefHeightProperty().bind(this.prefHeightProperty());
+		GridPane.setHgrow(leftPane, Priority.ALWAYS);
 		
 		this.setLeft(leftPane);
 		this.setCenter(createCenter());
