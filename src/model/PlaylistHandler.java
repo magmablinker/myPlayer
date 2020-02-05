@@ -3,7 +3,7 @@ package model;
 import javafx.scene.control.TreeItem;
 import ressource.Data;
 
-public class PlaylistHandler implements IDataHandler {
+public class PlaylistHandler implements ITreeDataHandler {
 
 	@Override
 	public void load(TreeItem<String> root) {

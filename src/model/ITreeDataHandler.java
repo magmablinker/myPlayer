@@ -2,7 +2,7 @@ package model;
 
 import javafx.scene.control.TreeItem;
 
-public interface IDataHandler {
+public interface ITreeDataHandler  {
 
 	public void load(TreeItem<String> root);
 	

@@ -77,6 +77,7 @@ public class DirectoryViewCell extends TreeCell<String> {
 			Dragboard db = e.getDragboard();
 
 			if (db.hasContent(FILE_TREE_ITEM)) {
+				// TODO: Java Messsge:model.DirectoryViewCell cannot be cast to javafx.scene.text.Text
 				FileTreeItem item = (FileTreeItem) db.getContent(FILE_TREE_ITEM);
 				
 				if (!(new File(item.getPath()).isDirectory())) {

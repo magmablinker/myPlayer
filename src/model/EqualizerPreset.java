@@ -18,8 +18,15 @@ public class EqualizerPreset implements Serializable {
 	public EqualizerPreset(String name, String preset) {
 		this.name = name;
 		this.preset = preset;
-		
+		this.loadStringPreset(preset);
+	}
+	
+	
+	public void loadStringPreset(String preset) {
 		StringTokenizer tokenizer = new StringTokenizer(preset, ";");
+		
+		if(bands.size() > 0)
+			bands.clear();
 		
 		String token;
 		while(tokenizer.hasMoreTokens()) {
@@ -29,8 +36,8 @@ public class EqualizerPreset implements Serializable {
 			bands.add(band);
 		}
 	}
-	
-	
+
+
 	public String getName() {
 		return name;
 	}

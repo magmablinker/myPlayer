@@ -8,7 +8,7 @@ import ressource.Data;
 import ressource.References;
 import util.Util;
 
-public class DirectoryHandler implements IDataHandler {
+public class DirectoryHandler implements ITreeDataHandler {
 
 	public DirectoryHandler(DirectoryWatchService watchService) {
 		super();
