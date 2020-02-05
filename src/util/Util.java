@@ -89,6 +89,7 @@ public class Util {
 		return isChanged;
 	}
 	
+	/*
 	public static void removePlayingIcon() {
 		
 		if(References.SONG_QUEUE.size() > 0) {
@@ -99,6 +100,7 @@ public class Util {
 		}
 		
 	}
+	*/
 
 	public static boolean isAlreadyInTreeView(TreeView<String> directoryView, File file) {
 		for(TreeItem<String> item : directoryView.getRoot().getChildren()) {

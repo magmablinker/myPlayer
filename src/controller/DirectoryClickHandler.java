@@ -10,9 +10,8 @@ public class DirectoryClickHandler implements EventHandler<MouseEvent> {
 	@Override
 	public void handle(MouseEvent e) {
 		if(e.getClickCount() == 2) {
-			if(References.mediaPlayer != null) {
-				Util.removePlayingIcon();
-			}
+			if(References.SONG_QUEUE != null)
+				References.SONG_QUEUE.removePlayingIcon();
 			
 			SongQueue queue = new SongQueue(References.directoryView);
 			

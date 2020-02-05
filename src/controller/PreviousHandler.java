@@ -17,8 +17,6 @@ public class PreviousHandler implements EventHandler<ActionEvent> {
 	@Override
 	public void handle(ActionEvent event) {
 		if(References.mediaPlayer != null) {
-			Util.removePlayingIcon();
-			
 			References.SONG_QUEUE.previous();
 			
 			PlayActionHandler ah = new PlayActionHandler();

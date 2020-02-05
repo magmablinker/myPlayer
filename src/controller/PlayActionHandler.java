@@ -7,6 +7,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.control.TreeView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.media.EqualizerBand;
@@ -23,6 +24,22 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 
 	@Override
 	public void handle(ActionEvent e) {
+
+		if (References.SONG_QUEUE == null) {
+			// BAD!!!!
+			TreeView<String> currentView = null;
+			if (References.directoryView.getSelectionModel().getSelectedIndex() > -1)
+				currentView = References.directoryView;
+			else if (References.playlistView.getSelectionModel().getSelectedIndex() > -1)
+				currentView = References.playlistView;
+
+			if(currentView == null)
+				return;
+			
+			References.SONG_QUEUE = new SongQueue(currentView);
+			
+		}
+
 		this.playMethod();
 	}
 
@@ -35,12 +52,6 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 
 		if (queue.size() > 0) {
 			FileTreeItem currentItem = queue.getCurrentItem();
-
-			ImageView icon = new ImageView(new Image(Icons.class.getResourceAsStream(Icons.ICON_SPEAKER)));
-			icon.setFitWidth(16);
-			icon.setFitHeight(16);
-			currentItem.setGraphic(icon);
-			References.SONG_QUEUE.getCurrentTreeView().refresh();
 
 			File file = new File(currentItem.getPath());
 
@@ -98,9 +109,10 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 					if (References.checkBoxRepeat.isSelected()) {
 						player.seek(Duration.ZERO);
 					} else {
-						Util.removePlayingIcon();
+						References.SONG_QUEUE.removePlayingIcon();
+
 						queue.next();
-						
+
 						PlayActionHandler ah = new PlayActionHandler();
 						ah.playMethod();
 					}
@@ -112,7 +124,7 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 			}
 
 		}
-		
+
 	}
 
 	private void reset() {
@@ -122,7 +134,7 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 		References.songPlayingAlbum.setText("");
 		References.songPlayingArtistLabel.setText("");
 		References.coverImage.setImage(new Image(Icons.class.getResourceAsStream(Icons.DEFAULT_COVER)));
-		Util.removePlayingIcon();
+		References.SONG_QUEUE.removePlayingIcon();
 	}
 
 }

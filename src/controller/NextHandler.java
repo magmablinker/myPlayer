@@ -17,8 +17,6 @@ public class NextHandler implements EventHandler<ActionEvent> {
 	@Override
 	public void handle(ActionEvent e) {
 		if (References.mediaPlayer != null) {
-			Util.removePlayingIcon();
-			
 			References.SONG_QUEUE.next();
 			
 			PlayActionHandler ah = new PlayActionHandler();

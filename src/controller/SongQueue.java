@@ -5,8 +5,12 @@ import java.util.Collections;
 
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import model.FileTreeItem;
+import ressource.Icons;
 import ressource.References;
+import util.Util;
 
 public class SongQueue {
 
@@ -28,6 +32,7 @@ public class SongQueue {
 
 			if (!currentTreeView.getRoot().equals(selectedItem)) {
 				TreeItem<String> realSelectedItem = currentTreeView.getSelectionModel().getSelectedItem();
+				
 				// Check if item is song or playlist/directory
 				if (selectedItem.getChildren().isEmpty()) {
 					if (!selectedItem.getParent().equals(currentTreeView.getRoot())) {
@@ -54,20 +59,21 @@ public class SongQueue {
 				
 				References.currentlyPlayingItem = selectedItem;
 				
+				songQueuePosition = finalIndex;
+				
 				if(References.checkBoxShuffle.isSelected()) {
-					songQueuePosition = finalIndex;
-					this.shuffleQueue();
-				} else {
-					songQueuePosition = finalIndex;
-				}
-
+					this.shuffle();
+				} 
+				
+				addPlayingIcon();
+				
 			}
 
 		}
 
 	}
 
-	public void shuffleQueue() {
+	public void shuffle() {
 		FileTreeItem currentItem = songList.get(songQueuePosition);
 
 		Collections.shuffle(songList);
@@ -94,18 +100,46 @@ public class SongQueue {
 	}
 
 	public void next() {
+		removePlayingIcon();
+		
 		if (songQueuePosition < songList.size() - 1) {
 			songQueuePosition++;
 		} else {
 			songQueuePosition = 0;
 		}
+		
+		addPlayingIcon();
 	}
 
 	public void previous() {
+		removePlayingIcon();
+		
 		if (songQueuePosition > 0) {
 			songQueuePosition--;
 		} else {
 			songQueuePosition = songList.size() - 1;
+		}
+		
+		addPlayingIcon();
+	}
+	
+	public void addPlayingIcon() {		
+		ImageView icon = new ImageView(new Image(Icons.class.getResourceAsStream(Icons.ICON_SPEAKER)));
+		icon.setFitWidth(16);
+		icon.setFitHeight(16);
+		
+		this.getCurrentItem().setGraphic(icon);
+		this.getCurrentTreeView().refresh();
+	}
+	
+	public void removePlayingIcon() {
+		if(References.mediaPlayer != null) {
+			if(this.size() > 0) {
+				ImageView icon = new ImageView(new Image(Icons.class.getResourceAsStream(Icons.ICON_FILE)));
+				icon.setFitWidth(16);
+				icon.setFitHeight(16);
+				this.getCurrentItem().setGraphic(icon);
+			}
 		}
 	}
 

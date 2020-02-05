@@ -10,13 +10,13 @@ public class CheckBoxCheckListener implements EventHandler<ActionEvent> {
 
 	@Override
 	public void handle(ActionEvent e) {
-		if(References.mediaPlayer != null && !References.mediaPlayer.getStatus().equals(Status.PLAYING)) {
-			Util.removePlayingIcon();
+		if(!References.mediaPlayer.getStatus().equals(Status.PLAYING)) {
+			References.SONG_QUEUE.removePlayingIcon();
 		}
 		
 		if(References.checkBoxShuffle.isSelected()) {
 			if(References.SONG_QUEUE != null)
-				References.SONG_QUEUE.shuffleQueue();	
+				References.SONG_QUEUE.shuffle();	
 		} else {
 			References.SONG_QUEUE.generateSongQueue();
 		}

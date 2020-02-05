@@ -23,14 +23,11 @@ import ressource.References;
 public class DirectoryViewCell extends TreeCell<String> {
 
 	// https://examples.javacodegeeks.com/desktop-java/javafx/event-javafx/javafx-drag-drop-example/
-	private TreeView<String> parentTree;
 	private TreeItem<String> item;
 
 	static final DataFormat FILE_TREE_ITEM = new DataFormat("FileTreeItem");
 
-	public DirectoryViewCell(final TreeView<String> parentTree) {
-		this.parentTree = parentTree;
-
+	public DirectoryViewCell() {
 		this.setOnDragDetected(new EventHandler<MouseEvent>() {
 
 			@Override
@@ -38,12 +35,9 @@ public class DirectoryViewCell extends TreeCell<String> {
 				int selectedIndex = References.directoryView.getSelectionModel().getSelectedIndex();
 
 				if (selectedIndex < 0) {
-					System.out.println("HERERER");
 					event.consume();
 					return;
 				}
-
-				System.out.println("YEEE");
 
 				Dragboard db = References.directoryView.startDragAndDrop(TransferMode.COPY_OR_MOVE);
 				FileTreeItem selectedItem = (FileTreeItem) References.directoryView.getSelectionModel().getSelectedItem();

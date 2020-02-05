@@ -24,6 +24,7 @@ import model.DirectoryHandler;
 import model.DirectoryViewCell;
 import model.FileTreeItem;
 import ressource.References;
+import util.Util;
 
 public class MusicBorderPain extends BorderPane {
 
@@ -72,7 +73,7 @@ public class MusicBorderPain extends BorderPane {
 		playlistView.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
 			@Override
 			public TreeCell<String> call(TreeView<String> param) {
-				TreeCell<String> cell = new DirectoryViewCell(param);
+				TreeCell<String> cell = new DirectoryViewCell();
 				return cell;
 			}
 		});
@@ -86,7 +87,7 @@ public class MusicBorderPain extends BorderPane {
 		directoryView.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
 			@Override
 			public TreeCell<String> call(TreeView<String> param) {
-				TreeCell<String> cell = new DirectoryViewCell(param);
+				TreeCell<String> cell = new DirectoryViewCell();
 				return cell;
 			}
 		});
@@ -96,6 +97,9 @@ public class MusicBorderPain extends BorderPane {
 
 		playlistView.setOnMouseClicked(e -> {
 			if(e.getClickCount() == 2) {
+				if(References.SONG_QUEUE != null)
+					References.SONG_QUEUE.removePlayingIcon();
+
 				SongQueue queue = new SongQueue(playlistView);
 				
 				References.SONG_QUEUE = queue;
