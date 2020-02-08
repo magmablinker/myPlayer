@@ -91,7 +91,7 @@ public class Util {
 	
 	public static boolean isAlreadyInTreeView(TreeView<String> directoryView, File file) {
 		for(TreeItem<String> item : directoryView.getRoot().getChildren()) {
-			if(((FileTreeItem) item).getPath().equals(file.getAbsolutePath()))
+			if(item instanceof FileTreeItem && ((FileTreeItem) item).getPath().equals(file.getAbsolutePath()))
 				return true;
 		}
 		

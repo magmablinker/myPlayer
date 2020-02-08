@@ -41,6 +41,7 @@ public class DirectoryWatchService implements Runnable {
 
 	@Override
 	public void run() {
+		// TODO: FIX FUCKING SHIT BUG WHERE NEUER ORDNER GETS ADDED TWICE
 		while (this.isRunning) {
 			WatchKey key;
 
@@ -51,7 +52,7 @@ public class DirectoryWatchService implements Runnable {
 			}
 
 			Path dir = this.directoryMap.get(key);
-
+			
 			for (WatchEvent<?> event : key.pollEvents()) {
 				WatchEvent.Kind<?> kind = event.kind();
 
@@ -61,9 +62,10 @@ public class DirectoryWatchService implements Runnable {
 
 				WatchEvent<Path> ev = (WatchEvent<Path>) event;
 				Path fileName = ev.context();
-
+				
 				try {
 					Path child = dir.resolve(fileName);
+					System.out.println(fileName.toAbsolutePath());
 					this.resolveTreeViewAction(child, kind, key);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -80,18 +82,18 @@ public class DirectoryWatchService implements Runnable {
 	}
 
 	private void resolveTreeViewAction(Path child, WatchEvent.Kind<?> kind, WatchKey key) {
-		// Check if file got deleted or created
 		File file = child.toFile().getAbsoluteFile();
 		String parentDir = file.getParent();
 		TreeItem<String> nodeChanged = this.treeItemMap.get(parentDir);
 
-		//System.out.println("\n*************************");
-		//System.out.println("name: " + file.getName());
-		//System.out.println("path: " + file.getAbsolutePath());
-		//System.out.println("isDirectory: " + file.isDirectory());
-		//System.out.println("kind: " + kind.toString());
-		//System.out.println("*************************");
+		System.out.println("\n*************************");
+		System.out.println("name: " + file.getName());
+		System.out.println("path: " + file.getAbsolutePath());
+		System.out.println("isDirectory: " + file.isDirectory());
+		System.out.println("kind: " + kind.toString());
+		System.out.println("*************************");
 
+		// Check if file got deleted or created
 		switch (kind.toString()) {
 		case "ENTRY_DELETE":
 			if (nodeChanged != null) {
@@ -105,13 +107,16 @@ public class DirectoryWatchService implements Runnable {
 					}
 					i++;
 				}
-
-				for (int j = 0; j < References.SONG_QUEUE.size(); j++) {
-					if (References.SONG_QUEUE.get(j).equals(n)) {
-						References.SONG_QUEUE.remove(j);
-						break;
-					}
+				
+				if(References.SONG_QUEUE != null) {
+					for (int j = 0; j < References.SONG_QUEUE.size(); j++) {
+						if (References.SONG_QUEUE.get(j).equals(n)) {
+							References.SONG_QUEUE.remove(j);
+							break;
+						}
+					}					
 				}
+
 			}
 
 			this.fileGotDeletedAction(file);
@@ -122,9 +127,7 @@ public class DirectoryWatchService implements Runnable {
 				if (nodeChanged != null) {
 					TreeItem<String> node = Util.generateTreeNode(file);
 
-					if (file.isDirectory()) {
-						this.registerWatchService(child, node);
-					} else {
+					if (!file.isDirectory()) {
 						if (nodeChanged.equals(References.currentlyPlayingItem)) {
 							References.SONG_QUEUE.add((FileTreeItem) node);
 						}
@@ -147,7 +150,7 @@ public class DirectoryWatchService implements Runnable {
 
 	public void registerWatchService(Path path, TreeItem<String> node) {
 		try {
-			//System.out.println("Registering watchservice for " + path.toString());
+			System.out.println("Registering watchservice for " + path.toString());
 			WatchKey key = path.register(this.watchService, ENTRY_CREATE, ENTRY_DELETE);
 			this.putDirectoryMap(key, path);
 			this.putTreeViewMap(path.toFile().getAbsolutePath(), node);

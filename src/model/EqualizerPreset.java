@@ -17,7 +17,6 @@ public class EqualizerPreset implements Serializable {
 	
 	public EqualizerPreset(String name, String preset) {
 		this.name = name;
-		this.preset = preset;
 		this.loadStringPreset(preset);
 	}
 	
@@ -48,6 +47,7 @@ public class EqualizerPreset implements Serializable {
 	
 	public void setPreset(String preset) {
 		this.preset = preset;
+		// ?? loadStringPreset(preset);
 	}
 	
 	@Override
