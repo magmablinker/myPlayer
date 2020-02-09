@@ -2,13 +2,16 @@ package view;
 
 import java.util.ArrayList;
 
+import javafx.animation.PauseTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -23,6 +26,11 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.EqualizerBand;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.util.Duration;
 import model.EqualizerPreset;
 import ressource.Data;
 import ressource.References;
@@ -172,8 +180,7 @@ public class EqualizerPane extends BorderPane {
 				content.putString(getPresetString());
 				clipboard.setContent(content);
 				
-				Alert alert = new Alert(AlertType.INFORMATION, "The config string has been copied.", ButtonType.OK);
-				alert.show();	
+				PopupTextBuilder builder = new PopupTextBuilder(this, "Config successfully copied!", 2, 2, 2);
 			}
 		});
 		bCopy.getStyleClass().add("margin-4");
@@ -194,8 +201,7 @@ public class EqualizerPane extends BorderPane {
 				}
 				
 			} catch(Exception ex) {
-				Alert alert = new Alert(AlertType.ERROR, "Invalid config string", ButtonType.YES);
-				alert.show();
+				PopupTextBuilder builder = new PopupTextBuilder(this, "Invalid config string!", 2, 2, 2);
 			}
 			
 		});

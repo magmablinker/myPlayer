@@ -77,9 +77,10 @@ public class Util {
 	public static boolean checkIfPlaylistOrDirChanged() {
 		boolean isChanged = false;
 		
-		MultipleSelectionModel<TreeItem<String>> sm = References.directoryView.getSelectionModel();
+		TreeView<String> currentView = References.SONG_QUEUE.getCurrentTreeView();
+		MultipleSelectionModel<TreeItem<String>> sm = currentView.getSelectionModel();
 		if(!sm.getSelectedItem().getChildren().isEmpty()) {
-			if(!References.directoryView.getRoot().equals(sm.getSelectedItem())) {
+			if(!currentView.getRoot().equals(sm.getSelectedItem())) {
 				if(!References.currentlyPlayingItem.equals(sm.getSelectedItem())) {
 					isChanged = true;
 				}
@@ -90,10 +91,9 @@ public class Util {
 	}
 	
 	public static boolean isAlreadyInTreeView(TreeView<String> directoryView, File file) {
-		for(TreeItem<String> item : directoryView.getRoot().getChildren()) {
+		for(TreeItem<String> item : directoryView.getRoot().getChildren()) 
 			if(item instanceof FileTreeItem && ((FileTreeItem) item).getPath().equals(file.getAbsolutePath()))
 				return true;
-		}
 		
 		return false;
 	}

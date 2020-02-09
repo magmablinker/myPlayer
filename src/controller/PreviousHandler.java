@@ -16,14 +16,12 @@ public class PreviousHandler implements EventHandler<ActionEvent> {
 
 	@Override
 	public void handle(ActionEvent event) {
-		if(References.mediaPlayer != null) {
+		
+		if (References.mediaPlayer != null) {
 			References.SONG_QUEUE.previous();
-			
+
 			PlayActionHandler ah = new PlayActionHandler();
 			ah.playMethod();
-		} else {
-			Alert alert = new Alert(AlertType.INFORMATION, "Please play a song first", ButtonType.OK);
-			alert.show();
 		}
 		
 	}
