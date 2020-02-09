@@ -36,6 +36,8 @@ public class MenuSettingsEqualizerHandler implements EventHandler<ActionEvent> {
 				stage.close();
 			});	
 		} else {
+			if(References.equalizerPaneStage.isIconified())
+				References.equalizerPaneStage.setIconified(false);
 			References.equalizerPaneStage.toFront();
 		}
 		
