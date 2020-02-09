@@ -34,6 +34,8 @@ public class EqualizerPreset implements Serializable {
 			band.setGain(Double.valueOf(token));
 			bands.add(band);
 		}
+		
+		this.preset = preset;
 	}
 
 
@@ -55,9 +57,12 @@ public class EqualizerPreset implements Serializable {
 		return name;
 	}
 
-
 	public void setBands(ArrayList<EqualizerBand> bands) {
 		this.bands = bands;
+	}
+	
+	public String getStringPreset() {
+		return this.preset;
 	}
 	
 }

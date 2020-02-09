@@ -201,6 +201,7 @@ public class EqualizerPane extends BorderPane {
 				}
 				
 			} catch(Exception ex) {
+				Data.currentPreset.loadStringPreset(Data.currentPreset.getStringPreset());
 				PopupTextBuilder builder = new PopupTextBuilder(this, "Invalid config string!", 2, 2, 2);
 			}
 			

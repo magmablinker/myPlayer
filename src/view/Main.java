@@ -1,6 +1,7 @@
 package view;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
@@ -23,9 +24,10 @@ public class Main extends Application {
 			stage.setMinWidth(650);
 			stage.setMinHeight(600);
 			
-			stage.setOnHiding(event -> {
+			stage.setOnCloseRequest(event -> {
 				System.out.println("Stopping watchservice");
 				root.getExServiceDirectoryWatchService().shutdownNow();
+				Platform.exit();
 			});
 		} catch (Exception e) {
 			e.printStackTrace();
