@@ -25,7 +25,6 @@ public class Main extends Application {
 			stage.setMinHeight(600);
 			
 			stage.setOnCloseRequest(event -> {
-				System.out.println("Stopping watchservice");
 				root.getExServiceDirectoryWatchService().shutdownNow();
 				Platform.exit();
 			});

@@ -41,7 +41,7 @@ public class PopupTextBuilder {
 		PauseTransition delay = new PauseTransition(Duration.seconds(2.5));
 		
 		stage.setScene(scene);
-		stage.setY(parent.getY() + (parent.getWidth() / 2));
+		stage.setY(parent.getY() + (parent.getWidth() / 4));
 		stage.setX(parent.getX() + (parent.getHeight() / 2));
 		stage.show();
 		

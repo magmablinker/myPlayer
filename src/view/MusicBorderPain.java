@@ -50,7 +50,7 @@ public class MusicBorderPain extends BorderPane {
 				directoryWatchService.run();
 				return null;
 			}
-
+			
 		};
 
 		this.exServiceDirectoryWatchService = Executors.newSingleThreadExecutor();

@@ -169,7 +169,7 @@ public class EqualizerPane extends BorderPane {
 				content.putString(getPresetString());
 				clipboard.setContent(content);
 				
-				PopupTextBuilder builder = new PopupTextBuilder(References.equalizerPaneStage, "Config successfully copied!", 2, "black");
+				PopupTextBuilder builder = new PopupTextBuilder(References.equalizerPaneStage, "Config successfully copied!", 2, "green");
 			}
 		});
 		bCopy.getStyleClass().add("margin-4");
