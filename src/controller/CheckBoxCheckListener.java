@@ -10,6 +10,7 @@ public class CheckBoxCheckListener implements EventHandler<ActionEvent> {
 
 	@Override
 	public void handle(ActionEvent e) {
+		// TODO: Fix bug where playing icon stays when box gets unchecked and skipped to next song
 		if(!References.mediaPlayer.getStatus().equals(Status.PLAYING)) {
 			References.SONG_QUEUE.removePlayingIcon();
 		}
