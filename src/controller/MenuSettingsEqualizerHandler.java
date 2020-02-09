@@ -18,6 +18,8 @@ public class MenuSettingsEqualizerHandler implements EventHandler<ActionEvent> {
 		Scene scene = new Scene(root, 500, 300);
 		Stage stage = new Stage();
 		
+		References.equalizerPaneStage = stage;
+		
 		scene.getStylesheets().add(EqualizerPane.class.getResource("css/application.css").toExternalForm());
 		
 		stage.setTitle("Equalizer");
@@ -27,6 +29,11 @@ public class MenuSettingsEqualizerHandler implements EventHandler<ActionEvent> {
 		stage.setX(References.stage.getX() + (References.stage.getHeight() / 4));
 		stage.setY(References.stage.getY() + (References.stage.getWidth() / 6));
 		stage.show();
+		
+		stage.setOnCloseRequest(event -> {
+			References.equalizerPaneStage = null;
+			stage.close();
+		});
 	}
 	
 }

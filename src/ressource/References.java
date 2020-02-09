@@ -53,4 +53,6 @@ public class References {
 
 	public static AudioEqualizer audioEqualizer = null;
 	
+	public static Stage equalizerPaneStage = null;
+	
 }
