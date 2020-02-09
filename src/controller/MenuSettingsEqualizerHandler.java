@@ -2,6 +2,7 @@ package controller;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Bounds;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
@@ -27,8 +28,13 @@ public class MenuSettingsEqualizerHandler implements EventHandler<ActionEvent> {
 			stage.getIcons().add(new Image(Data.class.getResourceAsStream("img/equalizer.png")));
 			stage.setResizable(false);
 			stage.setScene(scene);
-			stage.setX(References.stage.getX() + (References.stage.getHeight() / 4));
-			stage.setY(References.stage.getY() + (References.stage.getWidth() / 6));
+			
+			// Center the equalizer window on primaryStage
+			Bounds mainBounds = References.stage.getScene().getRoot().getLayoutBounds();
+			Bounds rootBounds = scene.getRoot().getLayoutBounds();
+			
+			stage.setX(References.stage.getX() + (mainBounds.getWidth() - rootBounds.getWidth()) / 2);
+			stage.setY(References.stage.getY() + (mainBounds.getHeight() - rootBounds.getHeight()) / 2);
 			stage.show();
 			
 			stage.setOnCloseRequest(event -> {

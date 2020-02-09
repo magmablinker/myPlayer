@@ -2,6 +2,7 @@ package view;
 
 import java.util.ArrayList;
 
+import controller.PopupTextBuilder;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -156,6 +157,8 @@ public class EqualizerPane extends BorderPane {
 			if (comboPreset.getSelectionModel().getSelectedIndex() > -1) {
 				EqualizerPreset selectedPreset = comboPreset.getSelectionModel().getSelectedItem();
 				selectedPreset.setPreset(getPresetString());
+				// TODO: Save to DB
+				PopupTextBuilder builder = new PopupTextBuilder(References.equalizerPaneStage, "Config has been saved", 2, "green");
 			}
 		});
 		bSave.getStyleClass().add("margin-4");
@@ -169,7 +172,7 @@ public class EqualizerPane extends BorderPane {
 				content.putString(getPresetString());
 				clipboard.setContent(content);
 				
-				PopupTextBuilder builder = new PopupTextBuilder(References.equalizerPaneStage, "Config successfully copied!", 2, "green");
+				PopupTextBuilder builder = new PopupTextBuilder(References.equalizerPaneStage, "Config has been copied to clipboard", 2, "green");
 			}
 		});
 		bCopy.getStyleClass().add("margin-4");
@@ -189,11 +192,12 @@ public class EqualizerPane extends BorderPane {
 						References.mediaPlayer.getAudioEqualizer().getBands().get(i).setGain(gain);
 				}
 				
+				PopupTextBuilder builder = new PopupTextBuilder(References.equalizerPaneStage, "Successfully loaded config", 2, "green");
 			} catch(Exception ex) {
 				Data.currentPreset.loadStringPreset(Data.currentPreset.getStringPreset());
 				PopupTextBuilder builder = new PopupTextBuilder(References.equalizerPaneStage, "Invalid config string!", 2, "red");
 			}
-			
+		
 		});
 		bPaste.getStyleClass().add("margin-4");
 		bPaste.setPrefWidth(100);

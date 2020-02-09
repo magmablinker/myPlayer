@@ -1,6 +1,7 @@
-package view;
+package controller;
 
 import javafx.animation.PauseTransition;
+import javafx.geometry.Bounds;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
@@ -10,6 +11,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
+import view.PopupText;
 
 public class PopupTextBuilder {
 
@@ -19,9 +21,9 @@ public class PopupTextBuilder {
 		
 		Text text = new Text(message);
 		text.setFont(Font.font(16));
-				
-		final double textWidth = text.getBoundsInLocal().getWidth();
-		final double textHeight = text.getBoundsInLocal().getHeight();
+		
+		final double textWidth = text.getBoundsInLocal().getWidth() + 16; // + 16 => for padding (8px on all sides)
+		final double textHeight = text.getBoundsInLocal().getHeight() + 16;
 		
 		Rectangle rect = new Rectangle(textWidth, textHeight);
 		rect.setArcHeight(textHeight / 4);
@@ -38,7 +40,7 @@ public class PopupTextBuilder {
 		Scene scene = new Scene(root);
 		scene.setFill(Color.TRANSPARENT);
 		
-		PauseTransition delay = new PauseTransition(Duration.seconds(2.5));
+		PauseTransition delay = new PauseTransition(Duration.seconds(duration));
 		
 		stage.setScene(scene);
 		stage.setY(parent.getY() + (parent.getWidth() / 4));

@@ -16,6 +16,7 @@ public class PopupText extends HBox {
 		label.setAlignment(Pos.CENTER);
 		label.setFont(Font.font(16));
 		label.setTextFill(Color.WHITE);
+		label.setStyle("-fx-padding: 8px;");
 		HBox.setMargin(this, new Insets(12));
 		this.getChildren().add(label);
 		this.setStyle(String.format("-fx-background-color:  %s", bgColor));
