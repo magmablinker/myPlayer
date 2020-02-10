@@ -7,6 +7,8 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaPlayer.Status;
 import ressource.Data;
 import ressource.Icons;
 import ressource.References;
@@ -19,6 +21,10 @@ public class PreviousHandler implements EventHandler<ActionEvent> {
 		
 		if (References.mediaPlayer != null) {
 			References.SONG_QUEUE.previous();
+			
+			// TODO: Find better fix for prev/next on paused
+			if(References.mediaPlayer.getStatus().equals(MediaPlayer.Status.PAUSED))
+				References.mediaPlayer = null;
 
 			PlayActionHandler ah = new PlayActionHandler();
 			ah.playMethod();

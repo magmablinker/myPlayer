@@ -7,6 +7,7 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.media.MediaPlayer.Status;
 import model.FileTreeItem;
 import ressource.Icons;
 import ressource.References;
@@ -40,8 +41,10 @@ public class SongQueue {
 					} 
 				}
 				
-				if(this.size() > 0)
+				if(this.size() > 0) {
+					realSelectedItem = this.get(songQueuePosition);
 					this.songList.clear();
+				}
 				
 				int index = 0;
 				int finalIndex = 0;
@@ -75,7 +78,9 @@ public class SongQueue {
 
 	public void shuffle() {
 		FileTreeItem currentItem = songList.get(songQueuePosition);
-
+		
+		System.out.println(currentItem.getPath());
+		
 		Collections.shuffle(songList);
 
 		// Put the currentItem on the start of the list
