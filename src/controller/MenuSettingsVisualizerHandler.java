@@ -40,7 +40,7 @@ public class MenuSettingsVisualizerHandler implements EventHandler<ActionEvent> 
 		fadeIn.play();
 		
 		if(References.mediaPlayer != null) {
-			References.mediaPlayer.setAudioSpectrumListener(new SpektrumListener(root));
+			References.mediaPlayer.setAudioSpectrumListener(new SpectrumListener(root));
 		}
 	}
 
