@@ -21,7 +21,8 @@ public class DoubleClickHandler implements EventHandler<MouseEvent> {
 		if(e.getClickCount() == 2) {
 			if(References.SONG_QUEUE != null)
 				References.SONG_QUEUE.removePlayingIcon();
-
+			
+			// TODO: FIX BUG WHERE PAUSED SONG JUST KEEPS PLAYING IF ANOTHER SONG IS DOUBLE CLICKED
 			if(currentView.equals(References.directoryView)) {
 				if(References.directoryView.getSelectionModel().getSelectedIndex() > -1) {
 					File file = new File(((FileTreeItem) References.directoryView.getSelectionModel().getSelectedItem()).getPath());

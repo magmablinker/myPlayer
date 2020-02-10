@@ -1,28 +1,31 @@
 package view;
 
 import controller.MenuSettingsEqualizerHandler;
+import controller.MenuSettingsVisualizerHandler;
 import javafx.application.Platform;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import ressource.References;
 
 public class MusicMenuBar extends MenuBar {
 
 	public MusicMenuBar() {
 		Menu menuFile = createFileMenu();
-		Menu menuSettings = createMenuSettings();
+		Menu menuSettings = createMenuTools();
 		this.getMenus().addAll(menuFile, menuSettings);
 	}
 
-	private Menu createMenuSettings() {
-		Menu menuSettings = new Menu("_Settings");
+	private Menu createMenuTools() {
+		Menu menuSettings = new Menu("_Tools");
 		menuSettings.setMnemonicParsing(true);
-		menuSettings.setOnAction(new MenuSettingsEqualizerHandler());
 		
-		MenuItem equalizer = new MenuItem("Equalizer");
+		MenuItem mEqualizer = new MenuItem("Equalizer");
+		mEqualizer.setOnAction(new MenuSettingsEqualizerHandler());
 		
-		menuSettings.getItems().add(equalizer);
+		MenuItem mVisualizer = new MenuItem("Visualizer");
+		mVisualizer.setOnAction(new MenuSettingsVisualizerHandler());
+		
+		menuSettings.getItems().addAll(mEqualizer, mVisualizer);
 		
 		return menuSettings;
 	}
