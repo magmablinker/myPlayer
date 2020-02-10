@@ -3,10 +3,8 @@ package view;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import controller.DirectoryClickHandler;
 import controller.DirectoryWatchService;
-import controller.PlayActionHandler;
-import controller.SongQueue;
+import controller.DoubleClickHandler;
 import javafx.concurrent.Task;
 import javafx.scene.Node;
 import javafx.scene.control.MenuBar;
@@ -91,21 +89,7 @@ public class MusicBorderPain extends BorderPane {
 		References.directoryView = directoryView;
 		References.playlistView = playlistView;
 
-		playlistView.setOnMouseClicked(e -> {
-			if(e.getClickCount() == 2) {
-				if(References.SONG_QUEUE != null)
-					References.SONG_QUEUE.removePlayingIcon();
-
-				SongQueue queue = new SongQueue(playlistView);
-				
-				References.SONG_QUEUE = queue;
-					
-				queue.generateSongQueue();
-				
-				PlayActionHandler ah = new PlayActionHandler();
-				ah.playMethod();
-			}
-		});
+		playlistView.setOnMouseClicked(new DoubleClickHandler(playlistView));
 		
 		TreeItem<String> playlistViewRoot = new TreeItem<String>("Playlists");
 		playlistViewRoot.setExpanded(true);		
@@ -122,7 +106,7 @@ public class MusicBorderPain extends BorderPane {
 		directoryViewRoot.setExpanded(true);
 
 		directoryView.setContextMenu(new DirectoryContextMenu());
-		directoryView.setOnMouseClicked(new DirectoryClickHandler());
+		directoryView.setOnMouseClicked(new DoubleClickHandler(directoryView));
 		
 		playlistView.setContextMenu(new PlaylistContextMenu());
 

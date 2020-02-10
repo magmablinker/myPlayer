@@ -43,18 +43,24 @@ public class PopupTextBuilder {
 		
 		PauseTransition delay = new PauseTransition(Duration.seconds(duration));
 		
-		FadeTransition fade = new FadeTransition(Duration.millis(500), root);
-		fade.setFromValue(1.0);
-		fade.setToValue(0.0);
-		fade.setOnFinished(event -> stage.close());
+		FadeTransition fadeIn = new FadeTransition(Duration.millis(200), root);
+		fadeIn.setFromValue(0.0);
+		fadeIn.setToValue(1.0);
+		
+		FadeTransition fadeOut = new FadeTransition(Duration.millis(400), root);
+		fadeOut.setFromValue(1.0);
+		fadeOut.setToValue(0.0);
 		
 		stage.setScene(scene);
-		stage.setY(parent.getY() + (parent.getWidth() / 4));
-		stage.setX(parent.getX() + (parent.getHeight() / 2));
+		stage.setY(parent.getY() + (parent.getHeight() / 3));
+		stage.setX(parent.getX() + (parent.getWidth() / 4));
 		stage.show();
 		
-		delay.setOnFinished(event -> fade.play());
-		delay.play();
+		fadeIn.setOnFinished(event -> delay.play());
+		delay.setOnFinished(event -> fadeOut.play());
+		fadeOut.setOnFinished(event -> stage.close());
+		
+		fadeIn.play();
 	}
 	
 }
