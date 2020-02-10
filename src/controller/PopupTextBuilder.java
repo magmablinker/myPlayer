@@ -1,5 +1,6 @@
 package controller;
 
+import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
 import javafx.geometry.Bounds;
 import javafx.geometry.Pos;
@@ -42,12 +43,17 @@ public class PopupTextBuilder {
 		
 		PauseTransition delay = new PauseTransition(Duration.seconds(duration));
 		
+		FadeTransition fade = new FadeTransition(Duration.millis(500), root);
+		fade.setFromValue(1.0);
+		fade.setToValue(0.0);
+		fade.setOnFinished(event -> stage.close());
+		
 		stage.setScene(scene);
 		stage.setY(parent.getY() + (parent.getWidth() / 4));
 		stage.setX(parent.getX() + (parent.getHeight() / 2));
 		stage.show();
 		
-		delay.setOnFinished(event -> stage.close());
+		delay.setOnFinished(event -> fade.play());
 		delay.play();
 	}
 	
