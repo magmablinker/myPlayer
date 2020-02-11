@@ -14,7 +14,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.media.AudioEqualizer;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
-import model.FileTreeItem;
 import view.MusicPanel;
 
 public class References {
@@ -54,5 +53,7 @@ public class References {
 	public static AudioEqualizer audioEqualizer = null;
 	
 	public static Stage equalizerPaneStage = null;
+
+	public static Stage visualizerPaneStage = null;
 	
 }

@@ -4,8 +4,8 @@
 	-fx-border-insets: 8.0px; 
 	-fx-background-insets: 8.0px;
 	-fx-border-color: white;
-	-fx-border-radius: 4.0px;
-	-fx-background-radius: 4px;
+	-fx-border-radius: 2.0px;
+	-fx-background-radius: 2px;
 }
 
 .margin-8-no-border {
@@ -37,6 +37,13 @@
 
 .button-icon:hover {
 	-fx-cursor: hand;
+}
+
+.textfield {
+	-fx-border-color: white;
+	-fx-border-radius: 2.0px;
+	-fx-border-insets: 8.0px; 
+	-fx-background-insets: 8.0px;
 }
 
 /*

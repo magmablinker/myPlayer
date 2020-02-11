@@ -6,17 +6,23 @@ import java.util.concurrent.Executors;
 import controller.DirectoryWatchService;
 import controller.DoubleClickHandler;
 import javafx.concurrent.Task;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.util.Callback;
 import model.DirectoryHandler;
 import model.DirectoryViewCell;
+import ressource.Icons;
 import ressource.References;
 
 public class MusicBorderPain extends BorderPane {
@@ -72,6 +78,7 @@ public class MusicBorderPain extends BorderPane {
 			}
 		});
 		
+		BorderPane directoryViewPane = new BorderPane();
 		
 		directoryView = new TreeView<String>();
 		directoryView.prefWidthProperty().bind(grid.prefWidthProperty());
@@ -109,9 +116,33 @@ public class MusicBorderPain extends BorderPane {
 		directoryView.setOnMouseClicked(new DoubleClickHandler(directoryView));
 		
 		playlistView.setContextMenu(new PlaylistContextMenu());
-
+		
+		BorderPane searchPane = new BorderPane();
+		
+		TextField fSearch = new TextField();
+		fSearch.setPromptText("Search...");
+		fSearch.getStyleClass().add("textfield");
+		fSearch.setPrefHeight(40);
+		fSearch.setMinHeight(40);
+		fSearch.setMaxHeight(40);
+		
+		Button bSearch = new Button();
+		bSearch.getStyleClass().addAll("margin-8-no-border", "button-icon");
+		
+		ImageView searchIcon = new ImageView(new Image(Icons.ICON_SEARCH));
+		searchIcon.setFitWidth(28);
+		searchIcon.setFitHeight(28);
+		
+		bSearch.setGraphic(searchIcon);
+		
+		searchPane.setCenter(fSearch);
+		searchPane.setRight(bSearch);
+		
+		directoryViewPane.setCenter(directoryView);
+		directoryViewPane.setBottom(searchPane);
+		
 		grid.add(playlistView, 1, 1);
-		grid.add(directoryView, 1, 2);
+		grid.add(directoryViewPane, 1, 2);
 
 		return grid;
 	}

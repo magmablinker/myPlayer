@@ -11,7 +11,7 @@ import ressource.References;
 import sun.applet.Main;
 import view.EqualizerPane;
 
-public class MenuSettingsEqualizerHandler implements EventHandler<ActionEvent> {
+public class MenuToolsEqualizerHandler implements EventHandler<ActionEvent> {
 
 	@Override
 	public void handle(ActionEvent e) {

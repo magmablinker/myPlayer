@@ -22,11 +22,11 @@ public class SpectrumListener implements AudioSpectrumListener {
 		gc.setFill(Color.FORESTGREEN);
 		
 		pane.clearCanvas();
-
+		
 		for (int i = 0; i < magnitudes.length; i++) {
-			gc.fillRect(50 * i, 
-						pane.getCanvas().getHeight() - 55,
-					   (pane.getCanvas().getWidth() / magnitudes.length) - 40,
+			gc.fillRect(75 * i, 
+						pane.getCanvas().getHeight() - 20,
+					   (pane.getCanvas().getWidth() / magnitudes.length) - 15,
 						magnitudes[i] - References.mediaPlayer.getAudioSpectrumThreshold() + 20);
 		}
 

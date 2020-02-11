@@ -14,5 +14,7 @@ public class Icons {
 	public static String ICON_PAUSE = "img/pause.png";
 	public static InputStream ICON_NEXT = Icons.class.getResourceAsStream("img/next.png");
 	public static InputStream ICON_PREVIOUS = Icons.class.getResourceAsStream("img/previous.png");
+	
+	public static InputStream ICON_SEARCH = Icons.class.getResourceAsStream("img/search.png");
 
 }

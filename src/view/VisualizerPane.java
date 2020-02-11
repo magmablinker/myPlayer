@@ -1,10 +1,10 @@
 package view;
 
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.HBox;
-import ressource.References;
 
 public class VisualizerPane extends HBox {
 
@@ -13,14 +13,14 @@ public class VisualizerPane extends HBox {
 
 	public VisualizerPane() {
 		super();
+		this.setAlignment(Pos.CENTER);
 		this.getChildren().add(createVisualizer());
 		this.getStylesheets().add(getClass().getResource("css/application.css").toExternalForm());
 	}
 
 	private Node createVisualizer() {
-		this.canvas = new Canvas(References.stage.getWidth(), References.stage.getHeight());
+		this.canvas = new Canvas(750, 550);
 		this.gc = canvas.getGraphicsContext2D();
-		this.canvas.isResizable();
 		
 		return canvas;
 	}

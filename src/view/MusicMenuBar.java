@@ -1,7 +1,7 @@
 package view;
 
-import controller.MenuSettingsEqualizerHandler;
-import controller.MenuSettingsVisualizerHandler;
+import controller.MenuToolsEqualizerHandler;
+import controller.MenuToolsVisualizerHandler;
 import javafx.application.Platform;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -20,10 +20,10 @@ public class MusicMenuBar extends MenuBar {
 		menuSettings.setMnemonicParsing(true);
 		
 		MenuItem mEqualizer = new MenuItem("Equalizer");
-		mEqualizer.setOnAction(new MenuSettingsEqualizerHandler());
+		mEqualizer.setOnAction(new MenuToolsEqualizerHandler());
 		
 		MenuItem mVisualizer = new MenuItem("Visualizer");
-		mVisualizer.setOnAction(new MenuSettingsVisualizerHandler());
+		mVisualizer.setOnAction(new MenuToolsVisualizerHandler());
 		
 		menuSettings.getItems().addAll(mEqualizer, mVisualizer);
 		
