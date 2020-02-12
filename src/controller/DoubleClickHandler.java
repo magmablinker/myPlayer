@@ -1,7 +1,5 @@
 package controller;
 
-import java.io.File;
-
 import javafx.event.EventHandler;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.MouseEvent;
@@ -25,8 +23,7 @@ public class DoubleClickHandler implements EventHandler<MouseEvent> {
 			// TODO: FIX BUG WHERE PAUSED SONG JUST KEEPS PLAYING IF ANOTHER SONG IS DOUBLE CLICKED
 			if(currentView.equals(References.directoryView)) {
 				if(References.directoryView.getSelectionModel().getSelectedIndex() > -1) {
-					File file = new File(((FileTreeItem) References.directoryView.getSelectionModel().getSelectedItem()).getPath());
-					if(file.isDirectory() &&
+					if(((FileTreeItem) References.directoryView.getSelectionModel().getSelectedItem()).isDirectory() &&
 					   References.directoryView.getSelectionModel().getSelectedItem().getParent().equals(References.directoryView.getRoot()))
 						return;
 				}				

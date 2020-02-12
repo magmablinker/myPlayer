@@ -10,15 +10,21 @@ public class FileTreeItem extends TreeItem<String> implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private String path;
+	private boolean isDirectory;
 	
 	public FileTreeItem(File file) {
 		// Ternary operator to remove file extension if file is a file
 		super((file.isDirectory()) ? file.getName() : file.getName().substring(0, file.getName().lastIndexOf(".")));
 		this.path = file.getAbsolutePath();
+		this.isDirectory = file.isDirectory();
 	}
 	
 	public String getPath() {
 		return this.path;
+	}
+	
+	public boolean isDirectory() {
+		return this.isDirectory;
 	}
 	
 	@Override
