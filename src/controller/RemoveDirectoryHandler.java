@@ -46,9 +46,7 @@ public class RemoveDirectoryHandler implements EventHandler<ActionEvent> {
 						References.directoryWatchService.removeWatchKey(itemToRemove);
 					
 				} else {
-					Alert alert = new Alert(AlertType.INFORMATION, "Please select a directory. Files can't be removed.",
-							ButtonType.OK);
-					alert.show();
+					PopupTextBuilder builder = new PopupTextBuilder(References.stage, "Can't remove files!", 2, "red");
 				}
 
 			}

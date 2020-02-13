@@ -50,7 +50,6 @@ public class SongQueue {
 				int finalIndex = 0;
 
 				for (TreeItem<String> child : selectedItem.getChildren()) {
-					System.out.println("ADDING: " + child.getValue());
 					this.songList.add(((FileTreeItem) child));
 					
 					if (child.equals(realSelectedItem)) {

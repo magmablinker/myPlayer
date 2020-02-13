@@ -27,7 +27,7 @@ public class SpectrumListener implements AudioSpectrumListener {
 			gc.fillRect(75 * i, 
 						pane.getCanvas().getHeight() - 20,
 					   (pane.getCanvas().getWidth() / magnitudes.length) - 15,
-						magnitudes[i] - References.mediaPlayer.getAudioSpectrumThreshold() + 20);
+						magnitudes[i] - References.mediaPlayer.getAudioSpectrumThreshold() * 2 + 20);
 		}
 
 	}
