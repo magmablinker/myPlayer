@@ -124,6 +124,9 @@ public class EqualizerPane extends BorderPane {
 
 			if (comboPreset.getSelectionModel().getSelectedIndex() > -1) {
 				EqualizerPreset selectedPreset = comboPreset.getSelectionModel().getSelectedItem();
+				
+				selectedPreset.loadStringPreset(selectedPreset.getStringPreset());
+				
 				ArrayList<EqualizerBand> bands = selectedPreset.getBands();
 				Data.currentPreset = selectedPreset;
 
