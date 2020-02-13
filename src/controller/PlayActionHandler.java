@@ -84,6 +84,9 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 
 				MediaPlayer player = new MediaPlayer(audioFile);
 				player.setAudioSpectrumNumBands(10);
+				
+				if(References.spectrumListener != null)
+					player.setAudioSpectrumListener(References.spectrumListener);
 
 				// Preserve the equalizer
 				ArrayList<EqualizerBand> bands = Data.currentPreset.getBands();

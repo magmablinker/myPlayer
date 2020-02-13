@@ -2,6 +2,7 @@ package ressource;
 
 import controller.DirectoryWatchService;
 import controller.SongQueue;
+import controller.SpectrumListener;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -55,5 +56,7 @@ public class References {
 	public static Stage equalizerPaneStage = null;
 
 	public static Stage visualizerPaneStage = null;
+	
+	public static SpectrumListener spectrumListener = null;
 	
 }

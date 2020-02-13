@@ -16,5 +16,5 @@ public class Icons {
 	public static InputStream ICON_PREVIOUS = Icons.class.getResourceAsStream("img/previous.png");
 	
 	public static InputStream ICON_SEARCH = Icons.class.getResourceAsStream("img/search.png");
-
+		
 }

@@ -16,9 +16,13 @@ public class PauseActionHandler implements EventHandler<ActionEvent> {
 			ImageView imageView = new ImageView(new Image(Icons.class.getResourceAsStream(Icons.ICON_PLAY)));
 			imageView.setFitHeight(50);
 			imageView.setFitWidth(50);
-			
 			References.bPlay.setGraphic(imageView);
 			References.bPlay.setOnAction(new PlayActionHandler());
+			
+			if(References.spectrumListener != null) {
+				References.spectrumListener.setToZero();
+			}
+			
 			References.mediaPlayer.pause();
 		}
 			
