@@ -1,7 +1,6 @@
 package util;
 
 import java.io.File;
-import java.io.InputStream;
 import java.util.Arrays;
 
 import javafx.scene.control.MultipleSelectionModel;
@@ -10,7 +9,6 @@ import javafx.scene.control.TreeView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import model.FileTreeItem;
-import ressource.Data;
 import ressource.Icons;
 import ressource.Permissions;
 import ressource.References;

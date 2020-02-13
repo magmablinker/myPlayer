@@ -4,7 +4,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.media.MediaPlayer.Status;
 import ressource.References;
-import util.Util;
 
 public class CheckBoxCheckListener implements EventHandler<ActionEvent> {
 

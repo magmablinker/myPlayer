@@ -4,12 +4,9 @@ import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import ressource.References;
-import sun.applet.Main;
 import view.VisualizerPane;
 
 public class MenuToolsVisualizerHandler implements EventHandler<ActionEvent> {

@@ -2,7 +2,6 @@ package controller;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
-import javafx.geometry.Bounds;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;

@@ -16,7 +16,6 @@ import java.util.HashMap;
 
 import javafx.scene.control.TreeItem;
 import model.FileTreeItem;
-import ressource.Data;
 import ressource.Permissions;
 import ressource.References;
 import util.Util;

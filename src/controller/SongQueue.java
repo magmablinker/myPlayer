@@ -7,11 +7,9 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.media.MediaPlayer.Status;
 import model.FileTreeItem;
 import ressource.Icons;
 import ressource.References;
-import util.Util;
 
 public class SongQueue {
 

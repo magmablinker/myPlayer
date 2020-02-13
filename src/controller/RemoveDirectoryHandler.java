@@ -5,10 +5,7 @@ import java.nio.file.WatchKey;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.TreeItem;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import model.FileTreeItem;
 import ressource.Data;
 import ressource.References;

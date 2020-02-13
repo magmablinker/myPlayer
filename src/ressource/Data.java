@@ -3,7 +3,6 @@ package ressource;
 import java.util.ArrayList;
 
 import model.EqualizerPreset;
-import model.FileTreeItem;
 
 public class Data {
 	

@@ -4,7 +4,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.TreeItem;
-import model.EqualizerPreset;
 import ressource.References;
 
 public class AddPlaylistHandler implements EventHandler<ActionEvent> {

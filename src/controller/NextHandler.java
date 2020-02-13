@@ -3,7 +3,6 @@ package controller;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaPlayer.Status;
 import ressource.References;
 
 public class NextHandler implements EventHandler<ActionEvent> {

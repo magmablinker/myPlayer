@@ -8,7 +8,6 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import ressource.Data;
 import ressource.References;
-import sun.applet.Main;
 import view.EqualizerPane;
 
 public class MenuToolsEqualizerHandler implements EventHandler<ActionEvent> {

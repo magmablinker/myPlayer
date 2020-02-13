@@ -6,7 +6,6 @@ import java.util.concurrent.Executors;
 import controller.DirectoryWatchService;
 import controller.DoubleClickHandler;
 import javafx.concurrent.Task;
-import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuBar;

@@ -2,17 +2,8 @@ package controller;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonType;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaPlayer.Status;
-import ressource.Data;
-import ressource.Icons;
 import ressource.References;
-import util.Util;
 
 public class PreviousHandler implements EventHandler<ActionEvent> {
 

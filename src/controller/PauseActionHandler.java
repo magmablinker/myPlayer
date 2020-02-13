@@ -6,7 +6,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import ressource.Icons;
 import ressource.References;
-import util.Util;
 
 public class PauseActionHandler implements EventHandler<ActionEvent> {
 
