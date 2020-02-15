@@ -18,8 +18,10 @@ public class DoubleClickHandler implements EventHandler<MouseEvent> {
 	@Override
 	public void handle(MouseEvent e) {
 		if(e.getClickCount() == 2) {
-			if(References.SONG_QUEUE != null)
+			if(References.SONG_QUEUE != null) {
 				References.SONG_QUEUE.removePlayingIcon();
+			}
+				
 			
 			if(currentView.equals(References.directoryView)) {
 				if(References.directoryView.getSelectionModel().getSelectedIndex() > -1) {

@@ -3,6 +3,7 @@ package view;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import controller.DirectoryViewCell;
 import controller.DirectoryWatchService;
 import controller.DoubleClickHandler;
 import controller.SearchEventHandler;
@@ -21,7 +22,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.util.Callback;
 import model.DirectoryHandler;
-import model.DirectoryViewCell;
 import ressource.Icons;
 import ressource.References;
 

@@ -1,4 +1,4 @@
-package model;
+package controller;
 
 import java.io.File;
 
@@ -16,6 +16,7 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.text.Text;
+import model.FileTreeItem;
 import ressource.Icons;
 import ressource.References;
 
