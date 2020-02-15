@@ -39,7 +39,8 @@ public class DirectoryViewCell extends TreeCell<String> {
 				}
 
 				Dragboard db = References.directoryView.startDragAndDrop(TransferMode.COPY_OR_MOVE);
-				FileTreeItem selectedItem = (FileTreeItem) References.directoryView.getSelectionModel().getSelectedItem();
+				FileTreeItem selectedItem = (FileTreeItem) References.directoryView.getSelectionModel()
+						.getSelectedItem();
 
 				Label label = new Label(String.format("%s", getTreeItem().getValue()));
 				new Scene(label);
@@ -76,36 +77,41 @@ public class DirectoryViewCell extends TreeCell<String> {
 			Dragboard db = e.getDragboard();
 
 			if (db.hasContent(FILE_TREE_ITEM)) {
-				// TODO: Java Messsge:model.DirectoryViewCell cannot be cast to javafx.scene.text.Text
 				FileTreeItem item = (FileTreeItem) db.getContent(FILE_TREE_ITEM);
-				
+
 				if (!(new File(item.getPath()).isDirectory())) {
 					for (TreeItem<String> it : References.playlistView.getRoot().getChildren()) {
-						if (it.getValue().equals(((Text) e.getTarget()).getText())) {
-							FileTreeItem newItem = new FileTreeItem(new File(item.getPath()));
-							boolean alreadyInPlaylist = false;
-							for (TreeItem<String> child : it.getChildren()) {
-								if(((FileTreeItem) child).getPath().equals(newItem.getPath())) {
-									alreadyInPlaylist = true;
-									break;
+
+						if (e.getTarget() instanceof Text) {
+							if (it.getValue().equals(((Text) e.getTarget()).getText())) {
+								FileTreeItem newItem = new FileTreeItem(new File(item.getPath()));
+								boolean alreadyInPlaylist = false;
+								for (TreeItem<String> child : it.getChildren()) {
+									if (((FileTreeItem) child).getPath().equals(newItem.getPath())) {
+										alreadyInPlaylist = true;
+										break;
+									}
 								}
+
+								if (!alreadyInPlaylist) {
+									ImageView icon = new ImageView(
+											new Image(Icons.class.getResourceAsStream(Icons.ICON_FILE)));
+									newItem.setGraphic(icon);
+									icon.setFitWidth(16);
+									icon.setFitHeight(16);
+									it.getChildren().add(newItem);
+
+									if (References.SONG_QUEUE != null)
+										References.SONG_QUEUE.add(newItem);
+
+								}
+
+								it.setExpanded(true);
+								break;
 							}
-							
-							if(!alreadyInPlaylist) {
-								ImageView icon = new ImageView(new Image(Icons.class.getResourceAsStream(Icons.ICON_FILE)));
-								newItem.setGraphic(icon);
-								icon.setFitWidth(16);
-								icon.setFitHeight(16);
-								it.getChildren().add(newItem);
-								
-								if(References.SONG_QUEUE != null)
-									References.SONG_QUEUE.add(newItem);
-								
-							}
-						
-							it.setExpanded(true);
-							break;
+
 						}
+
 					}
 
 					dragCompleted = true;

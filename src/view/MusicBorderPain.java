@@ -5,6 +5,7 @@ import java.util.concurrent.Executors;
 
 import controller.DirectoryWatchService;
 import controller.DoubleClickHandler;
+import controller.SearchEventHandler;
 import javafx.concurrent.Task;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -127,6 +128,7 @@ public class MusicBorderPain extends BorderPane {
 		
 		Button bSearch = new Button();
 		bSearch.getStyleClass().addAll("margin-8-no-border", "button-icon");
+		bSearch.setOnAction(new SearchEventHandler(fSearch));
 		
 		ImageView searchIcon = new ImageView(new Image(Icons.ICON_SEARCH));
 		searchIcon.setFitWidth(28);
