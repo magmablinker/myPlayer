@@ -78,22 +78,6 @@ public class Util {
 		return (hours > 0) ? String.format("%d:%d:%02d", hours, mins, secs) : String.format("%d:%02d", mins, secs);
 	}
 
-	public static boolean checkIfPlaylistOrDirChanged() {
-		boolean isChanged = false;
-
-		TreeView<String> currentView = References.SONG_QUEUE.getCurrentTreeView();
-		MultipleSelectionModel<TreeItem<String>> sm = currentView.getSelectionModel();
-		if (!sm.getSelectedItem().getChildren().isEmpty()) {
-			if (!currentView.getRoot().equals(sm.getSelectedItem())) {
-				if (!References.currentlyPlayingItem.equals(sm.getSelectedItem())) {
-					isChanged = true;
-				}
-			}
-		}
-
-		return isChanged;
-	}
-
 	public static boolean isAlreadyInTreeView(TreeView<String> directoryView, File file) {
 		for (TreeItem<String> item : directoryView.getRoot().getChildren())
 			if (item instanceof FileTreeItem && ((FileTreeItem) item).getPath().equals(file.getAbsolutePath()))

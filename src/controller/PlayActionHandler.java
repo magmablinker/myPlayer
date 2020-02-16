@@ -46,7 +46,7 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 	public void playMethod() {
 		SongQueue queue = References.SONG_QUEUE;
 
-		if (queue.size() == 0 || Util.checkIfPlaylistOrDirChanged()) {
+		if (queue.size() == 0) {
 			queue.generateSongQueue();
 		}
 
