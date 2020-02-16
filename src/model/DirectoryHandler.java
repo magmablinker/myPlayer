@@ -24,7 +24,7 @@ public class DirectoryHandler implements ITreeDataHandler {
 
 		for (int i = 0; i < Data.DIRECTORIES.size(); i++) {
 			File directory = new File(Data.DIRECTORIES.get(i));
-
+			
 			if (directory.isDirectory()) {
 				if(directory.listFiles(new AllowedFileFilter()).length > 0) {
 					TreeItem<String> node = Util.generateTreeNode(directory);

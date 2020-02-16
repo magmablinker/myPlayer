@@ -6,6 +6,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.media.MediaPlayer;
 import model.FileTreeItem;
 import ressource.References;
+import util.Util;
 
 public class DoubleClickHandler implements EventHandler<MouseEvent> {
 
@@ -23,20 +24,16 @@ public class DoubleClickHandler implements EventHandler<MouseEvent> {
 					if(((FileTreeItem) References.directoryView.getSelectionModel().getSelectedItem()).isDirectory() &&
 					   References.directoryView.getSelectionModel().getSelectedItem().getParent().equals(References.directoryView.getRoot()))
 						return;
-					if(((FileTreeItem) References.directoryView.getSelectionModel().getSelectedItem()).isDirectory() &&
-					   References.directoryView.getSelectionModel().getSelectedItem().getChildren().size() < 1)
-						return;
+					if(((FileTreeItem) References.directoryView.getSelectionModel().getSelectedItem()).isDirectory())
+						if(!Util.hasFiles((FileTreeItem) References.directoryView.getSelectionModel().getSelectedItem()))
+							return;
 				}				
 			}
-			
-			System.out.println("HERRRR");
 			
 			if(References.SONG_QUEUE != null) {
 				References.SONG_QUEUE.removePlayingIcon();
 			}
 			
-			// TODO: FIX BUG WHERE PAUSED SONG JUST KEEPS PLAYING IF ANOTHER SONG IS DOUBLE CLICKED
-			// EDIT: This should be the fix
 			if(References.mediaPlayer != null)
 				if(References.mediaPlayer.getStatus().equals(MediaPlayer.Status.PAUSED))
 					References.mediaPlayer = null;

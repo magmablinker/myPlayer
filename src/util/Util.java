@@ -2,6 +2,7 @@ package util;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.Stack;
 
 import javafx.scene.control.MultipleSelectionModel;
 import javafx.scene.control.TreeItem;
@@ -99,6 +100,24 @@ public class Util {
 				return true;
 		
 		return false;
+	}
+	
+	public static boolean hasFiles(FileTreeItem item) {
+		
+		if(item.getChildren().size() > 0) {
+			for(TreeItem<String> c : item.getChildren()) {
+				FileTreeItem child = (FileTreeItem) c;
+				
+				if(!child.isDirectory() ) {
+					return true;
+				}
+				
+			}		
+			
+		}
+
+		return false;
+		
 	}
 
 }

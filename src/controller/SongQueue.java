@@ -48,13 +48,17 @@ public class SongQueue {
 				int finalIndex = 0;
 
 				for (TreeItem<String> child : selectedItem.getChildren()) {
-					this.songList.add(((FileTreeItem) child));
 					
-					if (child.equals(realSelectedItem)) {
-						finalIndex = index;
-					} else {
-						index++;
+					if(!((FileTreeItem) child).isDirectory()) {
+						this.songList.add(((FileTreeItem) child));
+						
+						if (child.equals(realSelectedItem)) {
+							finalIndex = index;
+						} else {
+							index++;
+						}	
 					}
+					
 				}
 				
 				References.currentlyPlayingItem = selectedItem;
