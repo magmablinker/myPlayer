@@ -23,19 +23,16 @@ public class VisualizerPane extends HBox {
 		super();
 		this.setAlignment(Pos.CENTER);
 		this.getChildren().add(createVisualizer());
-		//this.getStylesheets().add(getClass().getResource("css/application.css").toExternalForm());
-
-		Image image = new Image(Data.class.getResourceAsStream("img/visualizer.jpg"));
-		BackgroundImage backgroundImage = new BackgroundImage(image, BackgroundRepeat.SPACE,
-				BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
-		Background background = new Background(backgroundImage);
-		this.setBackground(background);
+		this.setStyle("-fx-background-image: url(" +
+				Data.class.getResource("img/visualizer_bg.jpg").toExternalForm() +
+            "); " +
+            "-fx-background-size: cover;");
 	}
 
 	private Node createVisualizer() {
 		this.canvas = new Canvas(750, 550);
 		this.gc = canvas.getGraphicsContext2D();
-		gc.setFill(Color.FORESTGREEN);
+		gc.setFill(Color.web("#031C1D"));
 
 		return canvas;
 	}
