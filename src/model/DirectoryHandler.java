@@ -19,7 +19,7 @@ public class DirectoryHandler implements ITreeDataHandler {
 	public void load(TreeItem<String> root) {
 
 		Data.DIRECTORIES.add("Z:\\musik");
-		//Data.DIRECTORIES.add("D:\\pmma\\Benutzer\\Desktop");
+		Data.DIRECTORIES.add("D:\\pmma\\Benutzer\\Desktop");
 		Data.DIRECTORIES.add("C:\\Users\\laurent\\Desktop\\music");
 
 		for (int i = 0; i < Data.DIRECTORIES.size(); i++) {

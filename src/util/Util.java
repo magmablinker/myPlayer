@@ -8,6 +8,7 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import model.AllowedFileFilter;
 import model.FileTreeItem;
 import ressource.Icons;
 import ressource.Permissions;
@@ -52,14 +53,18 @@ public class Util {
 		if (file.isDirectory()) {
 			TreeItem<String> node = Util.generateTreeNode(file);
 			root.getChildren().add(node);
-
-			for (File f : file.listFiles()) {
+			
+			for (File f : file.listFiles(new AllowedFileFilter())) {
 				createDirectoryTreeView(node, f);
-			}
-		} else if (Arrays.asList(Permissions.FILETYPES_ALLOWED)
-				.contains(file.getName().substring(file.getName().lastIndexOf(".") + 1, file.getName().length()))) {
+			}    
+		} else { //AllowedFileFilter does this now
+				 //if (Arrays.asList(Permissions.FILETYPES_ALLOWED)
+				 //.contains(file.getName().substring(file.getName().lastIndexOf(".") + 1, file.getName().length()))) {
 			root.getChildren().add(Util.generateTreeNode(file));
+			System.out.print("*****");
 		}
+		
+		System.out.println(file.getName());
 	}
 
 	public static String formatDecimalToMinutes(double val) {

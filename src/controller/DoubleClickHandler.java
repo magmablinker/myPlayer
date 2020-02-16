@@ -17,18 +17,22 @@ public class DoubleClickHandler implements EventHandler<MouseEvent> {
 	
 	@Override
 	public void handle(MouseEvent e) {
-		if(e.getClickCount() == 2) {
-			if(References.SONG_QUEUE != null) {
-				References.SONG_QUEUE.removePlayingIcon();
-			}
-				
-			
+		if(e.getClickCount() == 2) {			
 			if(currentView.equals(References.directoryView)) {
 				if(References.directoryView.getSelectionModel().getSelectedIndex() > -1) {
 					if(((FileTreeItem) References.directoryView.getSelectionModel().getSelectedItem()).isDirectory() &&
 					   References.directoryView.getSelectionModel().getSelectedItem().getParent().equals(References.directoryView.getRoot()))
 						return;
+					if(((FileTreeItem) References.directoryView.getSelectionModel().getSelectedItem()).isDirectory() &&
+					   References.directoryView.getSelectionModel().getSelectedItem().getChildren().size() < 1)
+						return;
 				}				
+			}
+			
+			System.out.println("HERRRR");
+			
+			if(References.SONG_QUEUE != null) {
+				References.SONG_QUEUE.removePlayingIcon();
 			}
 			
 			// TODO: FIX BUG WHERE PAUSED SONG JUST KEEPS PLAYING IF ANOTHER SONG IS DOUBLE CLICKED
