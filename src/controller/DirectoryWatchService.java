@@ -40,7 +40,6 @@ public class DirectoryWatchService implements Runnable {
 
 	@Override
 	public void run() {
-		// TODO: FIX FUCKING SHIT BUG WHERE NEUER ORDNER GETS ADDED TWICE
 		while (this.isRunning) {
 			WatchKey key;
 
@@ -51,6 +50,13 @@ public class DirectoryWatchService implements Runnable {
 			}
 
 			Path dir = this.directoryMap.get(key);
+			
+			try {
+				// TODO: FIX FUCKING SHIT BUG WHERE NEUER ORDNER GETS ADDED TWICE
+				// EDIT: THIS FIXES IT LOL
+				Thread.sleep(50);
+			} catch (InterruptedException e1) {
+			}
 			
 			for (WatchEvent<?> event : key.pollEvents()) {
 				WatchEvent.Kind<?> kind = event.kind();
@@ -84,13 +90,15 @@ public class DirectoryWatchService implements Runnable {
 		File file = child.toFile().getAbsoluteFile();
 		String parentDir = file.getParent();
 		TreeItem<String> nodeChanged = this.treeItemMap.get(parentDir);
-
+		
+		/*
 		System.out.println("\n*************************");
 		System.out.println("name: " + file.getName());
 		System.out.println("path: " + file.getAbsolutePath());
 		System.out.println("isDirectory: " + file.isDirectory());
 		System.out.println("kind: " + kind.toString());
 		System.out.println("*************************");
+		*/
 
 		// Check if file got deleted or created
 		switch (kind.toString()) {
@@ -125,7 +133,7 @@ public class DirectoryWatchService implements Runnable {
 					.contains(file.getName().substring(file.getName().lastIndexOf(".") + 1, file.getName().length()))) {
 				if (nodeChanged != null) {
 					TreeItem<String> node = Util.generateTreeNode(file);
-
+					
 					if (!file.isDirectory()) {
 						if (nodeChanged.equals(References.currentlyPlayingItem)) {
 							References.SONG_QUEUE.add((FileTreeItem) node);
@@ -149,12 +157,13 @@ public class DirectoryWatchService implements Runnable {
 
 	public void registerWatchService(Path path, TreeItem<String> node) {
 		try {
-			System.out.println("Registering watchservice for " + path.toString());
+			//System.out.println("Registering watchservice for " + path.toString());
 			WatchKey key = path.register(this.watchService, ENTRY_CREATE, ENTRY_DELETE);
 			this.putDirectoryMap(key, path);
 			this.putTreeViewMap(path.toFile().getAbsolutePath(), node);
 		} catch (IOException e) {
-			e.printStackTrace();
+			// User doesn't care about this
+			//e.printStackTrace();
 		}
 	}
 

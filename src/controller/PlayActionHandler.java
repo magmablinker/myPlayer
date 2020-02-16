@@ -53,9 +53,7 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 		if (queue.size() > 0) {
 			FileTreeItem currentItem = queue.getCurrentItem();
 
-			File file = new File(currentItem.getPath());
-
-			if (!file.isDirectory()) {
+			if (!currentItem.isDirectory()) {
 				// Change play button
 				ImageView imageView = new ImageView(new Image(Icons.class.getResourceAsStream(Icons.ICON_PAUSE)));
 				imageView.setFitHeight(50);
@@ -73,55 +71,63 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 						References.mediaPlayer.stop();
 					}
 				}
-
-				Media audioFile = new Media(file.toURI().toString());
-				References.songPlayingTitleLabel.setText(currentItem.getValue());
-				References.songPlayingArtistLabel.setText("Unknown Artist");
-				References.songPlayingAlbum.setText("Unknown Album");
-				References.coverImage.setImage(new Image(Icons.class.getResourceAsStream(Icons.DEFAULT_COVER)));
-
-				audioFile.getMetadata().addListener(new MetaDataChangeListener());
-
-				MediaPlayer player = new MediaPlayer(audioFile);
-				player.setAudioSpectrumNumBands(10);
 				
-				if(References.spectrumListener != null)
-					player.setAudioSpectrumListener(References.spectrumListener);
+				try {
+					File file = new File(currentItem.getPath());
+					Media audioFile = new Media(file.toURI().toString());
+					References.songPlayingTitleLabel.setText(currentItem.getValue());
+					References.songPlayingArtistLabel.setText("Unknown Artist");
+					References.songPlayingAlbum.setText("Unknown Album");
+					References.coverImage.setImage(new Image(Icons.class.getResourceAsStream(Icons.DEFAULT_COVER)));
 
-				// Preserve the equalizer
-				ArrayList<EqualizerBand> bands = Data.currentPreset.getBands();
-				ObservableList<EqualizerBand> bandsObs = player.getAudioEqualizer().getBands();
+					audioFile.getMetadata().addListener(new MetaDataChangeListener());
 
-				for (int i = 0; i < bands.size(); i++) {
-					bandsObs.get(i).setGain(bands.get(i).getGain());
+					MediaPlayer player = new MediaPlayer(audioFile);
+					player.setAudioSpectrumNumBands(10);
+					
+					if(References.spectrumListener != null)
+						player.setAudioSpectrumListener(References.spectrumListener);
+
+					// Preserve the equalizer
+					ArrayList<EqualizerBand> bands = Data.currentPreset.getBands();
+					ObservableList<EqualizerBand> bandsObs = player.getAudioEqualizer().getBands();
+
+					for (int i = 0; i < bands.size(); i++) {
+						bandsObs.get(i).setGain(bands.get(i).getGain());
+					}
+
+					player.currentTimeProperty().addListener(
+							(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) -> {
+								References.labelTimeIndicator
+										.setText(Util.formatDecimalToMinutes(player.getCurrentTime().toSeconds()) + " / "
+												+ Util.formatDecimalToMinutes(player.getTotalDuration().toSeconds()));
+								References.mediaProgressBar.setProgress(
+										player.getCurrentTime().toMillis() / player.getTotalDuration().toMillis());
+							});
+
+					player.setVolume(References.volumeSlider.getValue() / 100);
+					player.play();
+
+					player.setOnEndOfMedia(() -> {
+						if (References.checkBoxRepeat.isSelected()) {
+							player.seek(Duration.ZERO);
+						} else {
+							References.SONG_QUEUE.removePlayingIcon();
+
+							queue.next();
+
+							PlayActionHandler ah = new PlayActionHandler();
+							ah.playMethod();
+						}
+					});
+
+					References.mediaPlayer = player;
+				} catch(Exception ex) {
+					ex.printStackTrace();
+					PopupTextBuilder builder = new PopupTextBuilder(References.stage, String.format("Playing the media file '%s' failed.", currentItem.getValue()), 3, "red");
+					this.reset();
 				}
 
-				player.currentTimeProperty().addListener(
-						(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) -> {
-							References.labelTimeIndicator
-									.setText(Util.formatDecimalToMinutes(player.getCurrentTime().toSeconds()) + " / "
-											+ Util.formatDecimalToMinutes(player.getTotalDuration().toSeconds()));
-							References.mediaProgressBar.setProgress(
-									player.getCurrentTime().toMillis() / player.getTotalDuration().toMillis());
-						});
-
-				player.setVolume(References.volumeSlider.getValue() / 100);
-				player.play();
-
-				player.setOnEndOfMedia(() -> {
-					if (References.checkBoxRepeat.isSelected()) {
-						player.seek(Duration.ZERO);
-					} else {
-						References.SONG_QUEUE.removePlayingIcon();
-
-						queue.next();
-
-						PlayActionHandler ah = new PlayActionHandler();
-						ah.playMethod();
-					}
-				});
-
-				References.mediaPlayer = player;
 			} else {
 				this.reset();
 			}
