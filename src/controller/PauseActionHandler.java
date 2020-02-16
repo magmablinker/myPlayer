@@ -12,7 +12,11 @@ public class PauseActionHandler implements EventHandler<ActionEvent> {
 	@Override
 	public void handle(ActionEvent event) {
 		if(References.mediaPlayer != null) {
-			References.SONG_QUEUE.removePlayingIcon();
+			ImageView pausedView = new ImageView(new Image(Icons.class.getResourceAsStream(Icons.ICON_PAUSED)));
+			pausedView.setFitHeight(16);
+			pausedView.setFitWidth(16);
+			References.SONG_QUEUE.getCurrentItem().setGraphic(pausedView);
+			
 			ImageView imageView = new ImageView(new Image(Icons.class.getResourceAsStream(Icons.ICON_PLAY)));
 			imageView.setFitHeight(50);
 			imageView.setFitWidth(50);
@@ -24,6 +28,7 @@ public class PauseActionHandler implements EventHandler<ActionEvent> {
 			}
 			
 			References.mediaPlayer.pause();
+			References.SONG_QUEUE.getCurrentTreeView().refresh();
 		}
 			
 	}

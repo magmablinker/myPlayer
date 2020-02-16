@@ -80,8 +80,6 @@ public class SongQueue {
 	public void shuffle() {
 		FileTreeItem currentItem = songList.get(songQueuePosition);
 		
-		System.out.println(currentItem.getPath());
-		
 		Collections.shuffle(songList);
 
 		// Put the currentItem on the start of the list
