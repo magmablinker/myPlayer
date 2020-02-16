@@ -7,7 +7,8 @@ public class Icons {
 	public static String ICON_DIR = "img/directory.png";
 	public static String ICON_FILE = "img/file.png";
 	public static String ICON_SPEAKER = "img/speaker.png";
-	
+	public static String ICON_PAUSED = "img/paused.png";
+			
 	public static String DEFAULT_COVER = "img/defaultcover.jpg";
 	
 	public static String ICON_PLAY = "img/play.png";

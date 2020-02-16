@@ -43,6 +43,7 @@ public class DirectoryViewCell extends TreeCell<String> {
 				FileTreeItem selectedItem = (FileTreeItem) References.directoryView.getSelectionModel()
 						.getSelectedItem();
 
+				// GIVES NULL POINTER SOMETIMES NOT REPRODUCABLE YET???
 				Label label = new Label(String.format("%s", getTreeItem().getValue()));
 				new Scene(label);
 				db.setDragView(label.snapshot(null, null));

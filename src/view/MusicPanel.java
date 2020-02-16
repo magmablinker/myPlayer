@@ -77,6 +77,7 @@ public class MusicPanel extends BorderPane {
 
 	private Node createBottom() {
 		GridPane grid = new GridPane();
+		grid.getStyleClass().add("margin-8-no-border");
 
 		GridPane checkBoxPane = new GridPane();
 

@@ -19,53 +19,53 @@ public class Util {
 
 	public static TreeItem<String> generateTreeNode(File file) {
 		FileTreeItem treeItem = new FileTreeItem(file);
-		
+
 		String iconFile;
-		
+
 		if (file.isDirectory()) {
 			iconFile = Icons.ICON_DIR;
 			References.directoryWatchService.registerWatchService(file.toPath(), treeItem);
 		} else {
 			iconFile = Icons.ICON_FILE;
 		}
-		
+
 		ImageView icon = new ImageView(new Image(Icons.class.getResourceAsStream(iconFile)));
 
-		if(file.isDirectory()) {
+		if (file.isDirectory()) {
 			icon.setFitWidth(28);
-			icon.setFitHeight(28);	 
+			icon.setFitHeight(28);
 		} else {
 			icon.setFitWidth(16);
 			icon.setFitHeight(16);
 		}
-		
+
 		treeItem.setGraphic(icon);
 
 		return treeItem;
 	}
-	
+
 	public static void createDirectoryView(File[] fileList, TreeItem<String> node) {
 		for (File file : fileList) {
 			Util.createDirectoryTreeView(node, file);
 		}
 	}
-	
+
 	private static void createDirectoryTreeView(TreeItem<String> root, File file) {
 		if (file.isDirectory()) {
 			TreeItem<String> node = Util.generateTreeNode(file);
 			root.getChildren().add(node);
-			
+
 			for (File f : file.listFiles(new AllowedFileFilter())) {
 				createDirectoryTreeView(node, f);
-			}    
-		} else { //AllowedFileFilter does this now
-				 //if (Arrays.asList(Permissions.FILETYPES_ALLOWED)
-				 //.contains(file.getName().substring(file.getName().lastIndexOf(".") + 1, file.getName().length()))) {
+			}
+		} else {    // ===============================
+					// AllowedFileFilter does this now
+					// ===============================
+					// if (Arrays.asList(Permissions.FILETYPES_ALLOWED)
+					// .contains(file.getName().substring(file.getName().lastIndexOf(".") + 1,
+					// file.getName().length()))) {
 			root.getChildren().add(Util.generateTreeNode(file));
-			System.out.print("*****");
 		}
-		
-		System.out.println(file.getName());
 	}
 
 	public static String formatDecimalToMinutes(double val) {
@@ -77,47 +77,47 @@ public class Util {
 
 		return (hours > 0) ? String.format("%d:%d:%02d", hours, mins, secs) : String.format("%d:%02d", mins, secs);
 	}
-	
+
 	public static boolean checkIfPlaylistOrDirChanged() {
 		boolean isChanged = false;
-		
+
 		TreeView<String> currentView = References.SONG_QUEUE.getCurrentTreeView();
 		MultipleSelectionModel<TreeItem<String>> sm = currentView.getSelectionModel();
-		if(!sm.getSelectedItem().getChildren().isEmpty()) {
-			if(!currentView.getRoot().equals(sm.getSelectedItem())) {
-				if(!References.currentlyPlayingItem.equals(sm.getSelectedItem())) {
+		if (!sm.getSelectedItem().getChildren().isEmpty()) {
+			if (!currentView.getRoot().equals(sm.getSelectedItem())) {
+				if (!References.currentlyPlayingItem.equals(sm.getSelectedItem())) {
 					isChanged = true;
 				}
 			}
 		}
-		
+
 		return isChanged;
 	}
-	
+
 	public static boolean isAlreadyInTreeView(TreeView<String> directoryView, File file) {
-		for(TreeItem<String> item : directoryView.getRoot().getChildren()) 
-			if(item instanceof FileTreeItem && ((FileTreeItem) item).getPath().equals(file.getAbsolutePath()))
+		for (TreeItem<String> item : directoryView.getRoot().getChildren())
+			if (item instanceof FileTreeItem && ((FileTreeItem) item).getPath().equals(file.getAbsolutePath()))
 				return true;
-		
+
 		return false;
 	}
-	
+
 	public static boolean hasFiles(FileTreeItem item) {
-		
-		if(item.getChildren().size() > 0) {
-			for(TreeItem<String> c : item.getChildren()) {
+
+		if (item.getChildren().size() > 0) {
+			for (TreeItem<String> c : item.getChildren()) {
 				FileTreeItem child = (FileTreeItem) c;
-				
-				if(!child.isDirectory() ) {
+
+				if (!child.isDirectory()) {
 					return true;
 				}
-				
-			}		
-			
+
+			}
+
 		}
 
 		return false;
-		
+
 	}
 
 }

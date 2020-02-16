@@ -66,6 +66,7 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 				if (References.mediaPlayer != null) {
 					if (References.mediaPlayer.getStatus().equals(MediaPlayer.Status.PAUSED)) {
 						References.mediaPlayer.play();
+						References.SONG_QUEUE.addPlayingIcon();
 						return;
 					} else {
 						References.mediaPlayer.stop();
@@ -123,7 +124,6 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 
 					References.mediaPlayer = player;
 				} catch(Exception ex) {
-					ex.printStackTrace();
 					PopupTextBuilder builder = new PopupTextBuilder(References.stage, String.format("Playing the media file '%s' failed.", currentItem.getValue()), 3, "red");
 					this.reset();
 				}
