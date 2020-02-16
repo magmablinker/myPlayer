@@ -18,16 +18,28 @@ public class DoubleClickHandler implements EventHandler<MouseEvent> {
 	
 	@Override
 	public void handle(MouseEvent e) {
-		if(e.getClickCount() == 2) {			
+		if(e.getClickCount() == 2) {
 			if(currentView.equals(References.directoryView)) {
-				if(References.directoryView.getSelectionModel().getSelectedIndex() > -1) {
-					if(((FileTreeItem) References.directoryView.getSelectionModel().getSelectedItem()).isDirectory() &&
-					   References.directoryView.getSelectionModel().getSelectedItem().getParent().equals(References.directoryView.getRoot()))
-						return;
-					if(((FileTreeItem) References.directoryView.getSelectionModel().getSelectedItem()).isDirectory())
-						if(!Util.hasFiles((FileTreeItem) References.directoryView.getSelectionModel().getSelectedItem()))
+				
+				if(!References.directoryView.getRoot().equals(References.directoryView.getSelectionModel().getSelectedItem())) {
+					if(References.directoryView.getSelectionModel().getSelectedIndex() > -1) {
+						if(((FileTreeItem) References.directoryView.getSelectionModel().getSelectedItem()).isDirectory() &&
+						   References.directoryView.getSelectionModel().getSelectedItem().getParent().equals(References.directoryView.getRoot()))
 							return;
-				}				
+						if(((FileTreeItem) References.directoryView.getSelectionModel().getSelectedItem()).isDirectory())
+							if(!Util.hasFiles((FileTreeItem) References.directoryView.getSelectionModel().getSelectedItem()))
+								return;
+					}				
+				} else {
+					return;
+				}
+							
+			}
+			
+			if(currentView.equals(References.playlistView)) {
+				if(References.playlistView.getSelectionModel().getSelectedIndex() > -1)
+					if(References.playlistView.getSelectionModel().getSelectedItem().equals(References.playlistView.getRoot()))
+						return;
 			}
 			
 			if(References.SONG_QUEUE != null) {
