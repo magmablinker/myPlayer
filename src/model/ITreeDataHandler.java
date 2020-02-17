@@ -6,6 +6,8 @@ public interface ITreeDataHandler  {
 
 	public void load(TreeItem<String> root);
 	
-	public boolean save();
+	public void save();
+	
+	public boolean isAlreadySaved(String item);
 	
 }

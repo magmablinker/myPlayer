@@ -2,6 +2,13 @@ DROP DATABASE IF EXISTS myPlayer;
 CREATE DATABASE myPlayer;
 USE myPlayer;
 
+CREATE TABLE directories (
+	id INT NOT NULL AUTO_INCREMENT,
+	path VARCHAR(300) NOT NULL,
+	deleted TINYINT(1) NOT NULL,
+	PRIMARY KEY(id)
+);
+
 CREATE TABLE playlist (
 	id INT NOT NULL AUTO_INCREMENT,
 	name VARCHAR(32) NOT NULL,
@@ -28,6 +35,10 @@ CREATE TABLE equalizerPreset (
 	PRIMARY KEY(id)
 );
 
+ALTER TABLE directories ALTER deleted SET DEFAULT 0;
 ALTER TABLE playlist ALTER deleted SET DEFAULT 0;
 ALTER TABLE playlistSong ALTER deleted SET DEFAULT 0;
 ALTER TABLE equalizerPreset ALTER deleted SET DEFAULT 0;
+
+CREATE USER 'music'@'localhost' IDENTIFIED BY '1337';
+GRANT SELECT, UPDATE, INSERT ON myPlayer.* TO 'music'@'localhost';

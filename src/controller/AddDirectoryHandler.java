@@ -45,7 +45,7 @@ public class AddDirectoryHandler implements EventHandler<ActionEvent> {
 				
 				ExecutorService ex = Executors.newSingleThreadExecutor();
 				
-				PopupTextBuilder builder = new PopupTextBuilder(References.stage, String.format("Adding the directory '%s', please be patient.", selectedFile.getPath()), 3, "orange");
+				PopupTextBuilder builder = new PopupTextBuilder(References.stage, String.format("Adding the directory '%s', please be patient.", selectedFile.getPath()), 2, "orange");
 				
 				ex.submit(task);
 			} else {

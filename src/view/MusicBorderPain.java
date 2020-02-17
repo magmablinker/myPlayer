@@ -104,7 +104,8 @@ public class MusicBorderPain extends BorderPane {
 
 		TreeItem<String> directoryViewRoot = new TreeItem<String>("Directories");
 		
-		DirectoryHandler dl = new DirectoryHandler(this.directoryWatchService);
+		References.directoryWatchService = directoryWatchService;
+		DirectoryHandler dl = new DirectoryHandler();
 		dl.load(directoryViewRoot);
 
 		playlistView.setRoot(playlistViewRoot);
