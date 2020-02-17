@@ -27,7 +27,7 @@ public class DirectoryHandler implements ITreeDataHandler {
 			
 			if (directory.isDirectory()) {
 				if(directory.listFiles(new AllowedFileFilter()).length > 0) {
-					TreeItem<String> node = Util.generateTreeNode(directory);
+					TreeItem<String> node = new FileTreeItem(directory);
 
 					root.getChildren().add(node);
 

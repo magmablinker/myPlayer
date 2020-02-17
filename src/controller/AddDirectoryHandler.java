@@ -11,6 +11,7 @@ import javafx.scene.Cursor;
 import javafx.scene.control.TreeItem;
 import javafx.stage.DirectoryChooser;
 import model.AllowedFileFilter;
+import model.FileTreeItem;
 import ressource.Data;
 import ressource.References;
 import util.Util;
@@ -27,7 +28,7 @@ public class AddDirectoryHandler implements EventHandler<ActionEvent> {
 			
 			if(!Util.isAlreadyInTreeView(References.directoryView, selectedFile)) {
 				Data.DIRECTORIES.add(selectedFile.getAbsolutePath());
-				TreeItem<String> node = Util.generateTreeNode(selectedFile);
+				TreeItem<String> node = new FileTreeItem(selectedFile);
 				
 				Task<Void> task = new Task<Void>() {
 

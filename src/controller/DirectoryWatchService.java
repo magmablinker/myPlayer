@@ -132,7 +132,7 @@ public class DirectoryWatchService implements Runnable {
 			if (file.isDirectory() || Arrays.asList(Permissions.FILETYPES_ALLOWED)
 					.contains(file.getName().substring(file.getName().lastIndexOf(".") + 1, file.getName().length()))) {
 				if (nodeChanged != null) {
-					TreeItem<String> node = Util.generateTreeNode(file);
+					TreeItem<String> node = new FileTreeItem(file);
 					
 					if (!file.isDirectory()) {
 						if (nodeChanged.equals(References.currentlyPlayingItem)) {

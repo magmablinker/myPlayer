@@ -1,48 +1,13 @@
 package util;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.Stack;
 
-import javafx.scene.control.MultipleSelectionModel;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import model.AllowedFileFilter;
 import model.FileTreeItem;
-import ressource.Icons;
-import ressource.Permissions;
-import ressource.References;
 
 public class Util {
-
-	public static TreeItem<String> generateTreeNode(File file) {
-		FileTreeItem treeItem = new FileTreeItem(file);
-
-		String iconFile;
-
-		if (file.isDirectory()) {
-			iconFile = Icons.ICON_DIR;
-			References.directoryWatchService.registerWatchService(file.toPath(), treeItem);
-		} else {
-			iconFile = Icons.ICON_FILE;
-		}
-
-		ImageView icon = new ImageView(new Image(Icons.class.getResourceAsStream(iconFile)));
-
-		if (file.isDirectory()) {
-			icon.setFitWidth(28);
-			icon.setFitHeight(28);
-		} else {
-			icon.setFitWidth(16);
-			icon.setFitHeight(16);
-		}
-
-		treeItem.setGraphic(icon);
-
-		return treeItem;
-	}
 
 	public static void createDirectoryView(File[] fileList, TreeItem<String> node) {
 		for (File file : fileList) {
@@ -52,7 +17,7 @@ public class Util {
 
 	private static void createDirectoryTreeView(TreeItem<String> root, File file) {
 		if (file.isDirectory()) {
-			TreeItem<String> node = Util.generateTreeNode(file);
+			TreeItem<String> node = new FileTreeItem(file);
 			root.getChildren().add(node);
 
 			for (File f : file.listFiles(new AllowedFileFilter())) {
@@ -64,7 +29,7 @@ public class Util {
 					// if (Arrays.asList(Permissions.FILETYPES_ALLOWED)
 					// .contains(file.getName().substring(file.getName().lastIndexOf(".") + 1,
 					// file.getName().length()))) {
-			root.getChildren().add(Util.generateTreeNode(file));
+			root.getChildren().add(new FileTreeItem(file));
 		}
 	}
 
