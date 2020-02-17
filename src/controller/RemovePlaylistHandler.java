@@ -5,7 +5,7 @@ import javafx.event.EventHandler;
 import javafx.scene.control.TreeItem;
 import ressource.References;
 
-public class DelPlaylistHandler implements EventHandler<ActionEvent> {
+public class RemovePlaylistHandler implements EventHandler<ActionEvent> {
 
 	@Override
 	public void handle(ActionEvent e) {
@@ -15,9 +15,7 @@ public class DelPlaylistHandler implements EventHandler<ActionEvent> {
 			
 			if(!References.playlistView.getRoot().equals(item)) {
 				item.getParent().getChildren().remove(item);
-			} else {
-				System.out.println("IS ROOT");
-			}
+			} 
 			
 		}
 		

@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import controller.PopupTextBuilder;
 import javafx.scene.control.TreeItem;
 import ressource.Data;
 import ressource.References;
@@ -25,14 +26,15 @@ public class DirectoryHandler implements ITreeDataHandler {
 			Connection conn = Database.getInstance().getConn();
 			Statement stmt = conn.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT path FROM directories");
+			ResultSet rs = stmt.executeQuery("SELECT path FROM directories WHERE deleted = 0");
 
 			while (rs.next()) {
 				Data.DIRECTORIES.add(rs.getString("path"));
 			}
 
 		} catch (SQLException e) {
-			// POPUP FAILED TO LOAD
+			// MOVE THIS SHIT SOMEHOW?!
+			new PopupTextBuilder(References.stage, "Failed to load directories", 3, "red");
 		}
 
 		for (int i = 0; i < Data.DIRECTORIES.size(); i++) {
@@ -84,7 +86,7 @@ public class DirectoryHandler implements ITreeDataHandler {
 
 		try {
 			Connection conn = Database.getInstance().getConn();
-			String sql = "SELECT path FROM directories WHERE path = ?";
+			String sql = "SELECT path FROM directories WHERE path = ? AND deleted != 1";
 			
 			PreparedStatement pst = conn.prepareStatement(sql);
 			pst.setString(1, item);
