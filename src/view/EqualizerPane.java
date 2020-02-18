@@ -116,6 +116,17 @@ public class EqualizerPane extends BorderPane {
 				EqualizerPreset newPreset = new EqualizerPreset(text, "0;0;0;0;0;0;0;0;0;0;");
 				comboPreset.getItems().add(newPreset);
 				comboPreset.getSelectionModel().select(newPreset);
+				
+				ArrayList<EqualizerBand> bands = newPreset.getBands();
+				
+				for (int i = 0; i < sliders.length; i++) {
+					sliders[i].setValue(bands.get(i).getGain());
+
+					if (References.mediaPlayer != null)
+						References.mediaPlayer.getAudioEqualizer().getBands().get(i).setGain(bands.get(i).getGain());
+
+				}
+				
 			});
 		});
 
