@@ -90,6 +90,7 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 						player.setAudioSpectrumListener(References.spectrumListener);
 
 					// Preserve the equalizer
+					// TODO: BETTER SOLUTION RETARD
 					ArrayList<EqualizerBand> bands = Data.currentPreset.getBands();
 					ObservableList<EqualizerBand> bandsObs = player.getAudioEqualizer().getBands();
 
@@ -124,6 +125,7 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 
 					References.mediaPlayer = player;
 				} catch(Exception ex) {
+					ex.printStackTrace();
 					PopupTextBuilder builder = new PopupTextBuilder(References.stage, String.format("Playing the media file '%s' failed.", currentItem.getValue()), 3, "red");
 					this.reset();
 				}
@@ -137,6 +139,7 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 	}
 
 	private void reset() {
+		// TODO: WHY IS IS NOT RESETTING WHEN SONG FAILS TO PLAY?!?!
 		References.mediaProgressBar.setProgress(0);
 		References.labelTimeIndicator.setText("00:00 / 00:00");
 		References.songPlayingTitleLabel.setText("No song playing");

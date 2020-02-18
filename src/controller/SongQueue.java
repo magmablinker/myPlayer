@@ -141,14 +141,12 @@ public class SongQueue {
 	}
 	
 	public void removePlayingIcon() {
-		if(References.mediaPlayer != null) {
-			if(this.size() > 0) {
-				ImageView icon = new ImageView(new Image(Icons.class.getResourceAsStream(Icons.ICON_FILE)));
-				icon.setFitWidth(16);
-				icon.setFitHeight(16);
-				this.getCurrentItem().setGraphic(icon);
-				this.currentTreeView.refresh();
-			}
+		if(this.size() > 0) {
+			ImageView icon = new ImageView(new Image(Icons.class.getResourceAsStream(Icons.ICON_FILE)));
+			icon.setFitWidth(16);
+			icon.setFitHeight(16);
+			this.getCurrentItem().setGraphic(icon);
+			this.currentTreeView.refresh();
 		}
 	}
 
