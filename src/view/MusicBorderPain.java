@@ -21,7 +21,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.util.Callback;
-import model.DirectoryHandler;
+import model.DirectoryDataHandler;
+import model.PlaylistDataHandler;
 import ressource.Icons;
 import ressource.References;
 
@@ -100,13 +101,10 @@ public class MusicBorderPain extends BorderPane {
 		
 		TreeItem<String> playlistViewRoot = new TreeItem<String>("Playlists");
 		playlistViewRoot.setExpanded(true);		
-		playlistViewRoot.getChildren().add(new TreeItem<String>("PLAYLIT"));
 
 		TreeItem<String> directoryViewRoot = new TreeItem<String>("Directories");
 		
 		References.directoryWatchService = directoryWatchService;
-		DirectoryHandler dl = new DirectoryHandler();
-		dl.load(directoryViewRoot);
 
 		playlistView.setRoot(playlistViewRoot);
 
@@ -117,6 +115,12 @@ public class MusicBorderPain extends BorderPane {
 		directoryView.setOnMouseClicked(new DoubleClickHandler(directoryView));
 		
 		playlistView.setContextMenu(new PlaylistContextMenu());
+		
+		PlaylistDataHandler plh = new PlaylistDataHandler();
+		plh.load();
+		
+		DirectoryDataHandler dh = new DirectoryDataHandler();
+		dh.load();
 		
 		BorderPane searchPane = new BorderPane();
 		

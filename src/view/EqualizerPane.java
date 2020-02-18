@@ -21,6 +21,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.EqualizerBand;
+import model.EqualizerDataHandler;
 import model.EqualizerPreset;
 import ressource.Data;
 import ressource.References;
@@ -87,13 +88,14 @@ public class EqualizerPane extends BorderPane {
 	private Node createPresetDropDown() {
 		VBox panel = new VBox();
 		comboPreset = new ComboBox<EqualizerPreset>();
-		comboPreset.getItems().add(Data.defaultPreset);
-		comboPreset.getItems().add(new EqualizerPreset("Test", "100;100;100;0.1;0.1;0.1;0.1;0.1;0.1;0.1;"));
-		comboPreset.getItems().add(new EqualizerPreset("Zwei", "8;3;10;0.1;0.1;0.1;0.1;0.1;0.1;0.1;"));
 		comboPreset.setPrefWidth(200);
 		comboPreset.getStyleClass().add("margin-4");
-		comboPreset.getSelectionModel().select(Data.currentPreset);
 
+		EqualizerDataHandler edh = new EqualizerDataHandler(comboPreset);
+		edh.load();
+
+		comboPreset.getSelectionModel().select(Data.currentPreset);
+		
 		panel.getChildren().addAll(comboPreset);
 
 		return panel;
@@ -108,7 +110,7 @@ public class EqualizerPane extends BorderPane {
 		bAdd.getStyleClass().add("margin-4");
 		bAdd.setOnAction(e -> {
 			TextInputDialog dialog = new TextInputDialog();
-			// TODO: Custom Dialog, preserve newly added items
+			// TODO: Custom Dialog
 			dialog.setContentText("Preset Name");
 			dialog.showAndWait().ifPresent(text -> {
 				EqualizerPreset newPreset = new EqualizerPreset(text, "0;0;0;0;0;0;0;0;0;0;");
@@ -160,7 +162,10 @@ public class EqualizerPane extends BorderPane {
 			if (comboPreset.getSelectionModel().getSelectedIndex() > -1) {
 				EqualizerPreset selectedPreset = comboPreset.getSelectionModel().getSelectedItem();
 				selectedPreset.setPreset(getPresetString());
-				// TODO: Save to DB
+				
+				EqualizerDataHandler edh = new EqualizerDataHandler(comboPreset);
+				edh.save();
+				
 				PopupTextBuilder builder = new PopupTextBuilder(References.equalizerPaneStage, "Config has been saved", 2, "green");
 			}
 		});

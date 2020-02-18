@@ -2,23 +2,30 @@ package model;
 
 import javafx.scene.control.TreeItem;
 import ressource.Data;
+import ressource.References;
 
-public class PlaylistHandler implements ITreeDataHandler {
+public class PlaylistDataHandler implements IDataHandler {
 
 	@Override
-	public void load(TreeItem<String> root) {
+	public void load() {
 		Data.PLAYLISTS.add("test");
 		Data.PLAYLISTS.add("CoolList");
 		
 		for (int i = 0; i < Data.PLAYLISTS.size(); i++) {
 			TreeItem<String> node = new TreeItem<String>(Data.PLAYLISTS.get(i));
-			root.getChildren().add(node);
+			References.playlistView.getRoot().getChildren().add(node);
 		}
 		
 	}
 
 	@Override
-	public boolean save() {
+	public void save() {
+		// TODO
+	}
+
+	@Override
+	public boolean isAlreadySaved(String item) {
+		// TODO Auto-generated method stub
 		return false;
 	}
 

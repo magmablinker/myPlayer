@@ -13,14 +13,14 @@ import ressource.Data;
 import ressource.References;
 import util.Util;
 
-public class DirectoryHandler implements ITreeDataHandler {
+public class DirectoryDataHandler implements IDataHandler {
 
-	public DirectoryHandler() {
+	public DirectoryDataHandler() {
 		super();
 	}
 
 	@Override
-	public void load(TreeItem<String> root) {
+	public void load() {
 
 		try {
 			Connection conn = Database.getInstance().getConn();
@@ -44,15 +44,14 @@ public class DirectoryHandler implements ITreeDataHandler {
 				if (directory.listFiles(new AllowedFileFilter()).length > 0) {
 					TreeItem<String> node = new FileTreeItem(directory);
 
-					root.getChildren().add(node);
+					References.directoryView.getRoot().getChildren().add(node);
 
 					File[] fileList = directory.listFiles(new AllowedFileFilter());
 
 					Util.createDirectoryView(fileList, node);
 				}
-			} else {
-				root.getChildren().add(new TreeItem<String>("Directory '" + directory.getName() + "' not found"));
-			}
+			} 
+			
 		}
 
 	}
@@ -74,9 +73,7 @@ public class DirectoryHandler implements ITreeDataHandler {
 				}
 			}
 	
-		} catch (Exception e) {
-
-		}
+		} catch (Exception e) {} // We straight up don't care about exceptions
 		
 	}
 
@@ -97,11 +94,8 @@ public class DirectoryHandler implements ITreeDataHandler {
 				isAlreadySaved = true;
 			
 			pst.close();
-		} catch (Exception e) {
-		}
-		
-		System.out.println(item + " isAlreadySaved " + isAlreadySaved);
-		
+		} catch (Exception e) {}
+				
 		return isAlreadySaved;
 	}
 

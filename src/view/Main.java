@@ -5,7 +5,7 @@ import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import model.DirectoryHandler;
+import model.DirectoryDataHandler;
 import ressource.Data;
 import ressource.References;
 
@@ -27,7 +27,7 @@ public class Main extends Application {
 			
 			stage.setOnCloseRequest(event -> {
 				root.getExServiceDirectoryWatchService().shutdownNow();
-				DirectoryHandler dh = new DirectoryHandler();
+				DirectoryDataHandler dh = new DirectoryDataHandler();
 				dh.save();
 				Platform.exit();
 			});
