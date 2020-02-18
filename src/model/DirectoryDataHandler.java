@@ -23,7 +23,8 @@ public class DirectoryDataHandler implements IDataHandler {
 	public void load() {
 
 		try {
-			Connection conn = Database.getInstance().getConn();
+			Database db = Database.getInstance();
+			Connection conn = db.getConn();
 			Statement stmt = conn.createStatement();
 
 			ResultSet rs = stmt.executeQuery("SELECT path FROM directories WHERE deleted = 0");

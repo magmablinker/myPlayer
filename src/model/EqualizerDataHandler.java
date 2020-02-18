@@ -31,11 +31,23 @@ public class EqualizerDataHandler implements IDataHandler {
 			
 			// Load default preset
 			rs.next();
-			Data.currentPreset = new EqualizerPreset(rs.getString("name"), rs.getString("preset"));
-			this.comboBox.getItems().add(Data.currentPreset);
+			
+			EqualizerPreset defaultPreset = new EqualizerPreset(rs.getString("name"), rs.getString("preset"));
+			
+			if(Data.currentPreset.getName().equals("Default"))
+				Data.currentPreset = defaultPreset;
+			
+			this.comboBox.getItems().add(defaultPreset);
 			
 			while (rs.next()) {
-				this.comboBox.getItems().add(new EqualizerPreset(rs.getString("name"), rs.getString("preset")));
+				String name = rs.getString("name");
+				String preset = rs.getString("preset");
+				
+				EqualizerPreset eqPreset = new EqualizerPreset(name, preset);
+				this.comboBox.getItems().add(eqPreset);
+				
+				if(Data.currentPreset.getName().equals(name))
+					this.comboBox.getSelectionModel().select(eqPreset);
 			}
 
 			stmt.close();

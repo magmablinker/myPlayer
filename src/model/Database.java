@@ -1,8 +1,14 @@
 package model;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.util.Optional;
 
-import javafx.application.Platform;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import view.Main;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.DialogPane;
 
 public class Database {
 	
@@ -20,9 +26,17 @@ public class Database {
 			Class.forName("com.mysql.jdbc.Driver");
 			this.conn = DriverManager.getConnection(database, username, password);
 		} catch(Exception e) {
+			// TODO: ON FAIL -> USE CONFIG FILE TO SAVE AND LOAD DATA INSTEAD OF DB???
+			Alert alert = new Alert(AlertType.ERROR, "The database connection failed.");
+			DialogPane dialogPane = alert.getDialogPane();
+			dialogPane.getStylesheets().add(Main.class.getResource("css/application.css").toExternalForm());
+			Optional<ButtonType> result = alert.showAndWait();
+			
+			if(result.get().equals(result.get())) {
+				System.exit(1);
+			}
+			
 			e.printStackTrace();
-			// STOP WATCHSERVICE
-			Platform.exit();
 		}
 		
 	}

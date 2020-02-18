@@ -12,6 +12,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextInputDialog;
@@ -110,8 +111,11 @@ public class EqualizerPane extends BorderPane {
 		bAdd.getStyleClass().add("margin-4");
 		bAdd.setOnAction(e -> {
 			TextInputDialog dialog = new TextInputDialog();
+			DialogPane dialogPane = dialog.getDialogPane();
+			dialogPane.getStylesheets().add(Main.class.getResource("css/application.css").toExternalForm());
 			// TODO: Custom Dialog
 			dialog.setContentText("Preset Name");
+			dialog.setHeaderText("Add Preset");
 			dialog.showAndWait().ifPresent(text -> {
 				EqualizerPreset newPreset = new EqualizerPreset(text, "0;0;0;0;0;0;0;0;0;0;");
 				comboPreset.getItems().add(newPreset);

@@ -5,6 +5,7 @@ import java.io.File;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import model.AllowedFileFilter;
+import model.EqualizerPreset;
 import model.FileTreeItem;
 
 public class Util {
