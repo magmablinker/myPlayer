@@ -28,7 +28,7 @@ public class VisualizerPane extends HBox {
 		this.canvas = new Canvas(750, 550);
 		this.gc = canvas.getGraphicsContext2D();
 				
-		gc.setFill(Color.web("#031C1D"));
+		gc.setFill(Color.web("#54099e"));
 
 		return canvas;
 	}

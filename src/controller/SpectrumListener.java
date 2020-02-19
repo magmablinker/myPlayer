@@ -14,16 +14,17 @@ public class SpectrumListener implements AudioSpectrumListener {
 	}
 
 	@Override
-	public void spectrumDataUpdate(double timestamp, double duration, float[] magnitudes, float[] phases) {
-		pane.clearCanvas();
+	public void spectrumDataUpdate(double timestamp, double duration, float[] magnitudes, float[] phases) {			
+			pane.clearCanvas();
+			
+			for (int i = 0; i < magnitudes.length; i++) {
+				pane.fillRect((pane.getCanvas().getWidth() / magnitudes.length) * i, 
+						      (pane.getCanvas().getHeight() - 20 - minHeight -
+						      (magnitudes[i] - References.mediaPlayer.getAudioSpectrumThreshold()) * 4 + minHeight),
+						      (pane.getCanvas().getWidth() / magnitudes.length) - 15,
+						       pane.getCanvas().getHeight() - 20);
+			}	
 		
-		for (int i = 0; i < magnitudes.length; i++) {
-			pane.fillRect((pane.getCanvas().getWidth() / magnitudes.length) * i, 
-					     (pane.getCanvas().getHeight() - 20 - minHeight - (magnitudes[i] - References.mediaPlayer.getAudioSpectrumThreshold()) * 3 + minHeight),
-					     (pane.getCanvas().getWidth() / magnitudes.length) - 15,
-					      pane.getCanvas().getHeight() - 20);
-		}
-
 	}
 	
 	public void setToZero() {
