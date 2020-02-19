@@ -239,5 +239,5 @@ public class EqualizerPane extends BorderPane {
 		
 		return sb.toString();
 	}
-
+	
 }

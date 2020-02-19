@@ -19,6 +19,7 @@ import javafx.scene.text.Text;
 import model.FileTreeItem;
 import ressource.Icons;
 import ressource.References;
+import view.DirectoryContextMenu;
 
 public class DirectoryViewCell extends TreeCell<String> {
 
@@ -28,6 +29,7 @@ public class DirectoryViewCell extends TreeCell<String> {
 	static final DataFormat FILE_TREE_ITEM = new DataFormat("FileTreeItem");
 
 	public DirectoryViewCell() {
+		super();
 		this.setOnDragDetected(new EventHandler<MouseEvent>() {
 
 			@Override
@@ -39,20 +41,25 @@ public class DirectoryViewCell extends TreeCell<String> {
 					return;
 				}
 
-				Dragboard db = References.directoryView.startDragAndDrop(TransferMode.COPY_OR_MOVE);
-				FileTreeItem selectedItem = (FileTreeItem) References.directoryView.getSelectionModel()
-						.getSelectedItem();
+				try {
+					Dragboard db = References.directoryView.startDragAndDrop(TransferMode.COPY_OR_MOVE);
+					FileTreeItem selectedItem = (FileTreeItem) References.directoryView.getSelectionModel()
+							.getSelectedItem();
 
-				// GIVES NULL POINTER SOMETIMES NOT REPRODUCABLE YET???
-				Label label = new Label(String.format("%s", getTreeItem().getValue()));
-				new Scene(label);
-				db.setDragView(label.snapshot(null, null));
+					Label label = new Label(String.format("%s", getTreeItem().getValue()));
+					new Scene(label);
+					db.setDragView(label.snapshot(null, null));
 
-				ClipboardContent content = new ClipboardContent();
-				content.put(FILE_TREE_ITEM, selectedItem);
+					ClipboardContent content = new ClipboardContent();
+					content.put(FILE_TREE_ITEM, selectedItem);
 
-				db.setContent(content);
-				event.consume();
+					db.setContent(content);
+				} catch (Exception e) {
+
+				} finally {
+					event.consume();
+				}
+
 			}
 
 		});
@@ -124,6 +131,21 @@ public class DirectoryViewCell extends TreeCell<String> {
 			e.setDropCompleted(dragCompleted);
 			e.consume();
 		});
+
+		this.emptyProperty().addListener((obs, wasEmpty, isNowEmpty) -> {
+
+			if (getTreeItem() != null) {
+				if (isNowEmpty) {
+					this.setContextMenu(null);
+				} else {
+					if (getTreeItem().equals(References.directoryView.getRoot()) || (getTreeItem().getParent() != null
+							&& getTreeItem().getParent().equals(References.directoryView.getRoot())))
+						this.setContextMenu(new DirectoryContextMenu());
+				}
+			}
+
+		});
+
 	}
 
 	@Override
