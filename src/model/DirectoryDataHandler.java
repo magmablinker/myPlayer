@@ -62,13 +62,11 @@ public class DirectoryDataHandler implements IDataHandler {
 		try {
 			Connection conn = Database.getInstance().getConn();
 
-			for (TreeItem<String> c : References.directoryView.getRoot().getChildren()) {
-				FileTreeItem child = (FileTreeItem) c;
-
-				if (!isAlreadySaved(child.getPath())) {
+			for (String path : Data.DIRECTORIES) {
+				if (!isAlreadySaved(path)) {
 					String sql = "INSERT INTO directories(path) VALUES(?)";
 					PreparedStatement pst = conn.prepareStatement(sql);
-					pst.setString(1, child.getPath());
+					pst.setString(1, path);
 					pst.executeUpdate();
 					pst.close();
 				}

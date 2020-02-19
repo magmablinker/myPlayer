@@ -41,7 +41,7 @@ public class MenuToolsVisualizerHandler implements EventHandler<ActionEvent> {
 			// Center the equalizer window on primaryStage
 			Bounds mainBounds = References.stage.getScene().getRoot().getLayoutBounds();
 			Bounds rootBounds = scene.getRoot().getLayoutBounds();
-			
+						
 			stage.setX(References.stage.getX() + (mainBounds.getWidth() - rootBounds.getWidth()) - 60);
 			stage.setY(References.stage.getY() + (mainBounds.getHeight() - rootBounds.getHeight()) / - 20);
 			stage.setTitle("Visualizer");
@@ -59,6 +59,21 @@ public class MenuToolsVisualizerHandler implements EventHandler<ActionEvent> {
 			}
 			
 			References.spectrumListener = spectrumListener;
+			
+			scene.heightProperty().addListener(ev -> {
+				root.getCanvas().setHeight(scene.getHeight());
+				
+				if(References.mediaPlayer == null)
+					References.spectrumListener.setToZero();
+				
+			});
+			
+			scene.widthProperty().addListener(ev -> {
+				root.getCanvas().setWidth(scene.getWidth() - 100);
+				
+				if(References.mediaPlayer == null)
+					References.spectrumListener.setToZero();
+			});
 		} else {
 			if(References.visualizerPaneStage.isIconified())
 				References.visualizerPaneStage.setIconified(false);

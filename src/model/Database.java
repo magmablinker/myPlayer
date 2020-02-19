@@ -16,7 +16,7 @@ public class Database {
 	
 	private Connection conn;
 	
-	private String database = "jdbc:mysql://localhost/myPlayer";
+	private String database = "jdbc:mysql://localhost/myPlayer?useSSL=false";
 	private String username = "music";
 	private String password = "1337";
 	

@@ -18,7 +18,6 @@ import javafx.scene.control.TreeItem;
 import model.FileTreeItem;
 import ressource.Permissions;
 import ressource.References;
-import util.Util;
 
 public class DirectoryWatchService implements Runnable {
 
@@ -70,7 +69,6 @@ public class DirectoryWatchService implements Runnable {
 				
 				try {
 					Path child = dir.resolve(fileName);
-					System.out.println(fileName.toAbsolutePath());
 					this.resolveTreeViewAction(child, kind, key);
 				} catch (Exception e) {
 					e.printStackTrace();

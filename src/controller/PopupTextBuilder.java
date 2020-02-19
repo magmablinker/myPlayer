@@ -53,6 +53,7 @@ public class PopupTextBuilder {
 		stage.setScene(scene);
 		stage.setY(parent.getY() + (parent.getHeight() / 3));
 		stage.setX(parent.getX() + (parent.getWidth() / 4));
+		stage.setAlwaysOnTop(true);
 		stage.show();
 		
 		fadeIn.setOnFinished(event -> delay.play());

@@ -30,8 +30,10 @@ public class VisualizerPane extends HBox {
 	}
 
 	private Node createVisualizer() {
+		// width - 100
 		this.canvas = new Canvas(750, 550);
 		this.gc = canvas.getGraphicsContext2D();
+				
 		gc.setFill(Color.web("#031C1D"));
 
 		return canvas;
