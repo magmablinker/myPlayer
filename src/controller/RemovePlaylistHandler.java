@@ -10,6 +10,7 @@ public class RemovePlaylistHandler implements EventHandler<ActionEvent> {
 	@Override
 	public void handle(ActionEvent e) {
 		
+		// TODO: STOP PLAYING SONG IF SONG IS PLAYING IN PLAYLIST THAT HAS TO BE REMOVED
 		if(References.playlistView.getSelectionModel().getSelectedIndex() > -1) {
 			TreeItem<String> item = References.playlistView.getSelectionModel().getSelectedItem();
 			

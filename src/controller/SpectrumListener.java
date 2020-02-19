@@ -30,9 +30,9 @@ public class SpectrumListener implements AudioSpectrumListener {
 		pane.clearCanvas();
 		for (int i = 0; i < 10; i++) {
 			pane.fillRect((pane.getCanvas().getWidth() / 10) * i,
-						  pane.getCanvas().getHeight() - 20,
-					     (pane.getCanvas().getWidth() / 10) - 15,
-					      pane.getCanvas().getHeight() - 20);
+						   pane.getCanvas().getHeight() - 20,
+					      (pane.getCanvas().getWidth() / 10) - 15,
+					       pane.getCanvas().getHeight() - 20);
 		}
 	}
 
