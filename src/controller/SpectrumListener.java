@@ -18,8 +18,8 @@ public class SpectrumListener implements AudioSpectrumListener {
 		pane.clearCanvas();
 		
 		for (int i = 0; i < magnitudes.length; i++) {
-			pane.fillRect(75 * i, 
-					     (pane.getCanvas().getHeight() - 20 - minHeight - (magnitudes[i] - References.mediaPlayer.getAudioSpectrumThreshold()) * 2 + minHeight),
+			pane.fillRect((pane.getCanvas().getWidth() / magnitudes.length) * i, 
+					     (pane.getCanvas().getHeight() - 20 - minHeight - (magnitudes[i] - References.mediaPlayer.getAudioSpectrumThreshold()) * 3 + minHeight),
 					     (pane.getCanvas().getWidth() / magnitudes.length) - 15,
 					      pane.getCanvas().getHeight() - 20);
 		}
@@ -29,7 +29,7 @@ public class SpectrumListener implements AudioSpectrumListener {
 	public void setToZero() {
 		pane.clearCanvas();
 		for (int i = 0; i < 10; i++) {
-			pane.fillRect(75 * i,
+			pane.fillRect((pane.getCanvas().getWidth() / 10) * i,
 						  pane.getCanvas().getHeight() - 20,
 					     (pane.getCanvas().getWidth() / 10) - 15,
 					      pane.getCanvas().getHeight() - 20);
