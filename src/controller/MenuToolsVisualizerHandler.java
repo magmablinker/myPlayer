@@ -22,7 +22,7 @@ public class MenuToolsVisualizerHandler implements EventHandler<ActionEvent> {
 			
 			VisualizerPane root = new VisualizerPane();
 			
-			Scene scene = new Scene(root, 850, 550);
+			Scene scene = new Scene(root, 1000, 550);
 					
 			FadeTransition fadeIn = new FadeTransition(Duration.millis(500), root);
 			fadeIn.setFromValue(0.0);

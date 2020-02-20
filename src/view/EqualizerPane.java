@@ -1,5 +1,7 @@
 package view;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 
 import controller.PopupTextBuilder;
@@ -22,6 +24,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.EqualizerBand;
+import model.Database;
 import model.EqualizerDataHandler;
 import model.EqualizerPreset;
 import ressource.Data;
@@ -133,6 +136,21 @@ public class EqualizerPane extends BorderPane {
 				
 			});
 		});
+		
+		Button bSave = new Button("Save");
+		bSave.setOnAction(e -> {
+			if (comboPreset.getSelectionModel().getSelectedIndex() > -1) {
+				EqualizerPreset selectedPreset = comboPreset.getSelectionModel().getSelectedItem();
+				selectedPreset.setPreset(getPresetString());
+				
+				EqualizerDataHandler edh = new EqualizerDataHandler(comboPreset);
+				edh.save();
+				
+				PopupTextBuilder builder = new PopupTextBuilder(References.equalizerPaneStage, "Config has been saved", 2, "green");
+			}
+		});
+		bSave.getStyleClass().add("margin-4");
+		bSave.setPrefWidth(100);
 
 		Button bLoad = new Button("Load");
 		bLoad.setPrefWidth(100);
@@ -156,7 +174,36 @@ public class EqualizerPane extends BorderPane {
 			}
 
 		});
-
+		
+		Button bDelete = new Button("Delete");
+		bDelete.getStyleClass().add("margin-4");
+		bDelete.setPrefWidth(100);
+		bDelete.setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+				if(comboPreset.getSelectionModel().getSelectedIndex() > -1) {
+					if(!comboPreset.getSelectionModel().getSelectedItem().getName().equals("Default")) {
+						try {
+							EqualizerPreset selectedPreset = comboPreset.getSelectionModel().getSelectedItem();
+							
+							Connection conn = Database.getInstance().getConn();
+							String sql = "UPDATE equalizerPreset SET deleted = 1 WHERE name = ?";
+							PreparedStatement pst = conn.prepareStatement(sql);
+							pst.setString(1, selectedPreset.getName());
+							
+							pst.executeUpdate();
+							pst.close();
+							
+							comboPreset.getItems().remove(comboPreset.getSelectionModel().getSelectedIndex());
+						} catch (Exception e) {
+							PopupTextBuilder builder = new PopupTextBuilder(References.equalizerPaneStage, "Failed to deleted the preset", 2, "red");
+						}
+					}
+				}
+			}
+			
+		});
 
 		Button bReset = new Button("Reset");
 		bReset.getStyleClass().add("margin-4");
@@ -172,21 +219,6 @@ public class EqualizerPane extends BorderPane {
 
 		});
 
-		Button bSave = new Button("Save");
-		bSave.setOnAction(e -> {
-			if (comboPreset.getSelectionModel().getSelectedIndex() > -1) {
-				EqualizerPreset selectedPreset = comboPreset.getSelectionModel().getSelectedItem();
-				selectedPreset.setPreset(getPresetString());
-				
-				EqualizerDataHandler edh = new EqualizerDataHandler(comboPreset);
-				edh.save();
-				
-				PopupTextBuilder builder = new PopupTextBuilder(References.equalizerPaneStage, "Config has been saved", 2, "green");
-			}
-		});
-		bSave.getStyleClass().add("margin-4");
-		bSave.setPrefWidth(100);
-		
 		Button bCopy = new Button("Copy");
 		bCopy.setOnAction(e -> {
 			if(comboPreset.getSelectionModel().getSelectedIndex() > -1) {
@@ -225,7 +257,7 @@ public class EqualizerPane extends BorderPane {
 		bPaste.getStyleClass().add("margin-4");
 		bPaste.setPrefWidth(100);
 
-		box.getChildren().addAll(bAdd, bSave, bLoad, bReset, bCopy, bPaste);
+		box.getChildren().addAll(bAdd, bSave, bLoad, bDelete, bReset, bCopy, bPaste);
 
 		return box;
 	}

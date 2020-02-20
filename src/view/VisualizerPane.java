@@ -6,6 +6,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.LinearGradient;
 import ressource.Data;
 
 public class VisualizerPane extends HBox {
@@ -25,10 +26,8 @@ public class VisualizerPane extends HBox {
 
 	private Node createVisualizer() {
 		// width - 100
-		this.canvas = new Canvas(750, 550);
+		this.canvas = new Canvas(900, 550);
 		this.gc = canvas.getGraphicsContext2D();
-				
-		gc.setFill(Color.web("#54099e"));
 
 		return canvas;
 	}
@@ -37,8 +36,19 @@ public class VisualizerPane extends HBox {
 		return this.canvas;
 	}
 
-	public void fillRect(double x, double y, double w, double h) {
-		this.gc.fillRect(x, y, w, h);
+	public void fillRect(double x, double y, double w, double h, LinearGradient lg) {
+		gc.setLineWidth(2);
+		gc.setStroke(Color.CORAL);
+		
+		gc.setFill(lg);
+		
+		gc.strokeRect(x, y, w, h);
+		gc.save();
+		
+		gc.setGlobalAlpha(0.7);
+		gc.fillRect(x, y, w, h);
+		
+		gc.restore();
 	}
 
 	public void clearCanvas() {
