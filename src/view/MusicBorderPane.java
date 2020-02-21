@@ -125,15 +125,17 @@ public class MusicBorderPane extends BorderPane {
 		BorderPane searchPane = new BorderPane();
 		
 		TextField fSearch = new TextField();
+		SearchEventHandler handler = new SearchEventHandler(fSearch);
 		fSearch.setPromptText("Search...");
 		fSearch.getStyleClass().add("textfield");
 		fSearch.setPrefHeight(40);
 		fSearch.setMinHeight(40);
 		fSearch.setMaxHeight(40);
+		fSearch.setOnAction(handler);
 		
 		Button bSearch = new Button();
 		bSearch.getStyleClass().addAll("margin-8-no-border", "button-icon");
-		bSearch.setOnAction(new SearchEventHandler(fSearch));
+		bSearch.setOnAction(handler);
 		
 		ImageView searchIcon = new ImageView(new Image(Icons.ICON_SEARCH));
 		searchIcon.setFitWidth(28);

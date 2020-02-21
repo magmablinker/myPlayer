@@ -1,10 +1,12 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.EventObject;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
@@ -20,6 +22,7 @@ public class SearchEventHandler implements EventHandler<ActionEvent> {
 
 	private TextField fSearch;
 	private ArrayList<FileTreeItem> resultList = new ArrayList<FileTreeItem>();
+	private Stage stage;
 
 	public SearchEventHandler(TextField fSearch) {
 		this.fSearch = fSearch;
@@ -39,9 +42,10 @@ public class SearchEventHandler implements EventHandler<ActionEvent> {
 					root = new SearchResultPane();
 					
 					Scene scene = new Scene(root, 500, 300);
-					Stage stage = new Stage();
+					stage = new Stage();
 					
 					stage.setOnCloseRequest(e -> {
+						fSearch.clear();
 						stage.close();
 						References.searchResultPane = null;
 					});
@@ -64,6 +68,10 @@ public class SearchEventHandler implements EventHandler<ActionEvent> {
 					stage.show();
 				} else {
 					root = References.searchResultPane;
+
+					if(stage.isIconified())
+						stage.setIconified(false);
+					stage.toFront();
 				}
 				
 				root.setSearchResultList(resultList);
