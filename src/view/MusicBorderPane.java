@@ -26,13 +26,13 @@ import model.PlaylistDataHandler;
 import ressource.Icons;
 import ressource.References;
 
-public class MusicBorderPain extends BorderPane {
+public class MusicBorderPane extends BorderPane {
 
 	private DirectoryWatchService directoryWatchService = new DirectoryWatchService();
 	private TreeView<String> directoryView;
 	private ExecutorService exServiceDirectoryWatchService;
 
-	public MusicBorderPain() {
+	public MusicBorderPane() {
 		super();
 
 		MenuBar menuBar = new MusicMenuBar();

@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
@@ -23,9 +24,6 @@ import view.DirectoryContextMenu;
 
 public class DirectoryViewCell extends TreeCell<String> {
 
-	// https://examples.javacodegeeks.com/desktop-java/javafx/event-javafx/javafx-drag-drop-example/
-	private TreeItem<String> item;
-
 	static final DataFormat FILE_TREE_ITEM = new DataFormat("FileTreeItem");
 
 	public DirectoryViewCell() {
@@ -35,15 +33,27 @@ public class DirectoryViewCell extends TreeCell<String> {
 			@Override
 			public void handle(MouseEvent event) {
 				int selectedIndex = References.directoryView.getSelectionModel().getSelectedIndex();
+				TreeView<String> treeView =  References.directoryView;
 
 				if (selectedIndex < 0) {
-					event.consume();
-					return;
+					if(References.searchResultPane == null) {
+						event.consume();
+						return;	
+					} else {
+						selectedIndex = References.searchResultPane.getResultTreeView().getSelectionModel().getSelectedIndex();
+						treeView = References.searchResultPane.getResultTreeView();
+					}
+					
+					if(selectedIndex < 0) {
+						event.consume();
+						return;	
+					}
+			
 				}
 
 				try {
-					Dragboard db = References.directoryView.startDragAndDrop(TransferMode.COPY_OR_MOVE);
-					FileTreeItem selectedItem = (FileTreeItem) References.directoryView.getSelectionModel()
+					Dragboard db = treeView.startDragAndDrop(TransferMode.COPY_OR_MOVE);
+					FileTreeItem selectedItem = (FileTreeItem) treeView.getSelectionModel()
 							.getSelectedItem();
 
 					Label label = new Label(String.format("%s", getTreeItem().getValue()));
@@ -55,7 +65,7 @@ public class DirectoryViewCell extends TreeCell<String> {
 
 					db.setContent(content);
 				} catch (Exception e) {
-
+					e.printStackTrace();
 				} finally {
 					event.consume();
 				}

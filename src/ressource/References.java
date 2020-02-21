@@ -16,6 +16,7 @@ import javafx.scene.media.AudioEqualizer;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import view.MusicPanel;
+import view.SearchResultPane;
 
 public class References {
 	
@@ -58,5 +59,7 @@ public class References {
 	public static Stage visualizerPaneStage = null;
 	
 	public static SpectrumListener spectrumListener = null;
+	
+	public static SearchResultPane searchResultPane = null;
 	
 }

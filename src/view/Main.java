@@ -14,7 +14,7 @@ public class Main extends Application {
 	public void start(Stage stage) {
 		try {
 			References.stage = stage;
-			MusicBorderPain root = new MusicBorderPain();
+			MusicBorderPane root = new MusicBorderPane();
 			Scene scene = new Scene(root, 750, 550);
 			scene.getStylesheets().add(getClass().getResource("css/application.css").toExternalForm());
 			stage.setTitle("Soumd Symstem");
