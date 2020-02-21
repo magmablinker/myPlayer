@@ -52,7 +52,7 @@ public class DirectoryDataHandler implements IDataHandler {
 					Util.createDirectoryView(fileList, node);
 				}
 			} 
-			
+		
 		}
 
 	}

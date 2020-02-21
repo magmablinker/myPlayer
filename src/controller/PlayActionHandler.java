@@ -70,6 +70,7 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 						return;
 					} else {
 						References.mediaPlayer.stop();
+						References.mediaPlayer.dispose();
 					}
 				}
 				

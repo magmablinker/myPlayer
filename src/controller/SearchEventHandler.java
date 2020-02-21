@@ -29,8 +29,8 @@ public class SearchEventHandler implements EventHandler<ActionEvent> {
 			if (child.getChildren().size() > 0) {
 				recursiveSearch(child);
 			} else {
-				
-				if (child.getValue().contains(fSearch.getText())) {
+		
+				if (child.getValue().toLowerCase().contains(fSearch.getText().toLowerCase())) {
 					System.out.println(child.getValue());
 					parent.setExpanded(true);
 					child.getGraphic().setStyle("-fx-background: yellow;");

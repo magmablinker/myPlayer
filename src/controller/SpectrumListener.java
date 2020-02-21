@@ -1,10 +1,7 @@
 package controller;
 
 import javafx.scene.media.AudioSpectrumListener;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
-import javafx.scene.paint.Stop;
 import ressource.References;
 import view.VisualizerPane;
 
@@ -12,6 +9,12 @@ public class SpectrumListener implements AudioSpectrumListener {
 
 	private VisualizerPane pane;
 	private int minHeight = 25;
+	private LinearGradient lg = LinearGradient.valueOf("linear-gradient(from 0% 0% to 100% 100%, Crimson 0%, DodgerBlue 90%)");
+	
+	private double x = 0;
+	private double y = 0;
+	private double w = 0;
+	private double h = 0;
 
 	public SpectrumListener(VisualizerPane pane) {
 		this.pane = pane;
@@ -20,16 +23,7 @@ public class SpectrumListener implements AudioSpectrumListener {
 	@Override
 	public void spectrumDataUpdate(double timestamp, double duration, float[] magnitudes, float[] phases) {
 		pane.clearCanvas();
-
-		double x = 0;
-		double y = 0;
-		double w = 0;
-		double h = 0;
 		
-		LinearGradient lg = LinearGradient.valueOf("linear-gradient(" +
-                "from 0% 0% to 100% 100%," +
-                "Crimson 0%, DodgerBlue 100%)");	
-
 		for (int i = 0; i < magnitudes.length; i++) {
 			x = (pane.getCanvas().getWidth() / magnitudes.length) * i + 5;
 			y = (pane.getCanvas().getHeight() - 20 - minHeight
@@ -44,9 +38,6 @@ public class SpectrumListener implements AudioSpectrumListener {
 
 	public void setToZero() {
 		pane.clearCanvas();
-		LinearGradient lg = LinearGradient.valueOf("linear-gradient(" +
-                "from 0% 0% to 100% 100%," +
-                "Crimson 0%, DodgerBlue 100%)");	
 		for (int i = 0; i < 10; i++) {
 			pane.fillRect((pane.getCanvas().getWidth() / 10) * i + 5, pane.getCanvas().getHeight() - 20,
 					(pane.getCanvas().getWidth() / 10) - 10, pane.getCanvas().getHeight() - 20, lg);
