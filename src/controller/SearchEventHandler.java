@@ -53,7 +53,7 @@ public class SearchEventHandler implements EventHandler<ActionEvent> {
 					scene.getStylesheets().add(EqualizerPane.class.getResource("css/application.css").toExternalForm());
 					
 					stage.setTitle("Search Results");
-					stage.getIcons().add(new Image(Data.class.getResourceAsStream("img/search.png")));
+					stage.getIcons().add(new Image(Data.class.getResourceAsStream("img/search-icon.png")));
 					stage.setResizable(false);
 					stage.setScene(scene);
 					
@@ -92,7 +92,8 @@ public class SearchEventHandler implements EventHandler<ActionEvent> {
 			} else {
 		
 				if (child.getValue().toLowerCase().contains(fSearch.getText().toLowerCase())) {
-					resultList.add(((FileTreeItem) child));
+					if(!((FileTreeItem) child).isDirectory())
+						resultList.add(((FileTreeItem) child));
 				} 
 				
 			}
