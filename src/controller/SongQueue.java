@@ -44,32 +44,34 @@ public class SongQueue {
 					this.songList.clear();
 				}
 				
-				int index = 0;
-				int finalIndex = 0;
-
-				for (TreeItem<String> child : selectedItem.getChildren()) {
+				if(selectedItem.getChildren().size() > 0) {
+					int index = 0;
+					int finalIndex = 0;
 					
-					if(!((FileTreeItem) child).isDirectory()) {
-						this.songList.add(((FileTreeItem) child));
+					for (TreeItem<String> child : selectedItem.getChildren()) {
 						
-						if (child.equals(realSelectedItem)) {
-							finalIndex = index;
-						} else {
-							index++;
-						}	
+						if(!((FileTreeItem) child).isDirectory()) {
+							this.songList.add(((FileTreeItem) child));
+							
+							if (child.equals(realSelectedItem)) {
+								finalIndex = index;
+							} else {
+								index++;
+							}	
+						}
+						
 					}
 					
+					References.currentlyPlayingItem = selectedItem;
+					
+					songQueuePosition = finalIndex;
+					
+					if(References.checkBoxShuffle.isSelected()) {
+						this.shuffle();
+					} 
+					
+					addPlayingIcon();	
 				}
-				
-				References.currentlyPlayingItem = selectedItem;
-				
-				songQueuePosition = finalIndex;
-				
-				if(References.checkBoxShuffle.isSelected()) {
-					this.shuffle();
-				} 
-				
-				addPlayingIcon();
 				
 			}
 

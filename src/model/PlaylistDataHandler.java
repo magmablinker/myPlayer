@@ -1,20 +1,50 @@
 package model;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
 import javafx.scene.control.TreeItem;
+import ressource.Data;
 import ressource.References;
 
 public class PlaylistDataHandler extends DataHandler {
 
 	@Override
 	public void load() {
-
+		
 		try {
+			Connection conn = Database.getInstance().getConn();
 			
+			String sql = "SELECT name, id FROM playlist";
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			String name = "";
+			int playlistId = 0;
+			while(rs.next()) {
+				name = rs.getString("name");
+				playlistId = rs.getInt("id");
+				
+				TreeItem<String> playlist = new TreeItem<String>(name);
+				
+				sql = "SELECT songPath FROM playlistSong WHERE pid = ? AND deleted !=  1";
+				PreparedStatement pst = conn.prepareStatement(sql);
+				pst.setInt(1, playlistId);
+				
+				ResultSet plrs = pst.executeQuery();
+				
+				while(plrs.next()) {
+					FileTreeItem song = new FileTreeItem(new File(plrs.getString("songPath")));
+					playlist.getChildren().add(song);
+				}
+				
+				References.playlistView.getRoot().getChildren().add(playlist);
+			}
+			
+			stmt.close();
 		} catch(Exception e) {
 			
 		}
