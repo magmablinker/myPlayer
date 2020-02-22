@@ -13,7 +13,7 @@ import ressource.Data;
 import ressource.References;
 import util.Util;
 
-public class DirectoryDataHandler implements IDataHandler {
+public class DirectoryDataHandler extends DataHandler {
 
 	public DirectoryDataHandler() {
 		super();
@@ -33,6 +33,7 @@ public class DirectoryDataHandler implements IDataHandler {
 				Data.DIRECTORIES.add(rs.getString("path"));
 			}
 
+			stmt.close();
 		} catch (SQLException e) {
 			// MOVE THIS SHIT SOMEHOW?!
 			new PopupTextBuilder(References.stage, "Failed to load directories", 3, "red");
@@ -63,7 +64,7 @@ public class DirectoryDataHandler implements IDataHandler {
 			Connection conn = Database.getInstance().getConn();
 
 			for (String path : Data.DIRECTORIES) {
-				if (!isAlreadySaved(path)) {
+				if (!isAlreadySaved("path", "directories", path)) {
 					String sql = "INSERT INTO directories(path) VALUES(?)";
 					PreparedStatement pst = conn.prepareStatement(sql);
 					pst.setString(1, path);
@@ -74,28 +75,6 @@ public class DirectoryDataHandler implements IDataHandler {
 	
 		} catch (Exception e) {} // We straight up don't care about exceptions
 		
-	}
-
-	@Override
-	public boolean isAlreadySaved(String item) {
-		boolean isAlreadySaved = false;
-
-		try {
-			Connection conn = Database.getInstance().getConn();
-			String sql = "SELECT path FROM directories WHERE path = ? AND deleted != 1";
-			
-			PreparedStatement pst = conn.prepareStatement(sql);
-			pst.setString(1, item);
-
-			ResultSet res = pst.executeQuery();
-			
-			if(res.next())
-				isAlreadySaved = true;
-			
-			pst.close();
-		} catch (Exception e) {}
-				
-		return isAlreadySaved;
 	}
 
 }

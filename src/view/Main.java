@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import model.DirectoryDataHandler;
+import model.PlaylistDataHandler;
 import ressource.Data;
 import ressource.References;
 
@@ -29,6 +30,8 @@ public class Main extends Application {
 				root.getExServiceDirectoryWatchService().shutdownNow();
 				DirectoryDataHandler dh = new DirectoryDataHandler();
 				dh.save();
+				PlaylistDataHandler ph = new PlaylistDataHandler();
+				ph.save();
 				Platform.exit();
 			});
 		} catch (Exception e) {

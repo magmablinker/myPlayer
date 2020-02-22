@@ -11,7 +11,7 @@ import javafx.scene.control.ComboBox;
 import ressource.Data;
 import ressource.References;
 
-public class EqualizerDataHandler implements IDataHandler {
+public class EqualizerDataHandler extends DataHandler {
 	
 	private ComboBox<EqualizerPreset> comboBox;
 	
@@ -67,7 +67,7 @@ public class EqualizerDataHandler implements IDataHandler {
 			try {
 				Connection conn = Database.getInstance().getConn();
 				
-				boolean isAlreadySaved = isAlreadySaved(preset.getName());
+				boolean isAlreadySaved = isAlreadySaved("name", "equalizerPreset", preset.getName());
 				
 				String sql;
 				if(!isAlreadySaved) {
@@ -93,27 +93,6 @@ public class EqualizerDataHandler implements IDataHandler {
 				new PopupTextBuilder(References.stage, "Failed to save the equalizer preset.", 3, "red");
 			}
 		}
-	}
-
-	@Override
-	public boolean isAlreadySaved(String item) {
-		boolean isAlreadySaved = false;
-		
-		try {
-			Connection conn = Database.getInstance().getConn();
-			String sql = "SELECT name FROM equalizerPreset WHERE name = ? AND deleted = 0";
-			PreparedStatement pst = conn.prepareStatement(sql);
-			pst.setString(1, item);
-			
-			ResultSet res = pst.executeQuery();
-			
-			if(res.next())
-				isAlreadySaved = true;
-			
-			pst.close();
-		} catch(Exception e) {}
-		
-		return isAlreadySaved;
 	}
 
 }
