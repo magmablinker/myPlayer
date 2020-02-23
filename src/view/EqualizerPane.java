@@ -18,12 +18,14 @@ import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.image.Image;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.EqualizerBand;
+import javafx.stage.Stage;
 import model.Database;
 import model.EqualizerDataHandler;
 import model.EqualizerPreset;
@@ -116,7 +118,7 @@ public class EqualizerPane extends BorderPane {
 			TextInputDialog dialog = new TextInputDialog();
 			DialogPane dialogPane = dialog.getDialogPane();
 			dialogPane.getStylesheets().add(Main.class.getResource("css/application.css").toExternalForm());
-			// TODO: Custom Dialog
+			((Stage) dialogPane.getScene().getWindow()).getIcons().add(new Image(Data.class.getResourceAsStream("img/cheems.png")));
 			dialog.setContentText("Preset Name");
 			dialog.setHeaderText("Add Preset");
 			dialog.showAndWait().ifPresent(text -> {
