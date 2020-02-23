@@ -59,7 +59,7 @@ public class DirectoryViewCell extends TreeCell<String> {
 						e.printStackTrace();
 					}
 				}
-				
+
 				event.consume();
 			}
 
@@ -135,14 +135,12 @@ public class DirectoryViewCell extends TreeCell<String> {
 
 		this.emptyProperty().addListener((obs, wasEmpty, isNowEmpty) -> {
 
-			if (getTreeItem() != null) {
-				if (isNowEmpty) {
-					this.setContextMenu(null);
-				} else {
-					if (getTreeItem().equals(References.directoryView.getRoot()) || (getTreeItem().getParent() != null
-							&& getTreeItem().getParent().equals(References.directoryView.getRoot())))
-						this.setContextMenu(new DirectoryContextMenu());
-				}
+			if (isNowEmpty) {
+				this.setContextMenu(null);
+			} else {
+				if (getTreeItem().equals(References.directoryView.getRoot()) || (getTreeItem().getParent() != null
+						&& getTreeItem().getParent().equals(References.directoryView.getRoot())))
+					this.setContextMenu(new DirectoryContextMenu());
 			}
 
 		});
