@@ -32,44 +32,35 @@ public class DirectoryViewCell extends TreeCell<String> {
 
 			@Override
 			public void handle(MouseEvent event) {
-				int selectedIndex = References.directoryView.getSelectionModel().getSelectedIndex();
-				TreeView<String> treeView =  References.directoryView;
+				TreeView<String> treeView = ((DirectoryViewCell) event.getSource()).getTreeView();
+				int selectedIndex = treeView.getSelectionModel().getSelectedIndex();
 
 				if (selectedIndex < 0) {
-					if(References.searchResultPane == null) {
+					if (References.searchResultPane == null) {
 						event.consume();
-						return;	
-					} else {
-						selectedIndex = References.searchResultPane.getResultTreeView().getSelectionModel().getSelectedIndex();
-						treeView = References.searchResultPane.getResultTreeView();
+						return;
 					}
-					
-					if(selectedIndex < 0) {
-						event.consume();
-						return;	
-					}
-			
 				}
 
-				try {
-					Dragboard db = treeView.startDragAndDrop(TransferMode.COPY_OR_MOVE);
-					FileTreeItem selectedItem = (FileTreeItem) treeView.getSelectionModel()
-							.getSelectedItem();
+				if (!treeView.getSelectionModel().getSelectedItem().equals(treeView.getRoot())) {
+					try {
+						Dragboard db = treeView.startDragAndDrop(TransferMode.COPY_OR_MOVE);
+						FileTreeItem selectedItem = (FileTreeItem) treeView.getSelectionModel().getSelectedItem();
 
-					Label label = new Label(String.format("%s", getTreeItem().getValue()));
-					new Scene(label);
-					db.setDragView(label.snapshot(null, null));
+						Label label = new Label(String.format("%s", getTreeItem().getValue()));
+						new Scene(label);
+						db.setDragView(label.snapshot(null, null));
 
-					ClipboardContent content = new ClipboardContent();
-					content.put(FILE_TREE_ITEM, selectedItem);
+						ClipboardContent content = new ClipboardContent();
+						content.put(FILE_TREE_ITEM, selectedItem);
 
-					db.setContent(content);
-				} catch (Exception e) {
-					e.printStackTrace();
-				} finally {
-					event.consume();
+						db.setContent(content);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
-
+				
+				event.consume();
 			}
 
 		});

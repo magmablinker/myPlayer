@@ -12,6 +12,8 @@ import ressource.References;
 
 public class PlaylistDataHandler extends DataHandler {
 
+	// TODO: DELETE SONGS FROM PLAYLISTS
+	
 	@Override
 	public void load() {
 
