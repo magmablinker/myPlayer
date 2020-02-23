@@ -159,11 +159,11 @@ public class PlaylistDataHandler extends DataHandler {
 
 		try {
 			Connection conn = Database.getInstance().getConn();
-			String sql = "SELECT id FROM song WHERE path = ? AND deleted != 1";
-
-			PreparedStatement pst = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			String sql = "SELECT id FROM song WHERE path = ?";
+			
+			PreparedStatement pst = conn.prepareStatement(sql);
 			pst.setString(1, path);
-
+			
 			ResultSet rs = pst.executeQuery();
 
 			if (rs.next())
