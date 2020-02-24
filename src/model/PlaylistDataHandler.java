@@ -19,7 +19,7 @@ public class PlaylistDataHandler extends DataHandler {
 		try {
 			Connection conn = Database.getInstance().getConn();
 
-			String sql = "SELECT name, id FROM playlist";
+			String sql = "SELECT name, id FROM playlist WHERE deleted = 0";
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
 
