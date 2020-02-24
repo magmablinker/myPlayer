@@ -45,7 +45,7 @@ public class MusicPanel extends BorderPane {
 		reflection.setTopOpacity(0.4);
 		reflection.setTopOffset(5);
 		reflection.setBottomOpacity(0.0);
-		reflection.setFraction(0.3);
+		reflection.setFraction(0.4);
 
 		References.coverImage.setEffect(reflection);
 
