@@ -16,7 +16,7 @@ public class PlaylistContextMenu extends ContextMenu {
 		MenuItem mNew = new MenuItem("New Playlist");
 		mNew.setOnAction(new AddPlaylistHandler());
 		
-		MenuItem mDel = new MenuItem("Delete Playlist");
+		MenuItem mDel = new MenuItem("Delete Item");
 		mDel.setOnAction(new RemovePlaylistHandler());
 		
 		this.getItems().addAll(mNew, mDel);
