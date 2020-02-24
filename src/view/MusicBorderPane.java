@@ -46,8 +46,6 @@ public class MusicBorderPane extends BorderPane {
 		this.setLeft(leftPane);
 		this.setCenter(createCenter());
 
-		System.out.println("Starting watchservice");
-
 		Task<Void> watchService = new Task<Void>() {
 
 			@Override
