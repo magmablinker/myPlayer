@@ -1,11 +1,13 @@
 package controller;
 
 import javafx.animation.FadeTransition;
+import javafx.animation.Animation.Status;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import ressource.Icons;
@@ -54,6 +56,10 @@ public class MenuToolsVisualizerHandler implements EventHandler<ActionEvent> {
 			
 			if(References.mediaPlayer != null) {
 				References.mediaPlayer.setAudioSpectrumListener(spectrumListener);
+				
+				if(References.mediaPlayer.getStatus().equals(MediaPlayer.Status.PAUSED))
+					spectrumListener.setToZero();
+				
 			} else {
 				spectrumListener.setToZero();
 			}
