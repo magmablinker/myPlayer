@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.TreeView;
+import javafx.scene.effect.Reflection;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.media.EqualizerBand;
@@ -33,11 +34,11 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 			else if (References.playlistView.getSelectionModel().getSelectedIndex() > -1)
 				currentView = References.playlistView;
 
-			if(currentView == null)
+			if (currentView == null)
 				return;
-			
+
 			References.SONG_QUEUE = new SongQueue(currentView);
-			
+
 		}
 
 		this.playMethod();
@@ -45,9 +46,9 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 
 	public void playMethod() {
 		SongQueue queue = References.SONG_QUEUE;
-		
+
 		queue.setPlayActionHandler(this);
-		
+
 		if (queue.size() == 0) {
 			queue.generateSongQueue();
 		}
@@ -75,7 +76,7 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 						References.mediaPlayer.dispose();
 					}
 				}
-				
+
 				try {
 					File file = new File(currentItem.getPath());
 					Media audioFile = new Media(file.toURI().toString());
@@ -83,13 +84,12 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 					References.songPlayingArtistLabel.setText("Unknown Artist");
 					References.songPlayingAlbum.setText("Unknown Album");
 					References.coverImage.setImage(new Image(Icons.class.getResourceAsStream(Icons.DEFAULT_COVER)));
-
 					audioFile.getMetadata().addListener(new MetaDataChangeListener());
 
 					MediaPlayer player = new MediaPlayer(audioFile);
 					player.setAudioSpectrumNumBands(10);
-					
-					if(References.spectrumListener != null)
+
+					if (References.spectrumListener != null)
 						player.setAudioSpectrumListener(References.spectrumListener);
 
 					// Preserve the equalizer
@@ -103,8 +103,8 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 
 					player.currentTimeProperty().addListener(
 							(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) -> {
-								References.labelTimeIndicator
-										.setText(Util.formatDecimalToMinutes(player.getCurrentTime().toSeconds()) + " / "
+								References.labelTimeIndicator.setText(
+										Util.formatDecimalToMinutes(player.getCurrentTime().toSeconds()) + " / "
 												+ Util.formatDecimalToMinutes(player.getTotalDuration().toSeconds()));
 								References.mediaProgressBar.setProgress(
 										player.getCurrentTime().toMillis() / player.getTotalDuration().toMillis());
@@ -127,8 +127,9 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 					});
 
 					References.mediaPlayer = player;
-				} catch(Exception ex) {
-					PopupTextBuilder builder = new PopupTextBuilder(References.stage, String.format("Playing the media file '%s' failed.", currentItem.getValue()), 3, "red");
+				} catch (Exception ex) {
+					PopupTextBuilder builder = new PopupTextBuilder(References.stage,
+							String.format("Playing the media file '%s' failed.", currentItem.getValue()), 3, "red");
 					this.reset();
 				}
 

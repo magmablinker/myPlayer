@@ -13,6 +13,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
+import javafx.scene.effect.Reflection;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -39,6 +40,14 @@ public class MusicPanel extends BorderPane {
 		cover.setPreserveRatio(true);
 
 		References.coverImage = cover;
+		
+		Reflection reflection = new Reflection();
+		reflection.setTopOpacity(0.4);
+		reflection.setTopOffset(5);
+		reflection.setBottomOpacity(0.0);
+		reflection.setFraction(0.3);
+
+		References.coverImage.setEffect(reflection);
 
 		GridPane bottomPane = new GridPane();
 
