@@ -18,6 +18,7 @@ public class SearchResultPane extends StackPane {
 	private TreeItem<String> root;
 	
 	public SearchResultPane() {
+		super();
 		this.getChildren().add(this.createContent());
 	}
 	

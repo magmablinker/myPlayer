@@ -79,8 +79,7 @@ public class DirectoryDataHandler extends DataHandler {
 				}
 			}
 
-		} catch (Exception e) {
-		} // We straight up don't care about exceptions
+		} catch (Exception e) {} // We straight up don't care about exceptions
 
 	}
 

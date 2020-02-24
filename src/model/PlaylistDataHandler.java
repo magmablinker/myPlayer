@@ -11,8 +11,6 @@ import ressource.References;
 
 public class PlaylistDataHandler extends DataHandler {
 
-	// TODO: DELETE SONGS FROM PLAYLISTS
-	
 	@Override
 	public void load() {
 
@@ -44,6 +42,7 @@ public class PlaylistDataHandler extends DataHandler {
 						FileTreeItem song = new FileTreeItem(songFile);
 						playlist.getChildren().add(song);	
 					} else {
+						System.out.println(songFile.getAbsolutePath() + " => " + songFile.exists() + " & " + songFile.isFile());
 						sql = "UPDATE song SET deleted = 1 WHERE path = ?";
 						PreparedStatement deletepst = conn.prepareStatement(sql);
 						deletepst.setString(1, plrs.getString("path"));
@@ -88,7 +87,7 @@ public class PlaylistDataHandler extends DataHandler {
 				} else {
 					String sql = "INSERT INTO playlist(name) VALUES(?)";
 					PreparedStatement pst = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-
+					
 					pst.setString(1, child.getValue());
 
 					pst.executeUpdate();
@@ -108,7 +107,7 @@ public class PlaylistDataHandler extends DataHandler {
 
 						int songId = getSongId(playlistSong.getPath());
 						
-						// Is not saved yet
+						// Is not saved yet, save it
 						if (songId == -1) {
 							String sql = "INSERT INTO song(path) VALUES(?)";
 							PreparedStatement pst = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -138,7 +137,7 @@ public class PlaylistDataHandler extends DataHandler {
 				}
 
 			}
-		} catch (Exception e) {}
+		} catch (Exception e) {e.printStackTrace();}
 
 	}
 
@@ -171,7 +170,7 @@ public class PlaylistDataHandler extends DataHandler {
 
 		try {
 			Connection conn = Database.getInstance().getConn();
-			String sql = "SELECT id FROM song WHERE path = ?";
+			String sql = "SELECT id, deleted FROM song WHERE path = ?";
 			
 			PreparedStatement pst = conn.prepareStatement(sql);
 			pst.setString(1, path);
@@ -180,7 +179,7 @@ public class PlaylistDataHandler extends DataHandler {
 
 			if (rs.next())
 				songId = rs.getInt("id");
-
+				
 			pst.close();
 		} catch (Exception e) {}
 

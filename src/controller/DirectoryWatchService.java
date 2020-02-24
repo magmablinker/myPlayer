@@ -15,9 +15,11 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 import javafx.scene.control.TreeItem;
+import model.AllowedFileFilter;
 import model.FileTreeItem;
 import ressource.Permissions;
 import ressource.References;
+import util.Util;
 
 public class DirectoryWatchService implements Runnable {
 
@@ -136,6 +138,13 @@ public class DirectoryWatchService implements Runnable {
 						if (nodeChanged.equals(References.currentlyPlayingItem)) {
 							References.SONG_QUEUE.add((FileTreeItem) node);
 						}
+					} else {
+						AllowedFileFilter filter = new AllowedFileFilter();
+						
+						if(file.listFiles(filter).length > 0) {
+							Util.createDirectoryView(file.listFiles(filter), node);
+						}
+						
 					}
 
 					nodeChanged.getChildren().add(node);
