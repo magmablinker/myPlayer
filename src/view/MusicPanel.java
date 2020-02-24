@@ -132,6 +132,13 @@ public class MusicPanel extends BorderPane {
 		References.volumeSlider = volumeSlider;
 
 		volumeSlider.valueProperty().addListener(new VolumeChangeListener());
+		volumeSlider.setOnScroll(e -> {
+			if(e.getDeltaY() < 0) {
+				volumeSlider.setValue(volumeSlider.getValue() - 1);
+			} else {
+				volumeSlider.setValue(volumeSlider.getValue() + 1);	
+			}
+		});
 		volumeSlider.setValue(30);
 
 		volumeControlPane.getChildren().addAll(volumeSliderLabel, volumeSlider);

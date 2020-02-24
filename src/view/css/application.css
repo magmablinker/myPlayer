@@ -46,6 +46,17 @@
 	-fx-background-insets: 8.0px;
 }
 
+/* We need this because of a retarded bug */
+.tree-cell > .tree-disclosure-node > .arrow,
+.tree-table-row-cell > .tree-disclosure-node > .arrow {
+    -fx-rotate: 0;
+}
+
+.tree-cell:expanded > .tree-disclosure-node > .arrow,
+.tree-table-row-cell:expanded > .tree-disclosure-node > .arrow {
+    -fx-rotate: 90;
+}
+
 /*
  * This is an adjustment of the original modena.css for a consistent dark theme.
  * Original modena.css here: https://gist.github.com/maxd/63691840fc372f22f470.
