@@ -7,6 +7,9 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 import javafx.scene.control.TreeItem;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import ressource.Icons;
 import ressource.References;
 
 public class PlaylistDataHandler extends DataHandler {
@@ -28,6 +31,10 @@ public class PlaylistDataHandler extends DataHandler {
 				playlistId = rs.getInt("id");
 
 				TreeItem<String> playlist = new TreeItem<String>(name);
+				ImageView playlistIcon = new ImageView(new Image(Icons.class.getResourceAsStream(Icons.ICON_PLAYLIST)));
+				playlistIcon.setFitWidth(28);
+				playlistIcon.setFitHeight(28);
+				playlist.setGraphic(playlistIcon);
 
 				sql = "SELECT song.path FROM song JOIN playlistSong ON song.id = playlistSong.sid JOIN playlist ON playlist.id = playlistSong.pid WHERE pid = ? AND playlistSong.deleted != 1 AND song.deleted != 1";
 				PreparedStatement pst = conn.prepareStatement(sql);
@@ -42,6 +49,7 @@ public class PlaylistDataHandler extends DataHandler {
 						FileTreeItem song = new FileTreeItem(songFile);
 						playlist.getChildren().add(song);	
 					} else {
+						// TODO: FIX PROBLEM WITH FONT ENCODING
 						System.out.println(songFile.getAbsolutePath() + " => " + songFile.exists() + " & " + songFile.isFile());
 						sql = "UPDATE song SET deleted = 1 WHERE path = ?";
 						PreparedStatement deletepst = conn.prepareStatement(sql);

@@ -5,8 +5,10 @@ import javafx.event.EventHandler;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.TreeItem;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import ressource.Data;
+import ressource.Icons;
 import ressource.References;
 import view.Main;
 
@@ -22,6 +24,10 @@ public class AddPlaylistHandler implements EventHandler<ActionEvent> {
 		dialog.getDialogPane().getStylesheets().add(Main.class.getResource("css/application.css").toExternalForm());
 		dialog.showAndWait().ifPresent(text -> {
 			TreeItem<String> newPlaylist = new TreeItem<String>(text);
+			ImageView playlistIcon = new ImageView(new Image(Icons.class.getResourceAsStream(Icons.ICON_PLAYLIST)));
+			playlistIcon.setFitWidth(28);
+			playlistIcon.setFitHeight(28);
+			newPlaylist.setGraphic(playlistIcon);
 			References.playlistView.getRoot().getChildren().add(newPlaylist);
 			References.playlistView.getSelectionModel().select(newPlaylist);
 		});
