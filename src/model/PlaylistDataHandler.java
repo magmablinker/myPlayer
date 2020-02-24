@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 import javafx.scene.control.TreeItem;
-import ressource.Data;
 import ressource.References;
 
 public class PlaylistDataHandler extends DataHandler {
@@ -32,15 +31,26 @@ public class PlaylistDataHandler extends DataHandler {
 
 				TreeItem<String> playlist = new TreeItem<String>(name);
 
-				sql = "SELECT song.path FROM song JOIN playlistSong ON song.id = playlistSong.sid JOIN playlist ON playlist.id = playlistSong.pid WHERE pid = ? AND playlistSong.deleted != 1";
+				sql = "SELECT song.path FROM song JOIN playlistSong ON song.id = playlistSong.sid JOIN playlist ON playlist.id = playlistSong.pid WHERE pid = ? AND playlistSong.deleted != 1 AND song.deleted != 1";
 				PreparedStatement pst = conn.prepareStatement(sql);
 				pst.setInt(1, playlistId);
 
 				ResultSet plrs = pst.executeQuery();
 
 				while (plrs.next()) {
-					FileTreeItem song = new FileTreeItem(new File(plrs.getString("path")));
-					playlist.getChildren().add(song);
+					File songFile = new File(plrs.getString("path"));
+					
+					if(songFile.exists() && songFile.isFile()) {
+						FileTreeItem song = new FileTreeItem(songFile);
+						playlist.getChildren().add(song);	
+					} else {
+						sql = "UPDATE song SET deleted = 1 WHERE path = ?";
+						PreparedStatement deletepst = conn.prepareStatement(sql);
+						deletepst.setString(1, plrs.getString("path"));
+						deletepst.executeUpdate();
+						deletepst.close();
+					}
+					
 				}
 
 				References.playlistView.getRoot().getChildren().add(playlist);

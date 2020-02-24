@@ -16,6 +16,7 @@ public class SongQueue {
 	private ArrayList<FileTreeItem> songList;
 	private int songQueuePosition;
 	private TreeView<String> currentTreeView;
+	private PlayActionHandler playActionHandler;
 
 	public SongQueue(TreeView<String> currentTreeView) {
 		super();
@@ -151,6 +152,11 @@ public class SongQueue {
 			this.currentTreeView.refresh();
 		}
 	}
+	
+	public void clear() {
+		this.songList.clear();
+		this.songQueuePosition = 0;
+	}
 
 	public FileTreeItem getCurrentItem() {
 		return this.songList.get(songQueuePosition);
@@ -178,6 +184,14 @@ public class SongQueue {
 	
 	public int getPosition() {
 		return this.songQueuePosition;
+	}
+
+	public void setPlayActionHandler(PlayActionHandler playActionHandler) {
+		this.playActionHandler = playActionHandler;
+	}
+	
+	public PlayActionHandler getPlayActionHandler() {
+		return this.playActionHandler;
 	}
 	
 }

@@ -16,6 +16,13 @@ public class RemovePlaylistHandler implements EventHandler<ActionEvent> {
 			
 			if(!References.playlistView.getRoot().equals(item)) {
 				item.getParent().getChildren().remove(item);
+				
+				if(References.SONG_QUEUE.getCurrentItem().getParent().equals(item)) {
+					if(References.mediaPlayer != null) {
+						References.SONG_QUEUE.getPlayActionHandler().reset();
+					}
+				}
+				
 			} 
 			
 		}

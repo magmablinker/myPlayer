@@ -27,33 +27,39 @@ public class DirectoryDataHandler extends DataHandler {
 			Connection conn = db.getConn();
 			Statement stmt = conn.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT path FROM directories WHERE deleted = 0");
+			ResultSet rs = stmt.executeQuery("SELECT id, path FROM directories WHERE deleted = 0");
 
 			while (rs.next()) {
 				Data.DIRECTORIES.add(rs.getString("path"));
+
+				File directory = new File(rs.getString("path"));
+
+				if (directory.exists()) {
+					if(directory.isDirectory()) {
+						if (directory.listFiles(new AllowedFileFilter()).length > 0) {
+							TreeItem<String> node = new FileTreeItem(directory);
+
+							References.directoryView.getRoot().getChildren().add(node);
+
+							File[] fileList = directory.listFiles(new AllowedFileFilter());
+
+							Util.createDirectoryView(fileList, node);
+						}	
+					}
+				} else {
+					String sql = "UPDATE directories SET deleted = 1 WHERE id = ?";
+					PreparedStatement pst = conn.prepareStatement(sql);
+					pst.setInt(1, rs.getInt("id"));
+					pst.executeUpdate();
+					pst.close();
+				}
+
 			}
 
 			stmt.close();
 		} catch (SQLException e) {
 			// MOVE THIS SHIT SOMEHOW?!
 			new PopupTextBuilder(References.stage, "Failed to load directories", 3, "red");
-		}
-
-		for (int i = 0; i < Data.DIRECTORIES.size(); i++) {
-			File directory = new File(Data.DIRECTORIES.get(i));
-
-			if (directory.isDirectory()) {
-				if (directory.listFiles(new AllowedFileFilter()).length > 0) {
-					TreeItem<String> node = new FileTreeItem(directory);
-
-					References.directoryView.getRoot().getChildren().add(node);
-
-					File[] fileList = directory.listFiles(new AllowedFileFilter());
-
-					Util.createDirectoryView(fileList, node);
-				}
-			} 
-		
 		}
 
 	}
@@ -72,9 +78,10 @@ public class DirectoryDataHandler extends DataHandler {
 					pst.close();
 				}
 			}
-	
-		} catch (Exception e) {} // We straight up don't care about exceptions
-		
+
+		} catch (Exception e) {
+		} // We straight up don't care about exceptions
+
 	}
 
 }

@@ -19,6 +19,7 @@ CREATE TABLE playlist (
 CREATE TABLE song (
 	id INT NOT NULL AUTO_INCREMENT,
 	path VARCHAR(300) NOT NULL,
+	deleted TINYINT(1) NOT NULL,
 	PRIMARY KEY(id)
 );
 
@@ -44,6 +45,7 @@ CREATE TABLE equalizerPreset (
 
 ALTER TABLE directories ALTER deleted SET DEFAULT 0;
 ALTER TABLE playlist ALTER deleted SET DEFAULT 0;
+ALTER TABLE song ALTER deleted SET DEFAULT 0;
 ALTER TABLE playlistSong ALTER deleted SET DEFAULT 0;
 ALTER TABLE equalizerPreset ALTER deleted SET DEFAULT 0;
 

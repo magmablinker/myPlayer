@@ -1,12 +1,10 @@
 package controller;
 
 import java.util.ArrayList;
-import java.util.EventObject;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;

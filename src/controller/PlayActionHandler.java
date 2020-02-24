@@ -45,7 +45,9 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 
 	public void playMethod() {
 		SongQueue queue = References.SONG_QUEUE;
-
+		
+		queue.setPlayActionHandler(this);
+		
 		if (queue.size() == 0) {
 			queue.generateSongQueue();
 		}
@@ -126,7 +128,6 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 
 					References.mediaPlayer = player;
 				} catch(Exception ex) {
-					ex.printStackTrace();
 					PopupTextBuilder builder = new PopupTextBuilder(References.stage, String.format("Playing the media file '%s' failed.", currentItem.getValue()), 3, "red");
 					this.reset();
 				}
@@ -139,8 +140,14 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 
 	}
 
-	private void reset() {
+	public void reset() {
 		// TODO: WHY IS IS NOT RESETTING WHEN SONG FAILS TO PLAY?!?!
+		ImageView imageView = new ImageView(new Image(Icons.class.getResourceAsStream(Icons.ICON_PLAY)));
+		imageView.setFitHeight(50);
+		imageView.setFitWidth(50);
+		References.mediaPlayer.stop();
+		References.bPlay.setGraphic(imageView);
+		References.bPlay.setOnAction(new PlayActionHandler());
 		References.mediaProgressBar.setProgress(0);
 		References.labelTimeIndicator.setText("00:00 / 00:00");
 		References.songPlayingTitleLabel.setText("No song playing");
@@ -148,6 +155,7 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 		References.songPlayingArtistLabel.setText("");
 		References.coverImage.setImage(new Image(Icons.class.getResourceAsStream(Icons.DEFAULT_COVER)));
 		References.SONG_QUEUE.removePlayingIcon();
+		References.SONG_QUEUE.clear();
 	}
 
 }
