@@ -26,8 +26,7 @@ public class Database {
 			Class.forName("com.mysql.jdbc.Driver");
 			this.conn = DriverManager.getConnection(database, username, password);
 		} catch(Exception e) {
-			// TODO: ON FAIL -> USE CONFIG FILE TO SAVE AND LOAD DATA INSTEAD OF DB???
-			Alert alert = new Alert(AlertType.ERROR, "The database connection failed.");
+			Alert alert = new Alert(AlertType.ERROR, "The database connection failed. " + e.toString());
 			DialogPane dialogPane = alert.getDialogPane();
 			dialogPane.getStylesheets().add(Main.class.getResource("css/application.css").toExternalForm());
 			Optional<ButtonType> result = alert.showAndWait();
@@ -35,8 +34,6 @@ public class Database {
 			if(result.get().equals(result.get())) {
 				System.exit(1);
 			}
-			
-			e.printStackTrace();
 		}
 		
 	}
