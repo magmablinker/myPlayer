@@ -1,8 +1,12 @@
 package controller;
 
 import java.io.File;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
+import javafx.concurrent.Task;
 import javafx.event.EventHandler;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -20,6 +24,7 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.text.Text;
 import model.AllowedFileFilter;
 import model.FileTreeItem;
+import ressource.Data;
 import ressource.Icons;
 import ressource.References;
 import util.Util;
@@ -139,10 +144,28 @@ public class DirectoryViewCell extends TreeCell<String> {
 				if (file.isDirectory()) {
 					if (!Util.isAlreadyInTreeView(References.directoryView, file)) {
 						FileTreeItem node = new FileTreeItem(file);
-						References.directoryView.getRoot().getChildren().add(node);
 
 						if (file.listFiles().length > 0) {
-							Util.createDirectoryView(file.listFiles(new AllowedFileFilter()), node);
+							
+							Task<Void> task = new Task<Void>() {
+
+								@Override
+								protected Void call() throws Exception {
+									References.stage.getScene().setCursor(Cursor.WAIT);
+									Util.createDirectoryView(file.listFiles(new AllowedFileFilter()), node);
+									References.directoryView.getRoot().getChildren().add(node);
+									Data.DIRECTORIES.add(node.getPath());
+									References.stage.getScene().setCursor(Cursor.DEFAULT);
+									return null;
+								}
+								
+							};
+							
+							// Avoid window freezing
+							ExecutorService ex = Executors.newSingleThreadExecutor();
+							
+							ex.submit(task);
+							
 							dragCompleted = true;
 						}
 					} else {
