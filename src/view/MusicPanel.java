@@ -26,7 +26,6 @@ public class MusicPanel extends BorderPane {
 
 	public MusicPanel() {
 		super();
-
 		this.setCenter(createCenter());
 		this.setBottom(createBottom());
 	}
@@ -87,7 +86,7 @@ public class MusicPanel extends BorderPane {
 	private Node createBottom() {
 		GridPane grid = new GridPane();
 		grid.getStyleClass().add("margin-8-no-border");
-
+		
 		GridPane checkBoxPane = new GridPane();
 
 		CheckBox cbShuffle = new CheckBox("Shuffle");
@@ -126,13 +125,13 @@ public class MusicPanel extends BorderPane {
 
 		Button bNext = new Button();
 		ImageView imageViewNext = new ImageView(new Image(Icons.ICON_NEXT));
-		imageViewNext.setFitHeight(50);
 		imageViewNext.setFitWidth(50);
+		imageViewNext.setFitHeight(50);
 		imageViewNext.setPreserveRatio(true);
 		bNext.setGraphic(imageViewNext);
 		bNext.getStyleClass().addAll("margin-8", "button-icon");
 		bNext.setOnAction(new NextHandler());
-
+		
 		VBox volumeControlPane = new VBox();
 		volumeControlPane.setAlignment(Pos.CENTER_LEFT);
 
@@ -148,6 +147,7 @@ public class MusicPanel extends BorderPane {
 				volumeSlider.setValue(volumeSlider.getValue() + 5);	
 			}
 		});
+		
 		volumeSlider.setValue(30);
 
 		volumeControlPane.getChildren().addAll(volumeSliderLabel, volumeSlider);
@@ -159,7 +159,7 @@ public class MusicPanel extends BorderPane {
 		grid.add(volumeControlPane, 5, 1);
 
 		grid.setAlignment(Pos.CENTER);
-
+		
 		return grid;
 	}
 

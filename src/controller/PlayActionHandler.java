@@ -8,7 +8,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.TreeView;
-import javafx.scene.effect.Reflection;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.media.EqualizerBand;
@@ -88,12 +87,12 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 
 					MediaPlayer player = new MediaPlayer(audioFile);
 					player.setAudioSpectrumNumBands(10);
-
-					if (References.spectrumListener != null)
+					
+					if (References.spectrumListener != null) {
+						player.setAudioSpectrumInterval(0.05);
 						player.setAudioSpectrumListener(References.spectrumListener);
+					}
 
-					// Preserve the equalizer
-					// TODO: BETTER SOLUTION RETARD
 					ArrayList<EqualizerBand> bands = Data.currentPreset.getBands();
 					ObservableList<EqualizerBand> bandsObs = player.getAudioEqualizer().getBands();
 

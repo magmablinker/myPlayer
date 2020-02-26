@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import javafx.event.ActionEvent;
@@ -30,7 +31,6 @@ public class SearchEventHandler implements EventHandler<ActionEvent> {
 	public void handle(ActionEvent event) {
 
 		if (!fSearch.getText().isEmpty()) {
-			resultList.clear();
 			recursiveSearch(References.directoryView.getRoot());
 			
 			if(resultList.size() > 0) {
@@ -55,7 +55,7 @@ public class SearchEventHandler implements EventHandler<ActionEvent> {
 					stage.setResizable(false);
 					stage.setScene(scene);
 					
-					// Center the equalizer window on primaryStage
+					// Center the window on primaryStage
 					Bounds mainBounds = References.stage.getScene().getRoot().getLayoutBounds();
 					Bounds rootBounds = scene.getRoot().getLayoutBounds();
 					
@@ -91,7 +91,7 @@ public class SearchEventHandler implements EventHandler<ActionEvent> {
 		
 				if (child.getValue().toLowerCase().contains(fSearch.getText().toLowerCase())) {
 					if(!((FileTreeItem) child).isDirectory())
-						resultList.add(((FileTreeItem) child));
+						resultList.add(new FileTreeItem(new File(((FileTreeItem) child).getPath())));
 				} 
 				
 			}

@@ -45,6 +45,10 @@
 	-fx-background-insets: 8.0px;
 }
 
+.label {
+    -fx-font-size: 1.1em;
+}
+
 /* We need this because of a retarded bug */
 .tree-cell > .tree-disclosure-node > .arrow,
 .tree-table-row-cell > .tree-disclosure-node > .arrow {

@@ -7,7 +7,10 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.LinearGradient;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import ressource.Data;
+import ressource.References;
 
 public class VisualizerPane extends HBox {
 
@@ -28,7 +31,7 @@ public class VisualizerPane extends HBox {
 		// width - 100
 		this.canvas = new Canvas(900, 550);
 		this.gc = canvas.getGraphicsContext2D();
-
+		
 		return canvas;
 	}
 
@@ -54,5 +57,32 @@ public class VisualizerPane extends HBox {
 	public void clearCanvas() {
 		this.gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 	}
+
+	public void drawCurrentlyPlayingItemText() {
+		gc.save();
+		gc.setFill(Color.WHITE);
+		gc.setLineWidth(2);
+		gc.setStroke(Color.BLACK);
+		String text = References.SONG_QUEUE.getCurrentItem().getValue();
+		gc.setFont(new Font("Arial", findFontSizeThatCanFit(Font.font("Arial", 25), text, (int) canvas.getWidth())));
+		gc.strokeText(text, 0, 40);
+		gc.fillText(text, 0, 40);
+		gc.restore();
+	}
+	
+	private static double findFontSizeThatCanFit(Font font, String s, int maxWidth) {
+        double fontSize = font.getSize();
+        double width = textWidth(font, s);
+        if (width > maxWidth) {
+            return fontSize * maxWidth / width;
+        }
+        return fontSize;
+    }
+
+    private static double textWidth(Font font, String s) {
+        Text text = new Text(s);
+        text.setFont(font);
+        return text.getBoundsInLocal().getWidth();
+    }
 
 }
