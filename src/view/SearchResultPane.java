@@ -51,6 +51,7 @@ public class SearchResultPane extends StackPane {
 			this.root.setExpanded(true);
 		}
 
+		searchResultList.clear();			// save memory^^
 		this.resultTreeView.refresh();
 	}
 	
