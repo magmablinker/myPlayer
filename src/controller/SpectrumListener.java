@@ -24,6 +24,8 @@ public class SpectrumListener implements AudioSpectrumListener {
 	public void spectrumDataUpdate(double timestamp, double duration, float[] magnitudes, float[] phases) {
 		pane.clearCanvas();
 		
+		pane.drawCurrentlyPlayingItemText();
+		
 		for (int i = 0; i < magnitudes.length; i++) {
 			x = (pane.getCanvas().getWidth() / magnitudes.length) * i + 5;
 			y = (pane.getCanvas().getHeight() - 20 - minHeight
