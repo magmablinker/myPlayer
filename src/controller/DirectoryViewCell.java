@@ -3,6 +3,7 @@ package controller;
 import java.io.File;
 
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeCell;
@@ -57,9 +58,7 @@ public class DirectoryViewCell extends TreeCell<String> {
 						content.put(FILE_TREE_ITEM, selectedItem);
 
 						db.setContent(content);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+					} catch (Exception e) {} // Fuck exceptions gang
 				}
 
 				event.consume();
@@ -78,7 +77,7 @@ public class DirectoryViewCell extends TreeCell<String> {
 						event.acceptTransferModes(TransferMode.MOVE);
 					} 
 				} else if(event.getDragboard().hasFiles()) {
-					event.acceptTransferModes(TransferMode.MOVE);
+					event.acceptTransferModes(TransferMode.COPY);
 				}
 				
 				event.consume();
@@ -88,69 +87,73 @@ public class DirectoryViewCell extends TreeCell<String> {
 
 		this.setOnDragDropped(e -> {
 			boolean dragCompleted = false;
-
+						
 			Dragboard db = e.getDragboard();
 
 			if (db.hasContent(FILE_TREE_ITEM)) {
 				FileTreeItem item = (FileTreeItem) db.getContent(FILE_TREE_ITEM);
 
-				if (!(new File(item.getPath()).isDirectory())) {
-					for (TreeItem<String> it : References.playlistView.getRoot().getChildren()) {
-
-						if (e.getTarget() instanceof Text) {
-							if (it.getValue().equals(((Text) e.getTarget()).getText())) {
-								FileTreeItem newItem = new FileTreeItem(new File(item.getPath()));
-								boolean alreadyInPlaylist = false;
-								for (TreeItem<String> child : it.getChildren()) {
-									if (((FileTreeItem) child).getPath().equals(newItem.getPath())) {
-										alreadyInPlaylist = true;
-										break;
-									}
-								}
-
-								if (!alreadyInPlaylist) {
-									ImageView icon = new ImageView(
-											new Image(Icons.class.getResourceAsStream(Icons.ICON_FILE)));
-									newItem.setGraphic(icon);
-									icon.setFitWidth(16);
-									icon.setFitHeight(16);
-									it.getChildren().add(newItem);
-
-									if (References.SONG_QUEUE != null)
-										References.SONG_QUEUE.add(newItem);
-
-								}
-
-								it.setExpanded(true);
+				if (!item.isDirectory()) {
+					TreeItem<String> targetItem = null;
+					DirectoryViewCell target;
+					
+					if(e.getTarget() instanceof DirectoryViewCell) {
+						target = (DirectoryViewCell) e.getTarget();
+					} else {
+						target = (DirectoryViewCell) ((Node) e.getTarget()).getParent();
+					}
+					
+					// THIS IS A FUCKING MESS DON'T TOUCH IT!!!!
+					if(!target.getTreeItem().getParent().equals(References.playlistView.getRoot())) {
+						if(target.getTreeItem().getParent().getParent().equals(References.playlistView.getRoot())) {
+							targetItem = ((DirectoryViewCell) target).getTreeItem().getParent();
+						}
+					} else {
+						targetItem = target.getTreeItem();
+					}
+					
+					if(targetItem != null) {
+						boolean alreadyInPlaylist = false;
+						for (TreeItem<String> child : targetItem.getChildren()) {
+							if (((FileTreeItem) child).getPath().equals(item.getPath())) {
+								alreadyInPlaylist = true;
 								break;
 							}
-
 						}
-
+						
+						if(!alreadyInPlaylist) {
+							FileTreeItem newItem = new FileTreeItem(new File(item.getPath()));
+							
+							targetItem.getChildren().add(newItem);
+							targetItem.setExpanded(true);
+							
+							dragCompleted = true;
+						}
 					}
-
-					dragCompleted = true;
 				}
 
-			} else if(db.hasFiles()) {
+			} else if (db.hasFiles()) {
 				File file = db.getFiles().get(0);
-				
-				if(file.isDirectory()) {
-					if(!Util.isAlreadyInTreeView(References.directoryView, file)) {
+
+				// TODO: Fix bug where you can drop directories on the playlistTreeView
+				if (file.isDirectory()) {
+					if (!Util.isAlreadyInTreeView(References.directoryView, file)) {
 						FileTreeItem node = new FileTreeItem(file);
 						References.directoryView.getRoot().getChildren().add(node);
-						
-						if(file.listFiles().length > 0) {
+
+						if (file.listFiles().length > 0) {
 							Util.createDirectoryView(file.listFiles(new AllowedFileFilter()), node);
 							dragCompleted = true;
-						}		
+						}
 					} else {
-						PopupTextBuilder ptb = new PopupTextBuilder(References.stage, "The dragged directory got already imported", 2, "orange");
+						PopupTextBuilder ptb = new PopupTextBuilder(References.stage,
+								"The dragged directory got already imported", 2, "orange");
 					}
 				} else {
-					PopupTextBuilder ptb = new PopupTextBuilder(References.stage, "Only directories allowed", 2, "orange");
+					PopupTextBuilder ptb = new PopupTextBuilder(References.stage, "Only directories allowed", 2,
+							"orange");
 				}
-				
+
 			}
 
 			e.setDropCompleted(dragCompleted);
