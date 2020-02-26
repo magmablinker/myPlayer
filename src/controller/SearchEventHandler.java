@@ -55,7 +55,7 @@ public class SearchEventHandler implements EventHandler<ActionEvent> {
 					stage.setResizable(false);
 					stage.setScene(scene);
 					
-					// Center the equalizer window on primaryStage
+					// Center the window on primaryStage
 					Bounds mainBounds = References.stage.getScene().getRoot().getLayoutBounds();
 					Bounds rootBounds = scene.getRoot().getLayoutBounds();
 					
