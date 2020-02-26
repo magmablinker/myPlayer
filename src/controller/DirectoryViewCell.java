@@ -17,9 +17,11 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.text.Text;
+import model.AllowedFileFilter;
 import model.FileTreeItem;
 import ressource.Icons;
 import ressource.References;
+import util.Util;
 import view.DirectoryContextMenu;
 
 public class DirectoryViewCell extends TreeCell<String> {
@@ -70,12 +72,15 @@ public class DirectoryViewCell extends TreeCell<String> {
 			@Override
 			public void handle(DragEvent event) {
 				Dragboard db = event.getDragboard();
-
-				if (!event.getTarget().equals((FileTreeItem) db.getContent(FILE_TREE_ITEM))
-						&& db.hasContent(FILE_TREE_ITEM)) {
+				
+				if(event.getDragboard().hasContent(FILE_TREE_ITEM)) {
+					if (!event.getTarget().equals((FileTreeItem) db.getContent(FILE_TREE_ITEM))) {
+						event.acceptTransferModes(TransferMode.MOVE);
+					} 
+				} else if(event.getDragboard().hasFiles()) {
 					event.acceptTransferModes(TransferMode.MOVE);
 				}
-
+				
 				event.consume();
 			}
 
@@ -127,6 +132,25 @@ public class DirectoryViewCell extends TreeCell<String> {
 					dragCompleted = true;
 				}
 
+			} else if(db.hasFiles()) {
+				File file = db.getFiles().get(0);
+				
+				if(file.isDirectory()) {
+					if(!Util.isAlreadyInTreeView(References.directoryView, file)) {
+						FileTreeItem node = new FileTreeItem(file);
+						References.directoryView.getRoot().getChildren().add(node);
+						
+						if(file.listFiles().length > 0) {
+							Util.createDirectoryView(file.listFiles(new AllowedFileFilter()), node);
+							dragCompleted = true;
+						}		
+					} else {
+						PopupTextBuilder ptb = new PopupTextBuilder(References.stage, "The dragged directory got already imported", 2, "orange");
+					}
+				} else {
+					PopupTextBuilder ptb = new PopupTextBuilder(References.stage, "Only directories allowed", 2, "orange");
+				}
+				
 			}
 
 			e.setDropCompleted(dragCompleted);
