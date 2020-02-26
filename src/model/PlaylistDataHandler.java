@@ -50,7 +50,7 @@ public class PlaylistDataHandler extends DataHandler {
 						playlist.getChildren().add(song);	
 					} else {
 						// TODO: FIX PROBLEM WITH FONT ENCODING
-						System.out.println(songFile.getAbsolutePath() + " => " + songFile.exists() + " & " + songFile.isFile());
+						//System.out.println(songFile.getAbsolutePath() + " => " + songFile.exists() + " & " + songFile.isFile());
 						sql = "UPDATE song SET deleted = 1 WHERE path = ?";
 						PreparedStatement deletepst = conn.prepareStatement(sql);
 						deletepst.setString(1, plrs.getString("path"));
