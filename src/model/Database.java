@@ -26,7 +26,6 @@ public class Database {
 			Class.forName("com.mysql.jdbc.Driver");
 			this.conn = DriverManager.getConnection(database, username, password);
 		} catch(Exception e) {
-			e.printStackTrace();
 			Alert alert = new Alert(AlertType.ERROR, "The database connection failed. " + e.toString());
 			DialogPane dialogPane = alert.getDialogPane();
 			dialogPane.getStylesheets().add(Main.class.getResource("css/application.css").toExternalForm());
