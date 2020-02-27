@@ -89,7 +89,11 @@ public class PlayActionHandler implements EventHandler<ActionEvent> {
 					player.setAudioSpectrumNumBands(10);
 					
 					if (References.spectrumListener != null) {
+<<<<<<< HEAD
 						player.setAudioSpectrumInterval(0.02);
+=======
+						player.setAudioSpectrumInterval(0.1);
+>>>>>>> 4a634ebc9a022f0bab35d08f41f6f04e5900b18d
 						player.setAudioSpectrumListener(References.spectrumListener);
 					}
 

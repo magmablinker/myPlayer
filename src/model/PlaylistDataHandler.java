@@ -49,8 +49,6 @@ public class PlaylistDataHandler extends DataHandler {
 						FileTreeItem song = new FileTreeItem(songFile);
 						playlist.getChildren().add(song);	
 					} else {
-						// TODO: FIX PROBLEM WITH FONT ENCODING
-						System.out.println(songFile.getAbsolutePath() + " => " + songFile.exists() + " & " + songFile.isFile());
 						sql = "UPDATE song SET deleted = 1 WHERE path = ?";
 						PreparedStatement deletepst = conn.prepareStatement(sql);
 						deletepst.setString(1, plrs.getString("path"));
@@ -81,15 +79,26 @@ public class PlaylistDataHandler extends DataHandler {
 
 				// GET OR SAVE THE PLAYLIST
 				if (isAlreadySaved("name", "playlist", child.getValue())) {
-					String sql = "SELECT id FROM playlist WHERE name = ? AND deleted != 1";
+					String sql = "SELECT id, deleted FROM playlist WHERE name = ?";
 					PreparedStatement pst = conn.prepareStatement(sql);
 
 					pst.setString(1, child.getValue());
 
 					ResultSet rs = pst.executeQuery();
 
-					if (rs.next())
+					if (rs.next()) {
 						playlistId = rs.getInt("id");
+						
+						if(rs.getInt("deleted") > 0) {
+							pst.close();
+							sql = "UPDATE playlist SET deleted = 0 WHERE id = ?";
+							pst = conn.prepareStatement(sql);
+							pst.setInt(1, playlistId);
+							pst.executeUpdate();
+						}
+						
+					} 
+						
 
 					pst.close();
 				} else {

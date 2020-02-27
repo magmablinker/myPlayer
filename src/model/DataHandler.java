@@ -15,7 +15,7 @@ public abstract class DataHandler  {
 
 		try {
 			Connection conn = Database.getInstance().getConn();
-			String sql = String.format("SELECT %s FROM %s WHERE %s = ? AND deleted != 1", row, table, row);
+			String sql = String.format("SELECT %s FROM %s WHERE %s = ?", row, table, row);
 			
 			PreparedStatement pst = conn.prepareStatement(sql);
 			pst.setString(1, item);

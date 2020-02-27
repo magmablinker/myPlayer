@@ -70,13 +70,18 @@ public class DirectoryDataHandler extends DataHandler {
 			Connection conn = Database.getInstance().getConn();
 
 			for (String path : Data.DIRECTORIES) {
+				String sql;
+				
 				if (!isAlreadySaved("path", "directories", path)) {
-					String sql = "INSERT INTO directories(path) VALUES(?)";
-					PreparedStatement pst = conn.prepareStatement(sql);
-					pst.setString(1, path);
-					pst.executeUpdate();
-					pst.close();
+					sql = "INSERT INTO directories(path) VALUES(?)";
+				} else {
+					sql = "UPDATE directories SET deleted = 0 WHERE path = ?";
 				}
+			
+				PreparedStatement pst = conn.prepareStatement(sql);
+				pst.setString(1, path);
+				pst.executeUpdate();
+				pst.close();
 			}
 
 		} catch (Exception e) {} // We straight up don't care about exceptions

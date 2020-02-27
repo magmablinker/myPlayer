@@ -40,6 +40,10 @@ public class SpectrumListener implements AudioSpectrumListener {
 
 	public void setToZero() {
 		pane.clearCanvas();
+		
+		if(References.mediaPlayer != null)
+			pane.drawCurrentlyPlayingItemText();
+			
 		for (int i = 0; i < 10; i++) {
 			pane.fillRect((pane.getCanvas().getWidth() / 10) * i + 5, pane.getCanvas().getHeight() - 20,
 					(pane.getCanvas().getWidth() / 10) - 10, pane.getCanvas().getHeight() - 20, lg);

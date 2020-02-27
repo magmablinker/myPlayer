@@ -1,8 +1,13 @@
 package controller;
 
 import java.io.File;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
+import javafx.concurrent.Task;
 import javafx.event.EventHandler;
+import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeCell;
@@ -17,9 +22,12 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.text.Text;
+import model.AllowedFileFilter;
 import model.FileTreeItem;
+import ressource.Data;
 import ressource.Icons;
 import ressource.References;
+import util.Util;
 import view.DirectoryContextMenu;
 
 public class DirectoryViewCell extends TreeCell<String> {
@@ -55,9 +63,7 @@ public class DirectoryViewCell extends TreeCell<String> {
 						content.put(FILE_TREE_ITEM, selectedItem);
 
 						db.setContent(content);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+					} catch (Exception e) {} // Fuck exceptions gang
 				}
 
 				event.consume();
@@ -70,12 +76,15 @@ public class DirectoryViewCell extends TreeCell<String> {
 			@Override
 			public void handle(DragEvent event) {
 				Dragboard db = event.getDragboard();
-
-				if (!event.getTarget().equals((FileTreeItem) db.getContent(FILE_TREE_ITEM))
-						&& db.hasContent(FILE_TREE_ITEM)) {
-					event.acceptTransferModes(TransferMode.MOVE);
+				
+				if(event.getDragboard().hasContent(FILE_TREE_ITEM)) {
+					if (!event.getTarget().equals((FileTreeItem) db.getContent(FILE_TREE_ITEM))) {
+						event.acceptTransferModes(TransferMode.MOVE);
+					} 
+				} else if(event.getDragboard().hasFiles()) {
+					event.acceptTransferModes(TransferMode.COPY);
 				}
-
+				
 				event.consume();
 			}
 
@@ -83,48 +92,89 @@ public class DirectoryViewCell extends TreeCell<String> {
 
 		this.setOnDragDropped(e -> {
 			boolean dragCompleted = false;
-
+						
 			Dragboard db = e.getDragboard();
 
 			if (db.hasContent(FILE_TREE_ITEM)) {
 				FileTreeItem item = (FileTreeItem) db.getContent(FILE_TREE_ITEM);
 
-				if (!(new File(item.getPath()).isDirectory())) {
-					for (TreeItem<String> it : References.playlistView.getRoot().getChildren()) {
-
-						if (e.getTarget() instanceof Text) {
-							if (it.getValue().equals(((Text) e.getTarget()).getText())) {
-								FileTreeItem newItem = new FileTreeItem(new File(item.getPath()));
-								boolean alreadyInPlaylist = false;
-								for (TreeItem<String> child : it.getChildren()) {
-									if (((FileTreeItem) child).getPath().equals(newItem.getPath())) {
-										alreadyInPlaylist = true;
-										break;
-									}
-								}
-
-								if (!alreadyInPlaylist) {
-									ImageView icon = new ImageView(
-											new Image(Icons.class.getResourceAsStream(Icons.ICON_FILE)));
-									newItem.setGraphic(icon);
-									icon.setFitWidth(16);
-									icon.setFitHeight(16);
-									it.getChildren().add(newItem);
-
-									if (References.SONG_QUEUE != null)
-										References.SONG_QUEUE.add(newItem);
-
-								}
-
-								it.setExpanded(true);
+				if (!item.isDirectory()) {
+					TreeItem<String> targetItem = null;
+					DirectoryViewCell target;
+					
+					if(e.getTarget() instanceof DirectoryViewCell) {
+						target = (DirectoryViewCell) e.getTarget();
+					} else {
+						target = (DirectoryViewCell) ((Node) e.getTarget()).getParent();
+					}
+					
+					// THIS IS A FUCKING MESS DON'T TOUCH IT!!!!
+					if(!target.getTreeItem().getParent().equals(References.playlistView.getRoot())) {
+						if(target.getTreeItem().getParent().getParent().equals(References.playlistView.getRoot())) {
+							targetItem = ((DirectoryViewCell) target).getTreeItem().getParent();
+						}
+					} else {
+						targetItem = target.getTreeItem();
+					}
+					
+					if(targetItem != null) {
+						boolean alreadyInPlaylist = false;
+						for (TreeItem<String> child : targetItem.getChildren()) {
+							if (((FileTreeItem) child).getPath().equals(item.getPath())) {
+								alreadyInPlaylist = true;
 								break;
 							}
-
 						}
-
+						
+						if(!alreadyInPlaylist) {
+							FileTreeItem newItem = new FileTreeItem(new File(item.getPath()));
+							
+							targetItem.getChildren().add(newItem);
+							targetItem.setExpanded(true);
+							
+							dragCompleted = true;
+						}
 					}
+				}
 
-					dragCompleted = true;
+			} else if (db.hasFiles()) {
+				File file = db.getFiles().get(0);
+
+				// TODO: Fix bug where you can drop directories on the playlistTreeView
+				if (file.isDirectory()) {
+					if (!Util.isAlreadyInTreeView(References.directoryView, file)) {
+						FileTreeItem node = new FileTreeItem(file);
+
+						if (file.listFiles().length > 0) {
+							
+							Task<Void> task = new Task<Void>() {
+
+								@Override
+								protected Void call() throws Exception {
+									References.stage.getScene().setCursor(Cursor.WAIT);
+									Util.createDirectoryView(file.listFiles(new AllowedFileFilter()), node);
+									References.directoryView.getRoot().getChildren().add(node);
+									Data.DIRECTORIES.add(node.getPath());
+									References.stage.getScene().setCursor(Cursor.DEFAULT);
+									return null;
+								}
+								
+							};
+							
+							// Avoid window freezing
+							ExecutorService ex = Executors.newSingleThreadExecutor();
+							
+							ex.submit(task);
+							
+							dragCompleted = true;
+						}
+					} else {
+						PopupTextBuilder ptb = new PopupTextBuilder(References.stage,
+								"The dragged directory got already imported", 2, "orange");
+					}
+				} else {
+					PopupTextBuilder ptb = new PopupTextBuilder(References.stage, "Only directories allowed", 2,
+							"orange");
 				}
 
 			}

@@ -65,6 +65,13 @@ public class EqualizerPane extends BorderPane {
 			sliders[i].getStyleClass().add("margin-4-no-border");
 			sliders[i].setOrientation(Orientation.VERTICAL);
 			sliders[i].setValue(currentValue);
+			sliders[i].setOnScroll(e -> {
+				if(e.getDeltaY() > 0) {
+					sliders[fi].setValue(sliders[fi].getValue() + 2);
+				} else {
+					sliders[fi].setValue(sliders[fi].getValue() - 2);
+				}
+			});
 			
 			sliders[i].valueProperty().addListener(new ChangeListener<Number>() {
 				

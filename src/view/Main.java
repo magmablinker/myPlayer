@@ -34,9 +34,7 @@ public class Main extends Application {
 				ph.save();
 				Platform.exit();
 			});
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		} catch (Exception e) {}
 	}
 
 	public static void main(String[] args) {
