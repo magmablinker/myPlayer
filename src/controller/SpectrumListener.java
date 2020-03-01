@@ -42,11 +42,11 @@ public class SpectrumListener implements AudioSpectrumListener {
 				buffer[i] = magnitudes[i];
 			
 				y = (pane.getCanvas().getHeight() - 20 - minHeight
-						- (magnitudes[i] - References.mediaPlayer.getAudioSpectrumThreshold()) * 4 + minHeight);
+						- (magnitudes[i] - References.mediaPlayer.getAudioSpectrumThreshold()) * (pane.getCanvas().getHeight() / 55) + minHeight);
 			} else {
 				y = (pane.getCanvas().getHeight() - 20 - minHeight
-						- (buffer[i] - References.mediaPlayer.getAudioSpectrumThreshold()) * 4 + minHeight);
-				buffer[i] -= 1.75;
+						- (buffer[i] - References.mediaPlayer.getAudioSpectrumThreshold()) * (pane.getCanvas().getHeight() / 55) + minHeight);
+				buffer[i] -= (pane.getCanvas().getHeight() / 55) / 6;
 			}
 
 			pane.fillRect(x, y, w, h, lg);
