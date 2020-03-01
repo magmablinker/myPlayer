@@ -1,32 +1,24 @@
 package view;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.util.ArrayList;
-
-import controller.PopupTextBuilder;
+import controller.CopyPresetHandler;
+import controller.DeletePresetHandler;
+import controller.LoadPresetHandler;
+import controller.NewPresetHandler;
+import controller.PastePresetHandler;
+import controller.SavePresetHandler;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.control.TextInputDialog;
-import javafx.scene.image.Image;
-import javafx.scene.input.Clipboard;
-import javafx.scene.input.ClipboardContent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.EqualizerBand;
-import javafx.stage.Stage;
-import model.Database;
 import model.EqualizerDataHandler;
 import model.EqualizerPreset;
 import ressource.Data;
@@ -121,157 +113,44 @@ public class EqualizerPane extends BorderPane {
 		Button bAdd = new Button("New");
 		bAdd.setPrefWidth(100);
 		bAdd.getStyleClass().add("margin-4");
-		bAdd.setOnAction(e -> {
-			TextInputDialog dialog = new TextInputDialog();
-			DialogPane dialogPane = dialog.getDialogPane();
-			dialogPane.getStylesheets().add(Main.class.getResource("css/application.css").toExternalForm());
-			((Stage) dialogPane.getScene().getWindow()).getIcons().add(new Image(Data.class.getResourceAsStream("img/cheems.png")));
-			dialog.setContentText("Preset Name");
-			dialog.setHeaderText("Add Preset");
-			dialog.showAndWait().ifPresent(text -> {
-				EqualizerPreset newPreset = new EqualizerPreset(text, "0;0;0;0;0;0;0;0;0;0;");
-				comboPreset.getItems().add(newPreset);
-				comboPreset.getSelectionModel().select(newPreset);
-				
-				ArrayList<EqualizerBand> bands = newPreset.getBands();
-				
-				for (int i = 0; i < sliders.length; i++) {
-					sliders[i].setValue(bands.get(i).getGain());
-
-					if (References.mediaPlayer != null)
-						References.mediaPlayer.getAudioEqualizer().getBands().get(i).setGain(bands.get(i).getGain());
-
-				}
-				
-			});
-		});
+		bAdd.setOnAction(new NewPresetHandler(this));
 		
 		Button bSave = new Button("Save");
-		bSave.setOnAction(e -> {
-			if (comboPreset.getSelectionModel().getSelectedIndex() > -1) {
-				EqualizerPreset selectedPreset = comboPreset.getSelectionModel().getSelectedItem();
-				selectedPreset.setPreset(getPresetString());
-				
-				EqualizerDataHandler edh = new EqualizerDataHandler(comboPreset);
-				edh.save();
-				
-				PopupTextBuilder builder = new PopupTextBuilder(References.equalizerPaneStage, "Config has been saved", 2, "green");
-			}
-		});
 		bSave.getStyleClass().add("margin-4");
 		bSave.setPrefWidth(100);
+		bSave.setOnAction(new SavePresetHandler(this));
 
 		Button bLoad = new Button("Load");
 		bLoad.setPrefWidth(100);
 		bLoad.getStyleClass().add("margin-4");
-		bLoad.setOnAction(e -> {
-
-			if (comboPreset.getSelectionModel().getSelectedIndex() > -1) {
-				EqualizerPreset selectedPreset = comboPreset.getSelectionModel().getSelectedItem();
-				
-				selectedPreset.loadStringPreset(selectedPreset.getStringPreset());
-				
-				ArrayList<EqualizerBand> bands = selectedPreset.getBands();
-				Data.currentPreset = selectedPreset;
-
-				for (int i = 0; i < sliders.length; i++) {
-					sliders[i].setValue(bands.get(i).getGain());
-
-					if (References.mediaPlayer != null)
-						References.mediaPlayer.getAudioEqualizer().getBands().get(i).setGain(bands.get(i).getGain());
-				}
-			}
-
-		});
+		bLoad.setOnAction(new LoadPresetHandler(this));
 		
 		Button bDelete = new Button("Delete");
 		bDelete.getStyleClass().add("margin-4");
 		bDelete.setPrefWidth(100);
-		bDelete.setOnAction(new EventHandler<ActionEvent>() {
-			
-			@Override
-			public void handle(ActionEvent event) {
-				if(comboPreset.getSelectionModel().getSelectedIndex() > -1) {
-					if(!comboPreset.getSelectionModel().getSelectedItem().getName().equals("Default")) {
-						try {
-							EqualizerPreset selectedPreset = comboPreset.getSelectionModel().getSelectedItem();
-							
-							Connection conn = Database.getInstance().getConn();
-							String sql = "UPDATE equalizerPreset SET deleted = 1 WHERE name = ?";
-							PreparedStatement pst = conn.prepareStatement(sql);
-							pst.setString(1, selectedPreset.getName());
-							
-							pst.executeUpdate();
-							pst.close();
-							
-							comboPreset.getItems().remove(comboPreset.getSelectionModel().getSelectedIndex());
-						} catch (Exception e) {
-							PopupTextBuilder builder = new PopupTextBuilder(References.equalizerPaneStage, "Failed to deleted the preset", 2, "red");
-						}
-					}
-				}
-			}
-			
-		});
+		bDelete.setOnAction(new DeletePresetHandler(this));
 
 		Button bReset = new Button("Reset");
 		bReset.getStyleClass().add("margin-4");
 		bReset.setPrefWidth(100);
-		bReset.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent arg0) {
-				for (int i = 0; i < 10; i++) {
-					sliders[i].setValue(0);
-				}
-			}
-
-		});
+		bReset.setOnAction(e -> { for (int i = 0; i < 10; i++) sliders[i].setValue(0); });
 
 		Button bCopy = new Button("Copy");
-		bCopy.setOnAction(e -> {
-			if(comboPreset.getSelectionModel().getSelectedIndex() > -1) {
-				Clipboard clipboard = Clipboard.getSystemClipboard();
-				ClipboardContent content = new ClipboardContent();
-				content.putString(getPresetString());
-				clipboard.setContent(content);
-				
-				PopupTextBuilder builder = new PopupTextBuilder(References.equalizerPaneStage, "Config has been copied to clipboard", 2, "green");
-			}
-		});
 		bCopy.getStyleClass().add("margin-4");
 		bCopy.setPrefWidth(100);
+		bCopy.setOnAction(new CopyPresetHandler(this));
 		
 		Button bPaste = new Button("Paste");
-		bPaste.setOnAction(e -> {
-			String configString = Clipboard.getSystemClipboard().getString();
-			
-			try {
-				Data.currentPreset.loadStringPreset(configString);
-				
-				for(int i = 0; i < 10; i++) {
-					Double gain = Data.currentPreset.getBands().get(i).getGain();
-					sliders[i].setValue(gain);
-					if(References.mediaPlayer != null)
-						References.mediaPlayer.getAudioEqualizer().getBands().get(i).setGain(gain);
-				}
-				
-				PopupTextBuilder builder = new PopupTextBuilder(References.equalizerPaneStage, "Successfully loaded config", 2, "green");
-			} catch(Exception ex) {
-				Data.currentPreset.loadStringPreset(Data.currentPreset.getStringPreset());
-				PopupTextBuilder builder = new PopupTextBuilder(References.equalizerPaneStage, "Invalid config string!", 2, "red");
-			}
-		
-		});
 		bPaste.getStyleClass().add("margin-4");
 		bPaste.setPrefWidth(100);
+		bPaste.setOnAction(new PastePresetHandler(this));
 
 		box.getChildren().addAll(bAdd, bSave, bLoad, bDelete, bReset, bCopy, bPaste);
 
 		return box;
 	}
 	
-	private String getPresetString() {
+	public String getPresetString() {
 		StringBuilder sb = new StringBuilder();
 
 		for (int i = 0; i < sliders.length; i++) {
@@ -279,6 +158,14 @@ public class EqualizerPane extends BorderPane {
 		}
 		
 		return sb.toString();
+	}
+
+	public ComboBox<EqualizerPreset> getComboPreset() {
+		return this.comboPreset;
+	}
+
+	public Slider[] getSliders() {
+		return this.sliders;
 	}
 	
 }
