@@ -6,6 +6,7 @@ import javafx.application.Platform;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import ressource.References;
 
 public class MusicMenuBar extends MenuBar {
 
@@ -37,6 +38,7 @@ public class MusicMenuBar extends MenuBar {
 		MenuItem exit = new MenuItem("E_xit");
 		exit.setMnemonicParsing(true);
 		exit.setOnAction(event -> {
+			((MusicBorderPane) References.stage.getScene().getRoot()).getExServiceDirectoryWatchService().shutdownNow();
 			Platform.exit();
 		});
 
